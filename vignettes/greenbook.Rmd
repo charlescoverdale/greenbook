@@ -1,0 +1,123 @@
+---
+title: "Getting started with greenbook"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with greenbook}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(greenbook)
+```
+
+## Why greenbook
+
+`greenbook` provides cost-benefit analysis primitives from the HM Treasury
+Green Book. The v0.1.0 release covers the discounting MVP: kinked STPR,
+discount factors, NPV, equivalent annual cost, and GDP-deflator rebasing.
+
+All bundled parameter tables carry vintage metadata. Inspect with:
+
+```{r}
+gb_data_versions()
+```
+
+## The kinked STPR
+
+The Green Book Social Time Preference Rate steps down at 30, 75, 125,
+200, and 300 years. `gb_stpr()` returns the rate for any year:
+
+```{r}
+gb_stpr(c(10, 30, 31, 75, 76, 200, 300))
+```
+
+Three variants are supported:
+
+```{r}
+gb_schedule_table()
+```
+
+## Discount factors
+
+`gb_discount_factor()` applies the kinked schedule annually using
+`prod(1 + r_t)`:
+
+```{r}
+gb_discount_factor(0:5)
+gb_discount_factor(c(0, 30, 31, 75, 76))
+```
+
+The kink is correctly handled across band boundaries:
+
+```{r}
+df_30 <- gb_discount_factor(30)
+df_31 <- gb_discount_factor(31)
+df_31 / df_30  # 1 / 1.030 = 0.9709, the year-31 single-period factor
+```
+
+## Net present value
+
+A simple appraisal: capex of GBP 100 in year 0, annual benefits of
+GBP 30 from year 1 to year 9.
+
+```{r}
+costs <- c(100, rep(0, 9))
+benefits <- c(0, rep(30, 9))
+appraisal <- gb_npv(benefits - costs, base_year = 2024)
+appraisal
+```
+
+The result is a `gb_appraisal` object with full provenance. Use
+`summary()` for a more detailed view:
+
+```{r}
+summary(appraisal)
+```
+
+## Equivalent annual net cost
+
+To compare options of different durations, annualise the NPV:
+
+```{r}
+gb_eanc(appraisal)
+```
+
+## Real-terms rebasing
+
+`gb_real()` converts nominal values at year-of-occurrence prices to
+real values at a chosen base year:
+
+```{r}
+gb_real(nominal_values = c(100, 110, 120),
+        year = 2020:2022,
+        base_year = 2024)
+```
+
+`gb_rebase()` does the same operation between two real-terms base
+years:
+
+```{r}
+gb_rebase(c(100, 200, 300), from = 2020, to = 2024)
+```
+
+`gb_deflator()` exposes the underlying factor:
+
+```{r}
+gb_deflator(from = 2020, to = 2024)
+```
+
+## What's next
+
+v0.2.0 adds optimism bias (Mott MacDonald upper bounds), distributional
+weights, and Marginal Excess Tax Burden. v0.3.0 ships the valuation
+library: WELLBY, VPF, QALY, DESNZ carbon values. See the package
+[GitHub repository](https://github.com/charlescoverdale/greenbook) for
+the full roadmap.

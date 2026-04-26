@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.github$
+^\.git$
+^\.gitignore$
+^IMPROVEMENT_PLAN\.md$
+^cran-comments\.md$
+^data-raw$
+^_pkgdown\.yml$
+^docs$
+^\.DS_Store$
+^LICENSE\.md$
