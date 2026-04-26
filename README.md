@@ -117,10 +117,27 @@ gb_data_versions()
 | Lookups | `gb_schedule_table()`, `gb_data_versions()` |
 
 
+## Bundled data sources
+
+Every parameter table is sourced from a published HMT, DfT, or DESNZ workbook. `gb_data_versions()` returns the full provenance.
+
+| Table | Source |
+|---|---|
+| STPR schedule | HMT Green Book 2022 Annex A6 |
+| GDP deflator (1990-2024, 2024 = 100) | HMT GDP deflators, December 2025 Quarterly National Accounts release |
+| Optimism bias upper bounds | HMT Supplementary Green Book Guidance: Optimism Bias (Mott MacDonald 2002) |
+| METB | HMT Green Book 2022 |
+| WELLBY (10k / 13k / 16k, 2019 prices) | HMT Wellbeing Guidance for Appraisal, July 2021 |
+| QALY (DHSC 70k / NICE 20k, 30k) | DHSC Supplementary Green Book Guidance + NICE HTA |
+| VPF (anchored 2023 = GBP 2,474,341) | DfT TAG data book v2.03FC, December 2025, Table A4.1.1 (WTP element) |
+| DESNZ carbon (2020-2050, 2022 prices) | DESNZ Valuation of Energy Use and GHG Emissions for Appraisal, November 2023, Table 3 |
+
+`data-raw/` contains the refresh scripts: each downloads the published workbook, parses the relevant sheet, and rewrites the bundled CSV.
+
 ## Limitations
 
-- Bundled DESNZ carbon path covers 2020 to 2050. Future releases extend to 2100.
-- VPF between DfT-published anchors (2018 and 2024) uses a 2 percent annual real uplift as a proxy for real GDP per head growth.
+- VPF series interpolates between published anchors at 2 percent real GDP per head growth (TAG's stated methodology). For sub-annual precision consult the TAG data book directly.
+- Bundled DESNZ carbon path covers 2020 to 2050. The November 2023 publication extends to 2100; the 2050-2100 portion will be added in a future refresh.
 - Long-horizon (50+ year) lower-rate sensitivity awaits the 2026 HMT discount-rate review.
 
 

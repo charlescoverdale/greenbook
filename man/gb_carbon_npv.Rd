@@ -8,7 +8,6 @@ gb_carbon_npv(
   emissions,
   years,
   scenario = "central",
-  series = "traded",
   schedule = "standard",
   base_year = NULL,
   sign = "cost"
@@ -21,8 +20,6 @@ gb_carbon_npv(
 \item{years}{Integer vector of years matching \code{emissions}.}
 
 \item{scenario}{One of \code{"low"}, \code{"central"} (default), \code{"high"}.}
-
-\item{series}{One of \code{"traded"} (default), \code{"non_traded"}.}
 
 \item{schedule}{One of \code{"standard"} (default), \code{"health"},
 \code{"catastrophic"}.}

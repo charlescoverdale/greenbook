@@ -23,13 +23,21 @@ test_that("gb_wellby errors on bad scenario", {
   expect_error(gb_wellby(1, 1, scenario = "wrong"))
 })
 
-test_that("gb_vpf default returns 2024 value", {
-  expect_equal(gb_vpf(), 2153000)
+test_that("gb_vpf 2023 anchor matches DfT TAG A4.1.1 WTP", {
+  expect_equal(gb_vpf(2023), 2474341)
 })
 
-test_that("gb_vpf year lookup matches bundled series", {
-  expect_equal(gb_vpf(2018), 1958303)
-  expect_equal(gb_vpf(2024), 2153000)
+test_that("gb_vpf default (2024) is uplifted at 2 percent real", {
+  expect_equal(gb_vpf(), round(2474341 * 1.02))
+})
+
+test_that("gb_vpf 2018 is downlifted from 2023 anchor", {
+  expect_equal(gb_vpf(2018), round(2474341 / 1.02 ^ 5))
+})
+
+test_that("gb_vpf monotonically increases over time", {
+  out <- vapply(2018:2030, gb_vpf, numeric(1))
+  expect_true(all(diff(out) > 0))
 })
 
 test_that("gb_vpf errors outside bundled range", {

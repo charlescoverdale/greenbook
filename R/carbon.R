@@ -1,21 +1,27 @@
 #' DESNZ carbon value for appraisal
 #'
-#' Returns the DESNZ (formerly BEIS) Carbon Value for Appraisal in
-#' GBP per tonne of CO2-equivalent at the published base year prices.
-#' Three scenarios (low, central, high) and two series (traded,
-#' non-traded). The traded / non-traded distinction is being phased
-#' out as UK ETS coverage expands; the bundled values converge.
+#' Returns the DESNZ Carbon Value for Appraisal in GBP per tonne of
+#' CO2-equivalent at the published 2022 base-year prices, from the
+#' November 2023 valuation. Three scenarios: low, central, high.
 #'
-#' @param year Integer scalar or vector. Year of the emission.
+#' @param year Integer scalar or vector. Year of the emission. Must
+#'   be within the bundled DESNZ range.
 #' @param scenario One of `"low"`, `"central"` (default), `"high"`.
-#' @param series One of `"traded"` (default), `"non_traded"`.
 #' @param base_year Optional integer to rebase the value via
-#'   `gb_deflator()`. If `NULL`, the published base year is used.
+#'   `gb_deflator()`. If `NULL`, the published 2022 base year is
+#'   used.
 #'
 #' @return Numeric vector of GBP per tCO2e values.
 #'
+#' @details
+#' DESNZ moved to a single consolidated series in November 2023,
+#' superseding the historical traded / non-traded split. Values
+#' are in 2022 prices. The November 2023 publication covers 2010
+#' to 2100; the bundled subset is 2020 to 2050.
+#'
 #' @references DESNZ (2023). Valuation of Energy Use and Greenhouse
-#'   Gas Emissions for Appraisal (November 2023).
+#'   Gas Emissions for Appraisal (November 2023). Data tables 1-19,
+#'   Table 3.
 #'
 #' @family carbon
 #' @seealso [gb_carbon_npv()].
@@ -25,21 +31,19 @@
 #' gb_carbon_value(2024)
 #' gb_carbon_value(2020:2030)
 #' gb_carbon_value(2030, scenario = "high")
-gb_carbon_value <- function(year, scenario = "central", series = "traded",
-                            base_year = NULL) {
+gb_carbon_value <- function(year, scenario = "central", base_year = NULL) {
   scenario <- match.arg(scenario, c("low", "central", "high"))
-  series <- match.arg(series, c("traded", "non_traded"))
   validate_year(year, "year", min_year = 1900L)
 
   tbl <- .read_carbon()
   rng <- range(tbl$year)
   if (any(year < rng[1]) || any(year > rng[2])) {
     cli::cli_abort(
-      "{.arg year} outside bundled carbon value range ({rng[1]} to {rng[2]})."
+      "{.arg year} outside bundled DESNZ carbon value range ({rng[1]} to {rng[2]})."
     )
   }
 
-  rows <- tbl$series == series & tbl$scenario == scenario
+  rows <- tbl$scenario == scenario
   sub <- tbl[rows, ]
   pub_base <- sub$base_year[1]
 
@@ -67,7 +71,6 @@ gb_carbon_value <- function(year, scenario = "central", series = "traded",
 #'   (positive = emitted, negative = avoided / abated).
 #' @param years Integer vector of years matching `emissions`.
 #' @param scenario One of `"low"`, `"central"` (default), `"high"`.
-#' @param series One of `"traded"` (default), `"non_traded"`.
 #' @param schedule One of `"standard"` (default), `"health"`,
 #'   `"catastrophic"`.
 #' @param base_year Optional integer base year for monetary values
@@ -93,7 +96,7 @@ gb_carbon_value <- function(year, scenario = "central", series = "traded",
 #' years <- 2024:2030
 #' gb_carbon_npv(emissions, years, base_year = 2024)
 gb_carbon_npv <- function(emissions, years,
-                          scenario = "central", series = "traded",
+                          scenario = "central",
                           schedule = "standard",
                           base_year = NULL,
                           sign = "cost") {
@@ -105,7 +108,7 @@ gb_carbon_npv <- function(emissions, years,
   sign <- match.arg(sign, c("cost", "benefit"))
 
   values_per_t <- gb_carbon_value(years, scenario = scenario,
-                                  series = series, base_year = base_year)
+                                  base_year = base_year)
   cashflow <- emissions * values_per_t
   if (sign == "cost") cashflow <- -cashflow
 
@@ -115,7 +118,6 @@ gb_carbon_npv <- function(emissions, years,
   app$emissions <- emissions
   app$years_calendar <- years
   app$carbon_scenario <- scenario
-  app$carbon_series <- series
   app$emissions_sign <- sign
   app
 }

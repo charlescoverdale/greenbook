@@ -4,32 +4,31 @@
 \alias{gb_carbon_value}
 \title{DESNZ carbon value for appraisal}
 \usage{
-gb_carbon_value(
-  year,
-  scenario = "central",
-  series = "traded",
-  base_year = NULL
-)
+gb_carbon_value(year, scenario = "central", base_year = NULL)
 }
 \arguments{
-\item{year}{Integer scalar or vector. Year of the emission.}
+\item{year}{Integer scalar or vector. Year of the emission. Must
+be within the bundled DESNZ range.}
 
 \item{scenario}{One of \code{"low"}, \code{"central"} (default), \code{"high"}.}
 
-\item{series}{One of \code{"traded"} (default), \code{"non_traded"}.}
-
 \item{base_year}{Optional integer to rebase the value via
-\code{gb_deflator()}. If \code{NULL}, the published base year is used.}
+\code{gb_deflator()}. If \code{NULL}, the published 2022 base year is
+used.}
 }
 \value{
 Numeric vector of GBP per tCO2e values.
 }
 \description{
-Returns the DESNZ (formerly BEIS) Carbon Value for Appraisal in
-GBP per tonne of CO2-equivalent at the published base year prices.
-Three scenarios (low, central, high) and two series (traded,
-non-traded). The traded / non-traded distinction is being phased
-out as UK ETS coverage expands; the bundled values converge.
+Returns the DESNZ Carbon Value for Appraisal in GBP per tonne of
+CO2-equivalent at the published 2022 base-year prices, from the
+November 2023 valuation. Three scenarios: low, central, high.
+}
+\details{
+DESNZ moved to a single consolidated series in November 2023,
+superseding the historical traded / non-traded split. Values
+are in 2022 prices. The November 2023 publication covers 2010
+to 2100; the bundled subset is 2020 to 2050.
 }
 \examples{
 gb_carbon_value(2024)
@@ -38,7 +37,8 @@ gb_carbon_value(2030, scenario = "high")
 }
 \references{
 DESNZ (2023). Valuation of Energy Use and Greenhouse
-Gas Emissions for Appraisal (November 2023).
+Gas Emissions for Appraisal (November 2023). Data tables 1-19,
+Table 3.
 }
 \seealso{
 \code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.

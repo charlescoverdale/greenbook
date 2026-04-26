@@ -17,10 +17,10 @@ library(greenbook)
 
 ## Carbon values for appraisal
 
-DESNZ (formerly BEIS) publishes a series of marginal abatement
-cost values out to 2100 with low / central / high scenarios for
-both the traded and non-traded sectors. `gb_carbon_value()` looks
-them up:
+DESNZ publishes a single consolidated carbon value series with
+low / central / high scenarios. The November 2023 publication
+superseded the historical traded / non-traded split.
+`gb_carbon_value()` looks the values up directly:
 
 ```{r}
 gb_carbon_value(2024)
@@ -28,7 +28,7 @@ gb_carbon_value(2024, scenario = "high")
 gb_carbon_value(2030)
 ```
 
-The values are published in 2020 prices. Rebase to a different
+The values are published in 2022 prices. Rebase to a different
 year via `base_year`:
 
 ```{r}
@@ -92,14 +92,13 @@ gb_qaly(1, scenario = "nice_upper") # NICE upper threshold: GBP 30k
 gb_data_versions()
 ```
 
-## Limitations
+## Provenance
 
-The bundled DESNZ carbon path is a stub vintage for v0.1.0 (annual
-values 2020 to 2050, scenarios linearly interpolated). Future
-releases will refresh from the full DESNZ workbook including
-2050 to 2100 horizons.
+The bundled DESNZ carbon path is the November 2023 publication
+(Data Tables 1-19, Table 3), 2020 to 2050. A future refresh will
+extend through to 2100.
 
-The VPF series uses a 2 percent annual real uplift between
-DfT-published anchors (2018 and 2024) as a proxy for real GDP per
-head growth. For high-precision applications, consult the latest
-TAG data book directly.
+The VPF series anchors on the DfT TAG data book v2.03 (December
+2025) Table A4.1.1 WTP element of GBP 2,474,341 in 2023 prices,
+uplifted at 2 percent annual real GDP per head growth per TAG
+methodology.
