@@ -73,5 +73,14 @@ on Appraisal and Evaluation.
 \seealso{
 \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_optimism_bias]{gb_optimism_bias()}}, \code{\link[=gb_metb]{gb_metb()}},
 \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}.
+
+Other appraisal: 
+\code{\link{gb_compare}()},
+\code{\link{gb_economic_case}()},
+\code{\link{gb_place_based}()},
+\code{\link{gb_progression}()},
+\code{\link{gb_risk_register}()},
+\code{\link{gb_sensitivity_ob}()},
+\code{\link{gb_validate}()}
 }
 \concept{appraisal}

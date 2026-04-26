@@ -53,6 +53,41 @@
 * `gb_appraise()`: end-to-end appraisal in one call. Optionally
   applies optimism bias and METB to costs, then computes NPV
   and BCR with full provenance.
+* `gb_compare()`: side-by-side comparison of two or more options
+  with NPV / BCR / EANC ranking and preferred-option selection.
+* `gb_progression()`: track an appraisal across SOC, OBC, FBC
+  business case stages.
+* `gb_place_based()`: aggregate sub-projects into a place-based
+  business case (per Green Book 2026), with optional synergy uplift.
+* `gb_economic_case()`: wrap an appraisal in Five Case Model
+  Economic Case structure (CSFs, options, monetised summary,
+  non-monetised, VfM, recommendation).
+* `gb_validate()`: lint an appraisal for sign-convention,
+  base-year, schedule, and consistency errors.
+
+## Risk
+
+* `gb_risk_register()`: build a risk register with monetised
+  exposure (probability x impact), aggregate by category, and
+  optionally risk-adjust an appraisal NPV.
+
+## Sensitivity
+
+* `gb_sensitivity_ob()`: optimism bias sensitivity sweep across
+  a vector of mitigation factors. Required at every Green Book
+  business case gateway.
+
+## Reporting
+
+* `gb_headline()`: one-page summary with NPV, BCR, EANC, payback,
+  and provenance.
+* `gb_cost_per_unit()`: cost-effectiveness ratio (PV cost per
+  QALY, WELLBY, tCO2e, etc.).
+* `gb_to_latex()`: render an appraisal as a LaTeX table.
+* `gb_to_excel()`: multi-sheet Excel export (requires
+  `openxlsx`).
+* `gb_to_word()`: one-page Word document export (requires
+  `officer` and `flextable`).
 
 ## Lookups and provenance
 

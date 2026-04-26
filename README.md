@@ -40,7 +40,7 @@ Today this is mostly done in spreadsheets, with discount factors and parameter t
 
 ## Why this package?
 
-No existing R or Python package implements the Green Book. Practitioners across HM Treasury, GAD, IFS, NIESR, Centre for Cities, and the consultancies (WSP, Mott MacDonald, KPMG, Frontier, Arup) hand-roll the same discount factors and parameter lookups every time. The arithmetic is simple but the parameters change: STPR is kinked across six bands, optimism bias has a six-category schedule, DESNZ publishes a carbon path to 2100, METB shifted from 30 to 20 percent in 2018.
+No existing R or Python package implements the Green Book. UK appraisal practitioners hand-roll the same discount factors and parameter lookups every time. The arithmetic is simple but the parameters change: STPR is kinked across six bands, optimism bias has a six-category schedule, DESNZ publishes a carbon path to 2100, METB shifted from 30 to 20 percent in 2018.
 
 `greenbook` solves three problems:
 
@@ -110,7 +110,10 @@ gb_data_versions()
 | Valuation | `gb_wellby()`, `gb_vpf()`, `gb_qaly()` |
 | Carbon | `gb_carbon_value()`, `gb_carbon_npv()` |
 | Adjustments | `gb_metb()` |
-| High-level | `gb_appraise()` |
+| Appraisal | `gb_appraise()`, `gb_compare()`, `gb_progression()`, `gb_place_based()`, `gb_economic_case()`, `gb_validate()` |
+| Risk | `gb_risk_register()` |
+| Sensitivity | `gb_sensitivity_ob()` |
+| Reporting | `gb_headline()`, `gb_cost_per_unit()`, `gb_to_latex()`, `gb_to_excel()`, `gb_to_word()` |
 | Lookups | `gb_schedule_table()`, `gb_data_versions()` |
 
 
