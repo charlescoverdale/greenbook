@@ -66,3 +66,12 @@ app <- gb_appraise(costs, benefits, ob = "non_standard_buildings",
                    ob_mitigation = 0.5, base_year = 2024)
 app
 }
+\references{
+HM Treasury (2026). The Green Book: Central Government Guidance
+on Appraisal and Evaluation.
+}
+\seealso{
+\code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_optimism_bias]{gb_optimism_bias()}}, \code{\link[=gb_metb]{gb_metb()}},
+\code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}.
+}
+\concept{appraisal}

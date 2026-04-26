@@ -27,3 +27,16 @@ from year \code{from} by this factor to express it in year \code{to}.
 \examples{
 gb_deflator(from = 2020, to = 2024)
 }
+\references{
+Office for National Statistics. GDP deflator at market
+prices (series YBGB), updated quarterly. HM Treasury publishes
+the deflator series alongside the OBR forecast.
+}
+\seealso{
+\code{\link[=gb_real]{gb_real()}}, \code{\link[=gb_rebase]{gb_rebase()}}.
+
+Other deflator: 
+\code{\link{gb_real}()},
+\code{\link{gb_rebase}()}
+}
+\concept{deflator}

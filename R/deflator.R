@@ -13,6 +13,13 @@
 #'
 #' @return A numeric scalar: the deflator factor.
 #'
+#' @references Office for National Statistics. GDP deflator at market
+#'   prices (series YBGB), updated quarterly. HM Treasury publishes
+#'   the deflator series alongside the OBR forecast.
+#'
+#' @family deflator
+#' @seealso [gb_real()], [gb_rebase()].
+#'
 #' @export
 #' @examples
 #' gb_deflator(from = 2020, to = 2024)
@@ -47,6 +54,12 @@ gb_deflator <- function(from, to, source = "bundled") {
 #'
 #' @return A numeric vector of real values, in `base_year` prices.
 #'
+#' @references HM Treasury (2022). The Green Book, chapter on real
+#'   terms and price-base alignment.
+#'
+#' @family deflator
+#' @seealso [gb_deflator()], [gb_rebase()].
+#'
 #' @export
 #' @examples
 #' gb_real(nominal_values = c(100, 110, 120),
@@ -79,6 +92,12 @@ gb_real <- function(nominal_values, year, base_year, source = "bundled") {
 #' @param to Integer target base year.
 #'
 #' @return A numeric vector of values in `to`-year real prices.
+#'
+#' @references HM Treasury (2022). The Green Book, chapter on real
+#'   terms and price-base alignment.
+#'
+#' @family deflator
+#' @seealso [gb_deflator()], [gb_real()].
 #'
 #' @export
 #' @examples

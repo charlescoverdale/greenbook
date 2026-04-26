@@ -22,12 +22,30 @@ Returns the present-value discount factor for each year, applying
 the kinked Social Time Preference Rate schedule annually.
 }
 \details{
-The discount factor at year \code{t} is computed as the reciprocal of the
-cumulative product of \code{(1 + r_k)} for periods \verb{k = 1, ..., t}, where
-\code{r_k} is the STPR for year \code{k}. This handles the kinked schedule
-correctly across band transitions (e.g. year 30 to year 31).
+The discount factor at year \code{t} is computed as the reciprocal of
+the cumulative product of \code{(1 + r_k)} for periods \verb{k = 1, ..., t},
+where \code{r_k} is the STPR for year \code{k}. This handles the kinked
+schedule correctly across band transitions (e.g. year 30 to year
+31). Within a single band, the closed-form annuity factor
+\code{(1 - (1 + r)^(-n)) / r} agrees with \code{sum(gb_discount_factor(1:n))}
+to machine precision.
 }
 \examples{
 gb_discount_factor(0:5)
 gb_discount_factor(c(0, 30, 31, 75, 76))
 }
+\references{
+HM Treasury (2022). The Green Book, Annex A6.
+
+HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+}
+\seealso{
+\code{\link[=gb_stpr]{gb_stpr()}}, \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_eanc]{gb_eanc()}}.
+
+Other discounting: 
+\code{\link{gb_discount}()},
+\code{\link{gb_eanc}()},
+\code{\link{gb_npv}()},
+\code{\link{gb_stpr}()}
+}
+\concept{discounting}

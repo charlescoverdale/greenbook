@@ -17,6 +17,9 @@
 #' @references DESNZ (2023). Valuation of Energy Use and Greenhouse
 #'   Gas Emissions for Appraisal (November 2023).
 #'
+#' @family carbon
+#' @seealso [gb_carbon_npv()].
+#'
 #' @export
 #' @examples
 #' gb_carbon_value(2024)
@@ -75,6 +78,13 @@ gb_carbon_value <- function(year, scenario = "central", series = "traded",
 #'   positive as avoided emissions (positive cashflow).
 #'
 #' @return A `gb_appraisal` object.
+#'
+#' @references DESNZ (2023). Valuation of Energy Use and Greenhouse
+#'   Gas Emissions for Appraisal (November 2023). HM Treasury (2022).
+#'   The Green Book, on environmental valuation.
+#'
+#' @family carbon
+#' @seealso [gb_carbon_value()], [gb_npv()].
 #'
 #' @export
 #' @examples

@@ -33,3 +33,15 @@ ob <- gb_optimism_bias("non_standard_buildings")
 gb_apply_ob(costs, ob)
 gb_apply_ob(costs, ob, mitigation = 0.5)
 }
+\references{
+HM Treasury (2003). Supplementary Green Book Guidance:
+Optimism Bias, Annex A2 on mitigation factors.
+}
+\seealso{
+\code{\link[=gb_optimism_bias]{gb_optimism_bias()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
+
+Other optimism bias: 
+\code{\link{gb_categories}()},
+\code{\link{gb_optimism_bias}()}
+}
+\concept{optimism bias}

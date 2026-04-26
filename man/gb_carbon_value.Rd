@@ -40,3 +40,10 @@ gb_carbon_value(2030, scenario = "high")
 DESNZ (2023). Valuation of Energy Use and Greenhouse
 Gas Emissions for Appraisal (November 2023).
 }
+\seealso{
+\code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.
+
+Other carbon: 
+\code{\link{gb_carbon_npv}()}
+}
+\concept{carbon}

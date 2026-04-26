@@ -43,3 +43,18 @@ tests at \code{eta = 0.8} and \code{eta = 2.0} are conventional.
 income_deciles <- seq(10000, 100000, length.out = 10)
 gb_dist_weight(income_deciles)
 }
+\references{
+HM Treasury (2022). The Green Book, Annex A3 on distributional
+analysis.
+
+Acland, D. and Greenberg, D.H. (2024). The Elasticity of Marginal
+Utility of Income for Distributional Weighting and Social
+Discounting: A Meta-Analysis. Journal of Benefit-Cost Analysis.
+}
+\seealso{
+\code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}.
+
+Other distributional: 
+\code{\link{gb_dist_weighted_npv}()}
+}
+\concept{distributional}

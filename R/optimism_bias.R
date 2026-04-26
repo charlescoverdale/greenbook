@@ -4,7 +4,7 @@
 #' HM Treasury Supplementary Green Book Guidance: Optimism Bias
 #' (Mott MacDonald 2002, Annex A1). The upper bound is the starting
 #' value for ex-ante uplift; mitigation factors reduce it as project
-#' definition matures.
+#' definition matures through SOC, OBC, and FBC stages.
 #'
 #' @param category Character. One of
 #'   `"standard_buildings"`, `"non_standard_buildings"`,
@@ -16,6 +16,16 @@
 #'
 #' @return Numeric scalar: the upper-bound percentage as a decimal
 #'   (e.g. 0.51 for 51 percent).
+#'
+#' @references
+#' HM Treasury (2003). Supplementary Green Book Guidance: Optimism
+#' Bias.
+#'
+#' Mott MacDonald (2002). Review of Large Public Procurement in the
+#' UK. Report commissioned by HM Treasury.
+#'
+#' @family optimism bias
+#' @seealso [gb_apply_ob()], [gb_categories()], [gb_appraise()].
 #'
 #' @export
 #' @examples
@@ -47,6 +57,12 @@ gb_optimism_bias <- function(category, dimension = "capex") {
 #' @return A numeric vector the same length as `values`, with the
 #'   uplift applied.
 #'
+#' @references HM Treasury (2003). Supplementary Green Book Guidance:
+#'   Optimism Bias, Annex A2 on mitigation factors.
+#'
+#' @family optimism bias
+#' @seealso [gb_optimism_bias()], [gb_appraise()].
+#'
 #' @export
 #' @examples
 #' costs <- c(100, 50, 50)
@@ -69,7 +85,15 @@ gb_apply_ob <- function(values, ob_pct, mitigation = 0) {
 #'
 #' Returns the bundled OB category lookup as a data frame.
 #'
-#' @return A data frame with columns `category` and `description`.
+#' @return A data frame with columns `category`, `description`,
+#'   `capex_upper`, `duration_upper`.
+#'
+#' @references HM Treasury (2003). Supplementary Green Book Guidance:
+#'   Optimism Bias.
+#'
+#' @family optimism bias
+#' @seealso [gb_optimism_bias()].
+#'
 #' @export
 #' @examples
 #' gb_categories()

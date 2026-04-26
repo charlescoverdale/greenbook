@@ -35,3 +35,11 @@ gb_qaly(1, scenario = "nice_upper")
 DHSC Supplementary Green Book Guidance on health
 appraisal. NICE methods guides for technology appraisal.
 }
+\seealso{
+\code{\link[=gb_wellby]{gb_wellby()}}, \code{\link[=gb_vpf]{gb_vpf()}}.
+
+Other valuation: 
+\code{\link{gb_vpf}()},
+\code{\link{gb_wellby}()}
+}
+\concept{valuation}

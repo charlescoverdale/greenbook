@@ -16,13 +16,19 @@
 #'   3.5 percent), one per element of `years`.
 #'
 #' @details
-#' The STPR is composed of pure time preference plus a wealth effect
+#' The STPR is composed of pure time preference plus a wealth-effect
 #' adjustment for expected per-capita consumption growth. The kink
 #' reflects increasing uncertainty over the constituent parameters at
-#' longer horizons. See Green Book 2022, Annex A6.
+#' longer horizons.
 #'
-#' Source: Green Book 2022 / 2026, supplementary guidance on
-#' discounting.
+#' @references
+#' HM Treasury (2022). The Green Book: Central Government Guidance on
+#' Appraisal and Evaluation, Annex A6.
+#'
+#' HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+#'
+#' @family discounting
+#' @seealso [gb_discount_factor()], [gb_discount()], [gb_npv()].
 #'
 #' @export
 #' @examples

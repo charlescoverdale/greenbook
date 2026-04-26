@@ -43,3 +43,18 @@ costs    <- c(100, 50, 50, 0, 0, 0, 0, 0, 0, 0)
 benefits <- c(0, 0, 0, 30, 30, 30, 30, 30, 30, 30)
 gb_npv(benefits - costs)
 }
+\references{
+HM Treasury (2022). The Green Book, chapter on appraisal and the
+Annex on discounting.
+}
+\seealso{
+\code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_eanc]{gb_eanc()}}, \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}},
+\code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.
+
+Other discounting: 
+\code{\link{gb_discount}()},
+\code{\link{gb_discount_factor}()},
+\code{\link{gb_eanc}()},
+\code{\link{gb_stpr}()}
+}
+\concept{discounting}

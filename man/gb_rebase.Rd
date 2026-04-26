@@ -23,3 +23,15 @@ deflator factor to express them in \code{to}-year real prices.
 \examples{
 gb_rebase(c(100, 200, 300), from = 2020, to = 2024)
 }
+\references{
+HM Treasury (2022). The Green Book, chapter on real
+terms and price-base alignment.
+}
+\seealso{
+\code{\link[=gb_deflator]{gb_deflator()}}, \code{\link[=gb_real]{gb_real()}}.
+
+Other deflator: 
+\code{\link{gb_deflator}()},
+\code{\link{gb_real}()}
+}
+\concept{deflator}

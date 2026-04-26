@@ -7,11 +7,11 @@
 gb_discount(values, years = seq_along(values) - 1L, schedule = "standard")
 }
 \arguments{
-\item{values}{Numeric vector of nominal cashflow values (in real
-terms, base year fixed).}
+\item{values}{Numeric vector of cashflow values (real terms, base
+year fixed).}
 
-\item{years}{Integer vector of years from the base year. Defaults to
-\verb{0, 1, 2, ...}.}
+\item{years}{Integer vector of years from the base year. Defaults
+to \verb{0, 1, 2, ...}.}
 
 \item{schedule}{One of \code{"standard"}, \code{"health"}, \code{"catastrophic"}.}
 }
@@ -24,3 +24,16 @@ Apply discount factors to a stream
 \examples{
 gb_discount(c(0, 100, 100, 100))
 }
+\references{
+HM Treasury (2022). The Green Book, Annex A6.
+}
+\seealso{
+\code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_npv]{gb_npv()}}.
+
+Other discounting: 
+\code{\link{gb_discount_factor}()},
+\code{\link{gb_eanc}()},
+\code{\link{gb_npv}()},
+\code{\link{gb_stpr}()}
+}
+\concept{discounting}

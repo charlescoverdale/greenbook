@@ -28,6 +28,14 @@
 #'   `pv_costs`, `pv_benefits`, `costs`, `benefits`,
 #'   `optimism_bias`, `metb_applied`.
 #'
+#' @references
+#' HM Treasury (2026). The Green Book: Central Government Guidance
+#' on Appraisal and Evaluation.
+#'
+#' @family appraisal
+#' @seealso [gb_npv()], [gb_optimism_bias()], [gb_metb()],
+#'   [gb_dist_weighted_npv()].
+#'
 #' @export
 #' @examples
 #' costs <- c(100, 50, 50, 0, 0, 0, 0, 0, 0, 0)

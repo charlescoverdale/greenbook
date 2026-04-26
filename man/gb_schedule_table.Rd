@@ -24,3 +24,10 @@ one.
 gb_schedule_table()
 gb_schedule_table("health")
 }
+\seealso{
+\code{\link[=gb_stpr]{gb_stpr()}}, \code{\link[=gb_data_versions]{gb_data_versions()}}.
+
+Other lookups: 
+\code{\link{gb_data_versions}()}
+}
+\concept{lookups}

@@ -26,16 +26,29 @@ rate steps down at 30, 75, 125, 200, and 300 years. Three variants
 are supported.
 }
 \details{
-The STPR is composed of pure time preference plus a wealth effect
+The STPR is composed of pure time preference plus a wealth-effect
 adjustment for expected per-capita consumption growth. The kink
 reflects increasing uncertainty over the constituent parameters at
-longer horizons. See Green Book 2022, Annex A6.
-
-Source: Green Book 2022 / 2026, supplementary guidance on
-discounting.
+longer horizons.
 }
 \examples{
 gb_stpr(0:5)
 gb_stpr(c(10, 30, 31, 75, 76))
 gb_stpr(c(10, 30, 31, 75, 76), schedule = "health")
 }
+\references{
+HM Treasury (2022). The Green Book: Central Government Guidance on
+Appraisal and Evaluation, Annex A6.
+
+HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+}
+\seealso{
+\code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_discount]{gb_discount()}}, \code{\link[=gb_npv]{gb_npv()}}.
+
+Other discounting: 
+\code{\link{gb_discount}()},
+\code{\link{gb_discount_factor}()},
+\code{\link{gb_eanc}()},
+\code{\link{gb_npv}()}
+}
+\concept{discounting}

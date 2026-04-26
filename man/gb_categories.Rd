@@ -7,7 +7,8 @@
 gb_categories()
 }
 \value{
-A data frame with columns \code{category} and \code{description}.
+A data frame with columns \code{category}, \code{description},
+\code{capex_upper}, \code{duration_upper}.
 }
 \description{
 Returns the bundled OB category lookup as a data frame.
@@ -15,3 +16,15 @@ Returns the bundled OB category lookup as a data frame.
 \examples{
 gb_categories()
 }
+\references{
+HM Treasury (2003). Supplementary Green Book Guidance:
+Optimism Bias.
+}
+\seealso{
+\code{\link[=gb_optimism_bias]{gb_optimism_bias()}}.
+
+Other optimism bias: 
+\code{\link{gb_apply_ob}()},
+\code{\link{gb_optimism_bias}()}
+}
+\concept{optimism bias}

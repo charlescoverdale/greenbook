@@ -4,6 +4,7 @@
 ^\.git$
 ^\.gitignore$
 ^IMPROVEMENT_PLAN\.md$
+^CITATION\.cff$
 ^cran-comments\.md$
 ^data-raw$
 ^_pkgdown\.yml$

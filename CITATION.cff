@@ -1,0 +1,73 @@
+cff-version: 1.2.0
+message: "If you use this package, please cite it as below."
+type: software
+title: "greenbook: HM Treasury Green Book Cost-Benefit Analysis Primitives"
+version: 0.1.0
+date-released: 2026-04-26
+url: "https://github.com/charlescoverdale/greenbook"
+license: MIT
+authors:
+  - family-names: Coverdale
+    given-names: Charles
+keywords:
+  - cost-benefit-analysis
+  - appraisal
+  - hm-treasury
+  - green-book
+  - public-policy
+  - economics
+  - discounting
+  - net-present-value
+  - social-time-preference-rate
+  - optimism-bias
+  - distributional-weighting
+  - wellby
+  - carbon-valuation
+references:
+  - type: report
+    authors:
+      - name: "HM Treasury"
+    title: "The Green Book: Central Government Guidance on Appraisal and Evaluation"
+    year: 2026
+    institution:
+      name: "HM Treasury"
+    url: "https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government"
+  - type: report
+    authors:
+      - name: "HM Treasury"
+    title: "Green Book Supplementary Guidance: Discounting"
+    year: 2003
+    institution:
+      name: "HM Treasury"
+    url: "https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting"
+  - type: report
+    authors:
+      - name: "HM Treasury"
+    title: "Supplementary Green Book Guidance: Optimism Bias"
+    year: 2003
+    institution:
+      name: "HM Treasury"
+    url: "https://www.gov.uk/government/publications/green-book-supplementary-guidance-optimism-bias"
+  - type: report
+    authors:
+      - name: "HM Treasury"
+    title: "Wellbeing Guidance for Appraisal: Supplementary Green Book Guidance"
+    year: 2021
+    institution:
+      name: "HM Treasury"
+    url: "https://www.gov.uk/government/publications/green-book-supplementary-guidance-wellbeing"
+  - type: report
+    authors:
+      - name: "Department for Energy Security and Net Zero"
+    title: "Valuation of Energy Use and Greenhouse Gas Emissions for Appraisal"
+    year: 2023
+    institution:
+      name: "DESNZ"
+    url: "https://www.gov.uk/government/publications/valuation-of-energy-use-and-greenhouse-gas-emissions-for-appraisal"
+  - type: report
+    authors:
+      - name: "Mott MacDonald"
+    title: "Review of Large Public Procurement in the UK"
+    year: 2002
+    institution:
+      name: "HM Treasury"

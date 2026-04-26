@@ -24,6 +24,9 @@
 #' @references HM Treasury (2021). Wellbeing Guidance for Appraisal:
 #'   Supplementary Green Book Guidance.
 #'
+#' @family valuation
+#' @seealso [gb_vpf()], [gb_qaly()].
+#'
 #' @export
 #' @examples
 #' # 1-point lift in life satisfaction for 100 people for 5 years
@@ -71,6 +74,9 @@ gb_wellby <- function(life_satisfaction_change, persons, years = 1,
 #' @references Department for Transport. Transport Analysis
 #'   Guidance (TAG) data book.
 #'
+#' @family valuation
+#' @seealso [gb_wellby()], [gb_qaly()].
+#'
 #' @export
 #' @examples
 #' gb_vpf()
@@ -109,6 +115,9 @@ gb_vpf <- function(year = 2024, series = "central") {
 #'
 #' @references DHSC Supplementary Green Book Guidance on health
 #'   appraisal. NICE methods guides for technology appraisal.
+#'
+#' @family valuation
+#' @seealso [gb_wellby()], [gb_vpf()].
 #'
 #' @export
 #' @examples

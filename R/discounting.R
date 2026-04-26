@@ -11,10 +11,21 @@
 #' @return A numeric vector of discount factors. `1` for `years == base_year`.
 #'
 #' @details
-#' The discount factor at year `t` is computed as the reciprocal of the
-#' cumulative product of `(1 + r_k)` for periods `k = 1, ..., t`, where
-#' `r_k` is the STPR for year `k`. This handles the kinked schedule
-#' correctly across band transitions (e.g. year 30 to year 31).
+#' The discount factor at year `t` is computed as the reciprocal of
+#' the cumulative product of `(1 + r_k)` for periods `k = 1, ..., t`,
+#' where `r_k` is the STPR for year `k`. This handles the kinked
+#' schedule correctly across band transitions (e.g. year 30 to year
+#' 31). Within a single band, the closed-form annuity factor
+#' `(1 - (1 + r)^(-n)) / r` agrees with `sum(gb_discount_factor(1:n))`
+#' to machine precision.
+#'
+#' @references
+#' HM Treasury (2022). The Green Book, Annex A6.
+#'
+#' HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+#'
+#' @family discounting
+#' @seealso [gb_stpr()], [gb_npv()], [gb_eanc()].
 #'
 #' @export
 #' @examples
@@ -48,13 +59,16 @@ gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
 
 #' Apply discount factors to a stream
 #'
-#' @param values Numeric vector of nominal cashflow values (in real
-#'   terms, base year fixed).
-#' @param years Integer vector of years from the base year. Defaults to
-#'   `0, 1, 2, ...`.
+#' @param values Numeric vector of cashflow values (real terms, base
+#'   year fixed).
+#' @param years Integer vector of years from the base year. Defaults
+#'   to `0, 1, 2, ...`.
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
 #'
 #' @return A numeric vector of discounted (present-value) cashflows.
+#' @family discounting
+#' @seealso [gb_discount_factor()], [gb_npv()].
+#' @references HM Treasury (2022). The Green Book, Annex A6.
 #' @export
 #' @examples
 #' gb_discount(c(0, 100, 100, 100))
@@ -87,6 +101,14 @@ gb_discount <- function(values, years = seq_along(values) - 1L, schedule = "stan
 #' @return A `gb_appraisal` object: a list with class
 #'   `c("gb_appraisal", "list")` and elements
 #'   `npv`, `cashflow`, `years`, `pv`, `schedule`, `base_year`, `vintage`.
+#'
+#' @references
+#' HM Treasury (2022). The Green Book, chapter on appraisal and the
+#' Annex on discounting.
+#'
+#' @family discounting
+#' @seealso [gb_appraise()], [gb_eanc()], [gb_dist_weighted_npv()],
+#'   [gb_carbon_npv()].
 #'
 #' @export
 #' @examples
@@ -129,6 +151,12 @@ gb_npv <- function(cashflow,
 #'
 #' @return A numeric scalar: the equivalent annual amount in real
 #'   terms, base year aligned with the input.
+#'
+#' @references HM Treasury (2022). The Green Book, Annex A on
+#'   appraisal: equivalent annual cost.
+#'
+#' @family discounting
+#' @seealso [gb_npv()], [gb_appraise()].
 #'
 #' @export
 #' @examples

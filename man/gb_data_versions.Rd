@@ -19,3 +19,10 @@ Green Book parameters it used.
 \examples{
 gb_data_versions()
 }
+\seealso{
+\code{\link[=gb_schedule_table]{gb_schedule_table()}}.
+
+Other lookups: 
+\code{\link{gb_schedule_table}()}
+}
+\concept{lookups}

@@ -51,3 +51,11 @@ gb_wellby(1, persons = 100, years = 5, base_year = 2024)
 HM Treasury (2021). Wellbeing Guidance for Appraisal:
 Supplementary Green Book Guidance.
 }
+\seealso{
+\code{\link[=gb_vpf]{gb_vpf()}}, \code{\link[=gb_qaly]{gb_qaly()}}.
+
+Other valuation: 
+\code{\link{gb_qaly}()},
+\code{\link{gb_vpf}()}
+}
+\concept{valuation}

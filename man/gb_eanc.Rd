@@ -27,3 +27,17 @@ durations.
 app <- gb_npv(c(-100, 30, 30, 30, 30, 30))
 gb_eanc(app)
 }
+\references{
+HM Treasury (2022). The Green Book, Annex A on
+appraisal: equivalent annual cost.
+}
+\seealso{
+\code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
+
+Other discounting: 
+\code{\link{gb_discount}()},
+\code{\link{gb_discount_factor}()},
+\code{\link{gb_npv}()},
+\code{\link{gb_stpr}()}
+}
+\concept{discounting}

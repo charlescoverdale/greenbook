@@ -49,3 +49,15 @@ emissions <- rep(100, 7)
 years <- 2024:2030
 gb_carbon_npv(emissions, years, base_year = 2024)
 }
+\references{
+DESNZ (2023). Valuation of Energy Use and Greenhouse
+Gas Emissions for Appraisal (November 2023). HM Treasury (2022).
+The Green Book, on environmental valuation.
+}
+\seealso{
+\code{\link[=gb_carbon_value]{gb_carbon_value()}}, \code{\link[=gb_npv]{gb_npv()}}.
+
+Other carbon: 
+\code{\link{gb_carbon_value}()}
+}
+\concept{carbon}

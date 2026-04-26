@@ -11,6 +11,9 @@
 #'
 #' @return A data frame.
 #'
+#' @family lookups
+#' @seealso [gb_stpr()], [gb_data_versions()].
+#'
 #' @export
 #' @examples
 #' gb_schedule_table()
@@ -34,6 +37,9 @@ gb_schedule_table <- function(schedule = NULL) {
 #'
 #' @return A data frame with columns `dataset`, `source`,
 #'   `last_updated`, `notes`.
+#'
+#' @family lookups
+#' @seealso [gb_schedule_table()].
 #'
 #' @export
 #' @examples

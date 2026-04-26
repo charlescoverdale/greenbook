@@ -24,6 +24,18 @@
 #'   the median of `income` is used.
 #'
 #' @return A numeric vector of weights, same length as `income`.
+#'
+#' @references
+#' HM Treasury (2022). The Green Book, Annex A3 on distributional
+#' analysis.
+#'
+#' Acland, D. and Greenberg, D.H. (2024). The Elasticity of Marginal
+#' Utility of Income for Distributional Weighting and Social
+#' Discounting: A Meta-Analysis. Journal of Benefit-Cost Analysis.
+#'
+#' @family distributional
+#' @seealso [gb_dist_weighted_npv()].
+#'
 #' @export
 #' @examples
 #' # Weights across deciles of a stylised income distribution
@@ -71,6 +83,12 @@ gb_dist_weight <- function(income, eta = 1.3, reference = "median",
 #'
 #' @return A `gb_appraisal` object with extra fields `weights`,
 #'   `eta`, and `unweighted_npv`.
+#'
+#' @references HM Treasury (2022). The Green Book, Annex A3 on
+#'   distributional analysis.
+#'
+#' @family distributional
+#' @seealso [gb_dist_weight()], [gb_npv()].
 #'
 #' @export
 #' @examples

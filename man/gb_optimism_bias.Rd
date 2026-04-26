@@ -25,9 +25,24 @@ Returns the indicative upper-bound optimism bias percentage from
 HM Treasury Supplementary Green Book Guidance: Optimism Bias
 (Mott MacDonald 2002, Annex A1). The upper bound is the starting
 value for ex-ante uplift; mitigation factors reduce it as project
-definition matures.
+definition matures through SOC, OBC, and FBC stages.
 }
 \examples{
 gb_optimism_bias("non_standard_buildings")
 gb_optimism_bias("standard_civil_engineering", dimension = "duration")
 }
+\references{
+HM Treasury (2003). Supplementary Green Book Guidance: Optimism
+Bias.
+
+Mott MacDonald (2002). Review of Large Public Procurement in the
+UK. Report commissioned by HM Treasury.
+}
+\seealso{
+\code{\link[=gb_apply_ob]{gb_apply_ob()}}, \code{\link[=gb_categories]{gb_categories()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
+
+Other optimism bias: 
+\code{\link{gb_apply_ob}()},
+\code{\link{gb_categories}()}
+}
+\concept{optimism bias}

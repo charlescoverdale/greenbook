@@ -1,0 +1,19 @@
+citHeader("To cite the greenbook package in publications:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "{greenbook}: HM Treasury Green Book Cost-Benefit Analysis Primitives",
+  author   = person("Charles", "Coverdale"),
+  year     = 2026,
+  note     = "R package version 0.1.0",
+  url      = "https://github.com/charlescoverdale/greenbook"
+)
+
+bibentry(
+  bibtype      = "Misc",
+  title        = "The Green Book: Central Government Guidance on Appraisal and Evaluation",
+  author       = person(family = "HM Treasury"),
+  year         = 2026,
+  organization = "HM Treasury",
+  url          = "https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government"
+)

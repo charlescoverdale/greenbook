@@ -51,3 +51,14 @@ gb_dist_weighted_npv(
   income_data = seq(10000, 100000, length.out = 10)
 )
 }
+\references{
+HM Treasury (2022). The Green Book, Annex A3 on
+distributional analysis.
+}
+\seealso{
+\code{\link[=gb_dist_weight]{gb_dist_weight()}}, \code{\link[=gb_npv]{gb_npv()}}.
+
+Other distributional: 
+\code{\link{gb_dist_weight}()}
+}
+\concept{distributional}
