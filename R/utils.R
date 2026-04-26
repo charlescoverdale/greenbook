@@ -32,6 +32,22 @@
   utils::read.csv(.gb_extdata("metb.csv"), stringsAsFactors = FALSE)
 }
 
+.read_wellby <- function() {
+  utils::read.csv(.gb_extdata("wellby.csv"), stringsAsFactors = FALSE)
+}
+
+.read_vpf <- function() {
+  utils::read.csv(.gb_extdata("vpf.csv"), stringsAsFactors = FALSE)
+}
+
+.read_qaly <- function() {
+  utils::read.csv(.gb_extdata("qaly.csv"), stringsAsFactors = FALSE)
+}
+
+.read_carbon <- function() {
+  utils::read.csv(.gb_extdata("carbon_values.csv"), stringsAsFactors = FALSE)
+}
+
 # Validate numeric vector input
 validate_numeric <- function(x, arg = "x", allow_na = FALSE, require_positive = FALSE) {
   if (!is.numeric(x)) {

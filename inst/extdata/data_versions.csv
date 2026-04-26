@@ -3,3 +3,7 @@ stpr_schedule,HM Treasury Green Book 2022 Annex A6 / supplementary discounting g
 gdp_deflator,ONS GDP deflator at market prices (YBGB) and OBR forecast,2026-04-26,"Annual series 1990-2030 (2026 onwards forecast). Stub vintage for v0.1.0. v0.2.0 will refresh from inflateR live data."
 optimism_bias,HM Treasury Supplementary Green Book Guidance: Optimism Bias (Mott MacDonald 2002),2026-04-26,"Indicative upper bounds for capex and duration uplift across six project categories. Values unchanged since 2003."
 metb,HM Treasury Green Book 2022 chapter on real terms and Marginal Excess Tax Burden,2026-04-26,"Uplift on revenue raised through distortionary taxation. 20 percent in 2018 onwards (was 30 percent historically)."
+wellby,HMT Wellbeing Guidance for Appraisal (July 2021),2026-04-26,"WELLBY central value GBP 13000 in 2019 prices (low/central/high range). Convert to other base years via gb_deflator()."
+vpf,DfT Transport Analysis Guidance (TAG) data book,2026-04-26,"VPF series 2018-2030 in successive base-year prices. 2024 published value GBP 2.153m. Uprated 2 percent real per year (proxy for GDP per head growth)."
+qaly,DHSC Supplementary Green Book Guidance + NICE HTA thresholds,2026-04-26,"GBP 70k per QALY in 2024 prices for cross-government appraisal. NICE thresholds GBP 20k-30k retained for HTA context."
+carbon_values,DESNZ Valuation of Energy Use and GHG Emissions for Appraisal (Nov 2023),2026-04-26,"Stub series 2020-2050, central/low/high paths for traded and non-traded sectors, in 2020 prices. Refresh to full DESNZ workbook in v0.4.0."

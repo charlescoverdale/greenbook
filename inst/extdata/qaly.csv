@@ -1,0 +1,4 @@
+scenario,base_year,value_gbp,source,notes
+nice_lower,2024,20000,NICE Health Technology Assessment lower threshold,Used in NICE HTA appraisal
+nice_upper,2024,30000,NICE Health Technology Assessment upper threshold,Used in NICE HTA appraisal
+dhsc,2024,70000,DHSC Supplementary Green Book Guidance,Cross-government appraisal central value

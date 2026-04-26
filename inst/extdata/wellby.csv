@@ -1,0 +1,4 @@
+scenario,base_year,value_gbp,source
+low,2019,10000,HMT Wellbeing Guidance for Appraisal (July 2021) lower bound
+central,2019,13000,HMT Wellbeing Guidance for Appraisal (July 2021) central
+high,2019,16000,HMT Wellbeing Guidance for Appraisal (July 2021) upper bound
