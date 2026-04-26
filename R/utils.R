@@ -24,6 +24,14 @@
   utils::read.csv(.gb_extdata("data_versions.csv"))
 }
 
+.read_optimism_bias <- function() {
+  utils::read.csv(.gb_extdata("optimism_bias.csv"), stringsAsFactors = FALSE)
+}
+
+.read_metb <- function() {
+  utils::read.csv(.gb_extdata("metb.csv"), stringsAsFactors = FALSE)
+}
+
 # Validate numeric vector input
 validate_numeric <- function(x, arg = "x", allow_na = FALSE, require_positive = FALSE) {
   if (!is.numeric(x)) {

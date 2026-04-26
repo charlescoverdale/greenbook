@@ -1,0 +1,7 @@
+category,description,capex_upper,duration_upper
+standard_buildings,Schools hospitals offices: standard accommodation,0.24,0.04
+non_standard_buildings,Major prestige projects and complex programmes,0.51,0.39
+standard_civil_engineering,Roads drainage sewers and similar,0.44,0.20
+non_standard_civil_engineering,Innovative civil works (light rail tunnels major estuarine),0.66,0.25
+equipment_development,Bespoke or innovative equipment and development,2.00,0.54
+outsourcing,IT and similar service outsourcing,0.41,0.15

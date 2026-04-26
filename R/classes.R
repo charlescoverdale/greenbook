@@ -19,6 +19,9 @@ summary.gb_appraisal <- function(object, ...) {
   cat("Green Book appraisal\n")
   cat("--------------------\n")
   cat(sprintf("NPV          : %s\n", .format_gbp(object$npv)))
+  if (!is.null(object$bcr) && !is.na(object$bcr)) {
+    cat(sprintf("BCR          : %.2f\n", object$bcr))
+  }
   cat(sprintf("Schedule     : %s\n", object$schedule))
   cat(sprintf("Horizon      : %d years (year %s to %s)\n",
               length(object$cashflow),
@@ -28,10 +31,28 @@ summary.gb_appraisal <- function(object, ...) {
     cat(sprintf("Base year    : %s\n", object$base_year))
   }
   cat(sprintf("Vintage      : Green Book %s\n", object$vintage))
-  cat(sprintf("Total inflow : %s\n",
-              .format_gbp(sum(object$cashflow[object$cashflow > 0]))))
-  cat(sprintf("Total outflow: %s\n",
-              .format_gbp(sum(object$cashflow[object$cashflow < 0]))))
+  if (!is.null(object$pv_costs)) {
+    cat(sprintf("PV costs     : %s\n", .format_gbp(object$pv_costs)))
+    cat(sprintf("PV benefits  : %s\n", .format_gbp(object$pv_benefits)))
+  } else {
+    cat(sprintf("Total inflow : %s\n",
+                .format_gbp(sum(object$cashflow[object$cashflow > 0]))))
+    cat(sprintf("Total outflow: %s\n",
+                .format_gbp(sum(object$cashflow[object$cashflow < 0]))))
+  }
+  if (!is.null(object$optimism_bias)) {
+    cat(sprintf("Optimism bias: %.1f percent uplift on costs\n",
+                100 * object$optimism_bias))
+  }
+  if (isTRUE(object$metb_applied)) {
+    cat("METB         : applied to costs\n")
+  }
+  if (!is.null(object$eta)) {
+    cat(sprintf("Distrib. eta : %.2f\n", object$eta))
+    if (!is.null(object$unweighted_npv)) {
+      cat(sprintf("NPV unweighted: %s\n", .format_gbp(object$unweighted_npv)))
+    }
+  }
   invisible(object)
 }
 

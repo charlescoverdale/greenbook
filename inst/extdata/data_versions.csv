@@ -1,3 +1,5 @@
 dataset,source,last_updated,notes
 stpr_schedule,HM Treasury Green Book 2022 Annex A6 / supplementary discounting guidance,2026-04-26,"Kinked STPR: 3.5/3.0/2.5/2.0/1.5/1.0 percent across bands at 30/75/125/200/300 years. Health and catastrophic-risk variants per supplementary guidance."
 gdp_deflator,ONS GDP deflator at market prices (YBGB) and OBR forecast,2026-04-26,"Annual series 1990-2030 (2026 onwards forecast). Stub vintage for v0.1.0. v0.2.0 will refresh from inflateR live data."
+optimism_bias,HM Treasury Supplementary Green Book Guidance: Optimism Bias (Mott MacDonald 2002),2026-04-26,"Indicative upper bounds for capex and duration uplift across six project categories. Values unchanged since 2003."
+metb,HM Treasury Green Book 2022 chapter on real terms and Marginal Excess Tax Burden,2026-04-26,"Uplift on revenue raised through distortionary taxation. 20 percent in 2018 onwards (was 30 percent historically)."

@@ -10,5 +10,6 @@
 "_PACKAGE"
 
 #' @importFrom cli cli_abort cli_inform cli_warn cli_text cli_h1
+#' @importFrom stats median
 #' @importFrom utils read.csv
 NULL
