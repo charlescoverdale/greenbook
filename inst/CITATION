@@ -3,7 +3,7 @@ citHeader("To cite the greenbook package in publications:")
 bibentry(
   bibtype  = "Manual",
   title    = "{greenbook}: HM Treasury Green Book Cost-Benefit Analysis Primitives",
-  author   = person("Charles", "Coverdale"),
+  author   = person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com"),
   year     = 2026,
   note     = "R package version 0.1.0",
   url      = "https://github.com/charlescoverdale/greenbook"

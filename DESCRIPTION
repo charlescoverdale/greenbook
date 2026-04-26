@@ -2,7 +2,7 @@ Package: greenbook
 Title: HM Treasury Green Book Cost-Benefit Analysis Primitives
 Version: 0.1.0
 Authors@R:
-    person("Charles", "Coverdale", , "charles.f.coverdale@gmail.com", role = c("aut", "cre"))
+    person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
 Description: Implements cost-benefit analysis primitives from HM
     Treasury Green Book guidance (HM Treasury, 2022, 2026):
     the kinked Social Time Preference Rate ('STPR'), discount factors,
