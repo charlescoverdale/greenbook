@@ -1,10 +1,6 @@
 # greenbook
 
-<!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/greenbook)](https://CRAN.R-project.org/package=greenbook)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-<!-- badges: end -->
+[![CRAN status](https://www.r-pkg.org/badges/version/greenbook)](https://CRAN.R-project.org/package=greenbook) [![CRAN downloads](https://cranlogs.r-pkg.org/badges/greenbook)](https://cran.r-project.org/package=greenbook) [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/greenbook)](https://CRAN.R-project.org/package=greenbook) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Cost-benefit analysis primitives from the HM Treasury Green Book, in R.
 
