@@ -5,8 +5,8 @@ Authors@R:
     person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
 Description: Implements cost-benefit analysis primitives from HM
     Treasury Green Book guidance (HM Treasury, 2022, 2026):
-    the kinked Social Time Preference Rate ('STPR'), discount factors,
-    net present value ('NPV'), equivalent annual cost, and real-terms
+    the kinked Social Time Preference Rate (STPR), discount factors,
+    net present value (NPV), equivalent annual cost, and real-terms
     rebasing using the GDP deflator. Designed for UK central government
     appraisal and evaluation. Bundled parameter tables carry vintage
     metadata for reproducibility.
