@@ -147,6 +147,19 @@ Every parameter table is sourced from a published HMT, DfT, or DESNZ workbook. `
 - [DfT Transport Analysis Guidance (TAG)](https://www.gov.uk/guidance/transport-analysis-guidance-tag)
 
 
+## Related packages
+
+| Package | Description |
+|---|---|
+| [`magentabook`](https://github.com/charlescoverdale/magentabook) | Companion: HM Treasury Magenta Book evaluation primitives (appraisal-to-evaluation spine) |
+| [`obr`](https://github.com/charlescoverdale/obr) | OBR fiscal forecasts (CBA inputs, public finances) |
+| [`ons`](https://github.com/charlescoverdale/ons) | UK Office for National Statistics data (GDP deflator, CPI, demography) |
+| [`inflateR`](https://github.com/charlescoverdale/inflateR) | Inflation adjustment for real-terms cashflows |
+| [`inflationkit`](https://github.com/charlescoverdale/inflationkit) | Inflation analysis (deflators, persistence) |
+| [`debtkit`](https://github.com/charlescoverdale/debtkit) | Debt sustainability analysis (links public-sector NPV to debt path) |
+| [`ivcheck`](https://github.com/charlescoverdale/ivcheck) | IV diagnostics (for causal impact estimates feeding the appraisal) |
+
+
 ## Citation
 
 If you use `greenbook` in published work, please cite via:
