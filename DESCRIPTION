@@ -1,6 +1,6 @@
 Package: greenbook
 Title: HM Treasury Green Book Cost-Benefit Analysis Primitives
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     person("Charles", "Coverdale", , "charlesfcoverdale@gmail.com", role = c("aut", "cre"))
 Description: Implements cost-benefit analysis primitives from HM

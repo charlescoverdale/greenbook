@@ -22,7 +22,8 @@
 #' @references
 #' HM Treasury (2022). The Green Book, Annex A6.
 #'
-#' HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+#' HM Treasury. Supplementary Green Book Guidance: Discounting.
+#' \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
 #'
 #' @family discounting
 #' @seealso [gb_stpr()], [gb_npv()], [gb_eanc()].

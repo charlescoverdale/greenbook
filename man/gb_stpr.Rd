@@ -12,8 +12,12 @@ the base year). Must be non-negative.}
 
 \item{schedule}{One of \code{"standard"} (default, 3.5 percent baseline),
 \code{"health"} (1.5 percent baseline, used in DHSC supplementary
-guidance), or \code{"catastrophic"} (3.0 percent, for projects where
-catastrophic risk dominates).}
+guidance), or \code{"catastrophic"} (3.0 percent baseline: the standard
+schedule with the catastrophic-risk element of pure time preference
+excluded). Use \code{"catastrophic"} when the appraisal already models
+catastrophic risk explicitly, so that the risk is not counted twice,
+once in the cashflows and again in the discount rate. It is not the
+schedule to reach for because a project is unusually risky.}
 }
 \value{
 A numeric vector of discount rates (decimals, e.g. 0.035 for
@@ -30,6 +34,12 @@ The STPR is composed of pure time preference plus a wealth-effect
 adjustment for expected per-capita consumption growth. The kink
 reflects increasing uncertainty over the constituent parameters at
 longer horizons.
+
+Pure time preference itself has two parts: impatience proper and an
+allowance for catastrophic risk, the possibility that a future
+benefit is never realised. The \code{"catastrophic"} schedule removes the
+second part, which is the 0.5 percentage point difference between the
+3.5 percent standard baseline and the 3.0 percent catastrophic one.
 }
 \examples{
 gb_stpr(0:5)
@@ -40,7 +50,8 @@ gb_stpr(c(10, 30, 31, 75, 76), schedule = "health")
 HM Treasury (2022). The Green Book: Central Government Guidance on
 Appraisal and Evaluation, Annex A6.
 
-HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+HM Treasury. Supplementary Green Book Guidance: Discounting.
+\url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
 }
 \seealso{
 \code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_discount]{gb_discount()}}, \code{\link[=gb_npv]{gb_npv()}}.

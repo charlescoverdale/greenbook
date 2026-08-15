@@ -9,8 +9,12 @@
 #'   the base year). Must be non-negative.
 #' @param schedule One of `"standard"` (default, 3.5 percent baseline),
 #'   `"health"` (1.5 percent baseline, used in DHSC supplementary
-#'   guidance), or `"catastrophic"` (3.0 percent, for projects where
-#'   catastrophic risk dominates).
+#'   guidance), or `"catastrophic"` (3.0 percent baseline: the standard
+#'   schedule with the catastrophic-risk element of pure time preference
+#'   excluded). Use `"catastrophic"` when the appraisal already models
+#'   catastrophic risk explicitly, so that the risk is not counted twice,
+#'   once in the cashflows and again in the discount rate. It is not the
+#'   schedule to reach for because a project is unusually risky.
 #'
 #' @return A numeric vector of discount rates (decimals, e.g. 0.035 for
 #'   3.5 percent), one per element of `years`.
@@ -21,11 +25,18 @@
 #' reflects increasing uncertainty over the constituent parameters at
 #' longer horizons.
 #'
+#' Pure time preference itself has two parts: impatience proper and an
+#' allowance for catastrophic risk, the possibility that a future
+#' benefit is never realised. The `"catastrophic"` schedule removes the
+#' second part, which is the 0.5 percentage point difference between the
+#' 3.5 percent standard baseline and the 3.0 percent catastrophic one.
+#'
 #' @references
 #' HM Treasury (2022). The Green Book: Central Government Guidance on
 #' Appraisal and Evaluation, Annex A6.
 #'
-#' HM Treasury (2003). Green Book Supplementary Guidance: Discounting.
+#' HM Treasury. Supplementary Green Book Guidance: Discounting.
+#' \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
 #'
 #' @family discounting
 #' @seealso [gb_discount_factor()], [gb_discount()], [gb_npv()].

@@ -1,3 +1,28 @@
+# greenbook 0.1.1
+
+* Maintainer email corrected to `charlesfcoverdale@gmail.com`. The CRAN
+  record for 0.1.0 carried `charles.f.coverdale@gmail.com`, which put
+  greenbook on a separate maintainer check-results page from the rest of
+  my packages. Both addresses reach the same inbox; this aligns the CRAN
+  record with every other package I maintain.
+
+* Corrected the description of the `"catastrophic"` STPR schedule in
+  `gb_stpr()` and `gb_discount_factor()`. It previously read as the
+  schedule to use "for projects where catastrophic risk dominates",
+  which inverts the guidance. The 3.0 percent schedule is the standard
+  schedule with the catastrophic-risk element of pure time preference
+  removed, and is for appraisals that already model that risk
+  explicitly, so it is not counted twice. Using it because a project
+  looks risky would understate the discount rate. Added a `@details`
+  note identifying the 0.5 percentage point difference.
+
+* Replaced the superseded "HM Treasury (2003). Green Book Supplementary
+  Guidance: Discounting" reference in `gb_stpr()` and
+  `gb_discount_factor()` with the current supplementary guidance and its
+  gov.uk link.
+
+No changes to any returned value. The STPR schedule itself is unchanged.
+
 # greenbook 0.1.0
 
 * Initial release. Implements Phase 1 to Phase 3 cost-benefit
