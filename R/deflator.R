@@ -54,8 +54,8 @@ gb_deflator <- function(from, to, source = "bundled") {
 #'
 #' @return A numeric vector of real values, in `base_year` prices.
 #'
-#' @references HM Treasury (2022). The Green Book, chapter on real
-#'   terms and price-base alignment.
+#' @references HM Treasury (2026). The Green Book, chapter 6
+#'   (Shortlist appraisal), section on inflation.
 #'
 #' @family deflator
 #' @seealso [gb_deflator()], [gb_rebase()].
@@ -93,8 +93,8 @@ gb_real <- function(nominal_values, year, base_year, source = "bundled") {
 #'
 #' @return A numeric vector of values in `to`-year real prices.
 #'
-#' @references HM Treasury (2022). The Green Book, chapter on real
-#'   terms and price-base alignment.
+#' @references HM Treasury (2026). The Green Book, chapter 6
+#'   (Shortlist appraisal), section on inflation.
 #'
 #' @family deflator
 #' @seealso [gb_deflator()], [gb_real()].

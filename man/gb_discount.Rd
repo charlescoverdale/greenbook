@@ -25,7 +25,8 @@ Apply discount factors to a stream
 gb_discount(c(0, 100, 100, 100))
 }
 \references{
-HM Treasury (2022). The Green Book, Annex A6.
+HM Treasury (2026). The Green Book, chapter 6
+(Shortlist appraisal), section on discounting.
 }
 \seealso{
 \code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_npv]{gb_npv()}}.

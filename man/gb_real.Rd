@@ -29,8 +29,8 @@ gb_real(nominal_values = c(100, 110, 120),
         base_year = 2024)
 }
 \references{
-HM Treasury (2022). The Green Book, chapter on real
-terms and price-base alignment.
+HM Treasury (2026). The Green Book, chapter 6
+(Shortlist appraisal), section on inflation.
 }
 \seealso{
 \code{\link[=gb_deflator]{gb_deflator()}}, \code{\link[=gb_rebase]{gb_rebase()}}.

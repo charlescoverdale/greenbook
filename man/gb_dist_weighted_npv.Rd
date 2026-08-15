@@ -52,8 +52,8 @@ gb_dist_weighted_npv(
 )
 }
 \references{
-HM Treasury (2022). The Green Book, Annex A3 on
-distributional analysis.
+HM Treasury (2026). The Green Book, chapter 7
+(Distributional analysis and place-based analysis).
 }
 \seealso{
 \code{\link[=gb_dist_weight]{gb_dist_weight()}}, \code{\link[=gb_npv]{gb_npv()}}.

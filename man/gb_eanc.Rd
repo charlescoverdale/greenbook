@@ -28,8 +28,11 @@ app <- gb_npv(c(-100, 30, 30, 30, 30, 30))
 gb_eanc(app)
 }
 \references{
-HM Treasury (2022). The Green Book, Annex A on
-appraisal: equivalent annual cost.
+HM Treasury. Supplementary Green Book Guidance:
+Discounting. Equivalent annual cost does not appear in the main
+text of the 2026 Green Book, which merged most annexes into the
+core chapters.
+\url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
 }
 \seealso{
 \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_appraise]{gb_appraise()}}.

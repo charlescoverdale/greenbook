@@ -44,8 +44,8 @@ benefits <- c(0, 0, 0, 30, 30, 30, 30, 30, 30, 30)
 gb_npv(benefits - costs)
 }
 \references{
-HM Treasury (2022). The Green Book, chapter on appraisal and the
-Annex on discounting.
+HM Treasury (2026). The Green Book, chapter 6 (Shortlist
+appraisal), section on discounting.
 }
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_eanc]{gb_eanc()}}, \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}},

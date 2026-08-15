@@ -21,8 +21,9 @@
 #' one-page table suitable for a Five Case Model economic case.
 #'
 #' @references
-#' HM Treasury (2022). The Green Book: Central Government Guidance
-#' on Appraisal and Evaluation, chapter on options analysis.
+#' HM Treasury (2026). The Green Book: Central Government Guidance
+#' on Appraisal and Evaluation, chapters 5 (Generating options and
+#' longlist appraisal) and 6 (Shortlist appraisal).
 #'
 #' @family appraisal
 #' @seealso [gb_appraise()], [gb_economic_case()].

@@ -44,8 +44,8 @@ income_deciles <- seq(10000, 100000, length.out = 10)
 gb_dist_weight(income_deciles)
 }
 \references{
-HM Treasury (2022). The Green Book, Annex A3 on distributional
-analysis.
+HM Treasury (2026). The Green Book, chapter 7 (Distributional
+analysis and place-based analysis).
 
 Acland, D. and Greenberg, D.H. (2024). The Elasticity of Marginal
 Utility of Income for Distributional Weighting and Social

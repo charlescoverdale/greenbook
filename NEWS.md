@@ -16,6 +16,19 @@
   looks risky would understate the discount rate. Added a `@details`
   note identifying the 0.5 percentage point difference.
 
+* Refreshed every Green Book citation to the 2026 edition (published 5
+  February 2026). The 2026 edition is a substantial restructuring: most
+  annexes were merged into the core chapters, and the only surviving annex
+  is "Annex A: Private finance models". References to "Annex A6"
+  (discounting) and "Annex A3" (distributional analysis) therefore no
+  longer resolve, and "Annex A on appraisal: equivalent annual cost" would
+  now point at private finance models. Each citation was rechecked against
+  the 2026 text rather than having its year swapped: discounting and
+  inflation now sit in chapter 6, distributional analysis in chapter 7, and
+  valuation of social costs and benefits in chapter 8. Equivalent annual
+  cost does not appear in the 2026 main text, so `gb_eanc()` now cites the
+  supplementary discounting guidance.
+
 * Replaced the superseded "HM Treasury (2003). Green Book Supplementary
   Guidance: Discounting" reference in `gb_stpr()` and
   `gb_discount_factor()` with the current supplementary guidance and its

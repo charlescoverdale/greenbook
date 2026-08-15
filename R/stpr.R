@@ -32,8 +32,9 @@
 #' 3.5 percent standard baseline and the 3.0 percent catastrophic one.
 #'
 #' @references
-#' HM Treasury (2022). The Green Book: Central Government Guidance on
-#' Appraisal and Evaluation, Annex A6.
+#' HM Treasury (2026). The Green Book: Central Government Guidance on
+#' Appraisal and Evaluation, chapter 6 (Shortlist appraisal), section
+#' on discounting.
 #'
 #' HM Treasury. Supplementary Green Book Guidance: Discounting.
 #' \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}

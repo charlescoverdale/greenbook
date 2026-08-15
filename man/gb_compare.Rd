@@ -36,8 +36,9 @@ do_max <- gb_appraise(c(150, 0, 0, 0, 0), c(0, 50, 50, 50, 50))
 gb_compare(do_minimum = do_minimum, do_max = do_max)
 }
 \references{
-HM Treasury (2022). The Green Book: Central Government Guidance
-on Appraisal and Evaluation, chapter on options analysis.
+HM Treasury (2026). The Green Book: Central Government Guidance
+on Appraisal and Evaluation, chapters 5 (Generating options and
+longlist appraisal) and 6 (Shortlist appraisal).
 }
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_economic_case]{gb_economic_case()}}.

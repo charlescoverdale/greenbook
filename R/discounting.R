@@ -20,7 +20,8 @@
 #' to machine precision.
 #'
 #' @references
-#' HM Treasury (2022). The Green Book, Annex A6.
+#' HM Treasury (2026). The Green Book, chapter 6 (Shortlist
+#' appraisal), section on discounting.
 #'
 #' HM Treasury. Supplementary Green Book Guidance: Discounting.
 #' \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
@@ -69,7 +70,8 @@ gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
 #' @return A numeric vector of discounted (present-value) cashflows.
 #' @family discounting
 #' @seealso [gb_discount_factor()], [gb_npv()].
-#' @references HM Treasury (2022). The Green Book, Annex A6.
+#' @references HM Treasury (2026). The Green Book, chapter 6
+#'   (Shortlist appraisal), section on discounting.
 #' @export
 #' @examples
 #' gb_discount(c(0, 100, 100, 100))
@@ -104,8 +106,8 @@ gb_discount <- function(values, years = seq_along(values) - 1L, schedule = "stan
 #'   `npv`, `cashflow`, `years`, `pv`, `schedule`, `base_year`, `vintage`.
 #'
 #' @references
-#' HM Treasury (2022). The Green Book, chapter on appraisal and the
-#' Annex on discounting.
+#' HM Treasury (2026). The Green Book, chapter 6 (Shortlist
+#' appraisal), section on discounting.
 #'
 #' @family discounting
 #' @seealso [gb_appraise()], [gb_eanc()], [gb_dist_weighted_npv()],
@@ -153,8 +155,11 @@ gb_npv <- function(cashflow,
 #' @return A numeric scalar: the equivalent annual amount in real
 #'   terms, base year aligned with the input.
 #'
-#' @references HM Treasury (2022). The Green Book, Annex A on
-#'   appraisal: equivalent annual cost.
+#' @references HM Treasury. Supplementary Green Book Guidance:
+#'   Discounting. Equivalent annual cost does not appear in the main
+#'   text of the 2026 Green Book, which merged most annexes into the
+#'   core chapters.
+#'   \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
 #'
 #' @family discounting
 #' @seealso [gb_npv()], [gb_appraise()].

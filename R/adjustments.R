@@ -23,9 +23,9 @@
 #' headline value from 30 percent (2003) to 20 percent (2018) in
 #' light of post-2008 evidence.
 #'
-#' @references HM Treasury (2022). The Green Book: Central Government
-#'   Guidance on Appraisal and Evaluation, chapter on real terms and
-#'   the marginal excess tax burden.
+#' @references HM Treasury (2026). The Green Book: Central Government
+#'   Guidance on Appraisal and Evaluation, chapter 6 (Shortlist
+#'   appraisal), section on the costs of raising public funds.
 #'
 #' @family adjustments
 #' @seealso [gb_appraise()].

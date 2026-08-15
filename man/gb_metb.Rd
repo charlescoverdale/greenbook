@@ -39,9 +39,9 @@ gb_metb(c(100, 200))
 gb_metb(c(100, 200), vintage = "2003")
 }
 \references{
-HM Treasury (2022). The Green Book: Central Government
-Guidance on Appraisal and Evaluation, chapter on real terms and
-the marginal excess tax burden.
+HM Treasury (2026). The Green Book: Central Government
+Guidance on Appraisal and Evaluation, chapter 6 (Shortlist
+appraisal), section on the costs of raising public funds.
 }
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}.
