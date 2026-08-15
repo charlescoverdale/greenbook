@@ -2,15 +2,31 @@
 #'
 #' Uplifts net public expenditure (or revenue raised) to reflect
 #' the welfare cost of distortionary taxation. Default rate is
-#' 20 percent per Green Book 2022 / 2026. The historic value (2003)
-#' was 30 percent.
+#' 20 percent, the value set out in the 2018 and 2022 Green Book
+#' editions. The historic value (2003) was 30 percent.
+#'
+#' @section Status under the 2026 Green Book:
+#' The 2026 Green Book does not specify an uplift, and states that
+#' "Practitioners should not generally include these costs in
+#' appraisal", on the grounds that most proposals are funded from
+#' pre-determined departmental budgets so the cost of raising the funds
+#' does not differ between the options being compared (chapter 6,
+#' "Costs of raising public funds"). The one exception it gives is the
+#' appraisal of private finance model options.
+#'
+#' This function is therefore retained for historic and private-finance
+#' work rather than as a routine step. Applying it to a conventional
+#' 2026-basis appraisal will overstate costs. Requesting
+#' `vintage = "2026"` warns for that reason: the 20 percent figure is
+#' carried forward from 2022, not a value the 2026 edition sets.
 #'
 #' @param values Numeric vector of expenditure values.
 #' @param rate Numeric scalar. METB rate as a decimal. Default
 #'   `0.20`.
 #' @param vintage Optional character. One of `"2003"`, `"2018"`,
 #'   `"2022"`, `"2026"`. If supplied, overrides `rate` with the
-#'   bundled value for that vintage.
+#'   bundled value for that vintage. `"2026"` warns: see the section
+#'   below.
 #'
 #' @return A numeric vector the same length as `values`, with the
 #'   METB uplift applied.
@@ -45,6 +61,17 @@ gb_metb <- function(values, rate = 0.20, vintage = NULL) {
       )
     }
     rate <- metb_tbl$rate[metb_tbl$vintage == vintage]
+
+    if (identical(as.character(vintage), "2026")) {
+      cli::cli_warn(c(
+        "The 2026 Green Book does not set a marginal excess tax burden.",
+        "i" = "It states that the costs of raising public funds should not
+               generally be included in appraisal, the exception being
+               private finance model options (chapter 6).",
+        "i" = "The {.val 0.2} rate returned here is carried forward from the
+               2022 edition."
+      ))
+    }
   }
 
   validate_numeric(rate, "rate")

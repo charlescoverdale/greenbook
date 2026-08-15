@@ -34,6 +34,18 @@
   `gb_discount_factor()` with the current supplementary guidance and its
   gov.uk link.
 
+* `gb_metb()` no longer claims 20 percent as a 2026 Green Book figure. The
+  2026 edition specifies no uplift at all and states that "Practitioners
+  should not generally include these costs in appraisal", because most
+  proposals are funded from pre-determined departmental budgets so the cost
+  of raising the funds does not differ between the options being compared.
+  The one exception it gives is private finance model options. The bundled
+  `metb.csv` note for 2026 previously read "Maintained at 20 percent in
+  Green Book 2026", which was wrong. `vintage = "2026"` now warns that the
+  figure is carried forward from 2022 rather than set by the 2026 edition,
+  and a new documentation section explains when the function still applies.
+  The returned value is unchanged, so existing code keeps working.
+
 No changes to any returned value. The STPR schedule itself is unchanged.
 
 # greenbook 0.1.0

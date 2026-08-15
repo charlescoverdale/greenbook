@@ -14,7 +14,8 @@ gb_metb(values, rate = 0.2, vintage = NULL)
 
 \item{vintage}{Optional character. One of \code{"2003"}, \code{"2018"},
 \code{"2022"}, \code{"2026"}. If supplied, overrides \code{rate} with the
-bundled value for that vintage.}
+bundled value for that vintage. \code{"2026"} warns: see the section
+below.}
 }
 \value{
 A numeric vector the same length as \code{values}, with the
@@ -23,8 +24,8 @@ METB uplift applied.
 \description{
 Uplifts net public expenditure (or revenue raised) to reflect
 the welfare cost of distortionary taxation. Default rate is
-20 percent per Green Book 2022 / 2026. The historic value (2003)
-was 30 percent.
+20 percent, the value set out in the 2018 and 2022 Green Book
+editions. The historic value (2003) was 30 percent.
 }
 \details{
 The METB captures the welfare loss arising from raising one extra
@@ -34,6 +35,23 @@ tax rate, and the distortionary margin. The Green Book reduced the
 headline value from 30 percent (2003) to 20 percent (2018) in
 light of post-2008 evidence.
 }
+\section{Status under the 2026 Green Book}{
+
+The 2026 Green Book does not specify an uplift, and states that
+"Practitioners should not generally include these costs in
+appraisal", on the grounds that most proposals are funded from
+pre-determined departmental budgets so the cost of raising the funds
+does not differ between the options being compared (chapter 6,
+"Costs of raising public funds"). The one exception it gives is the
+appraisal of private finance model options.
+
+This function is therefore retained for historic and private-finance
+work rather than as a routine step. Applying it to a conventional
+2026-basis appraisal will overstate costs. Requesting
+\code{vintage = "2026"} warns for that reason: the 20 percent figure is
+carried forward from 2022, not a value the 2026 edition sets.
+}
+
 \examples{
 gb_metb(c(100, 200))
 gb_metb(c(100, 200), vintage = "2003")

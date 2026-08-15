@@ -12,7 +12,12 @@ test_that("gb_metb vintage lookup returns correct rate", {
   expect_equal(gb_metb(100, vintage = "2003"), 130)
   expect_equal(gb_metb(100, vintage = "2018"), 120)
   expect_equal(gb_metb(100, vintage = "2022"), 120)
-  expect_equal(gb_metb(100, vintage = "2026"), 120)
+  # 2026 still returns the carried-forward 20 percent, but warns that the
+  # 2026 Green Book sets no uplift and says not to include these costs.
+  expect_warning(
+    expect_equal(gb_metb(100, vintage = "2026"), 120),
+    "does not set a marginal excess tax burden"
+  )
 })
 
 test_that("gb_metb vintage overrides explicit rate", {
