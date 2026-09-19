@@ -12,3 +12,4 @@
 ^\.DS_Store$
 ^LICENSE\.md$
 ^CRAN-SUBMISSION$
+^llms-full\.txt$

@@ -1,0 +1,1165 @@
+# greenbook: full API reference
+
+> Implements cost-benefit analysis primitives from HM Treasury Green Book guidance (HM Treasury, 2022, 2026): the kinked Social Time Preference Rate (STPR), discount factors, net present value (NPV),...
+
+- Version: 0.1.1
+- Install: `install.packages("greenbook")`
+- CRAN: https://CRAN.R-project.org/package=greenbook
+- GitHub: https://github.com/charlescoverdale/greenbook
+
+This file is a self-contained reference for LLM agents: every exported
+function with its signature, arguments, return value, and example.
+
+---
+
+## `gb_apply_ob()`
+
+**Apply an optimism bias uplift to a cost stream**
+
+Applies an OB uplift, optionally with a mitigation factor that represents progress on risk identification and management: `cost_with_ob = cost_baseline * (1 + ob_pct * (1 - mitigation))`.
+
+**Usage**
+
+```r
+gb_apply_ob(values, ob_pct, mitigation = 0)
+```
+
+**Arguments**
+
+- `values`: Numeric vector of baseline cost values.
+- `ob_pct`: Numeric scalar. Optimism bias percentage as a decimal. Pass `gb_optimism_bias(category)` to use the published upper bound.
+- `mitigation`: Numeric scalar in [0, 1]. Fraction of the upper bound that has been mitigated through project definition and risk management. Default `0` (no mitigation; full upper bound applied).
+
+**Returns**
+
+A numeric vector the same length as `values`, with the uplift applied.
+
+**Example**
+
+```r
+costs <- c(100, 50, 50)
+ob <- gb_optimism_bias("non_standard_buildings")
+gb_apply_ob(costs, ob)
+gb_apply_ob(costs, ob, mitigation = 0.5)
+```
+
+---
+
+## `gb_appraise()`
+
+**Full Green Book appraisal in one call**
+
+Runs an end-to-end appraisal: optionally applies optimism bias to costs, optionally applies METB, computes NPV under the kinked STPR, and returns BCR alongside provenance.
+
+**Usage**
+
+```r
+gb_appraise(
+  costs,
+  benefits,
+  years = NULL,
+  schedule = "standard",
+  ob = NULL,
+  ob_dimension = "capex",
+  ob_mitigation = 0,
+  metb = FALSE,
+  metb_rate = 0.2,
+  base_year = NULL,
+  vintage = "2022"
+)
+```
+
+**Arguments**
+
+- `costs`: Numeric vector of cost values per period (real terms, base year fixed). Sign convention: enter as positive numbers; `gb_appraise()` handles the netting.
+- `benefits`: Numeric vector of benefit values per period. Same length as `costs`.
+- `years`: Optional integer vector of years. Defaults to `0:(length(costs) - 1)`.
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `ob`: Optional. Either a category name (character) or a numeric percentage. If supplied, optimism bias uplift is applied to `costs`.
+- `ob_dimension`: One of `"capex"` (default) or `"duration"`. Only used when `ob` is a category name.
+- `ob_mitigation`: Numeric in [0, 1]. Mitigation fraction.
+- `metb`: Logical. If `TRUE`, applies METB uplift to costs.
+- `metb_rate`: Numeric. METB rate when `metb = TRUE`. Default `0.20` per Green Book 2022.
+- `base_year`: Optional integer base year.
+- `vintage`: Methodology vintage label. Default `"2022"`.
+
+**Returns**
+
+A `gb_appraisal` object with extra fields `bcr`, `pv_costs`, `pv_benefits`, `costs`, `benefits`, `optimism_bias`, `metb_applied`.
+
+**Example**
+
+```r
+costs <- c(100, 50, 50, 0, 0, 0, 0, 0, 0, 0)
+benefits <- c(0, 0, 0, 30, 30, 30, 30, 30, 30, 30)
+app <- gb_appraise(costs, benefits, ob = "non_standard_buildings",
+                   ob_mitigation = 0.5, base_year = 2024)
+app
+```
+
+---
+
+## `gb_carbon_npv()`
+
+**Net present value of an emissions path**
+
+Multiplies an emissions vector (tCO2e per year) by the DESNZ carbon value at each year, then discounts under the kinked STPR. Returns a `gb_appraisal` object.
+
+**Usage**
+
+```r
+gb_carbon_npv(
+  emissions,
+  years,
+  scenario = "central",
+  schedule = "standard",
+  base_year = NULL,
+  sign = "cost"
+)
+```
+
+**Arguments**
+
+- `emissions`: Numeric vector of emissions per year, in tCO2e (positive = emitted, negative = avoided / abated).
+- `years`: Integer vector of years matching `emissions`.
+- `scenario`: One of `"low"`, `"central"` (default), `"high"`.
+- `schedule`: One of `"standard"` (default), `"health"`, `"catastrophic"`.
+- `base_year`: Optional integer base year for monetary values (e.g. `2024`). If supplied, carbon values are rebased via `gb_deflator()`.
+- `sign`: Character. `"cost"` (default) treats positive `emissions` as a cost (negative cashflow); `"benefit"` treats positive as avoided emissions (positive cashflow).
+
+**Returns**
+
+A `gb_appraisal` object.
+
+**Example**
+
+```r
+# 100 tCO2e emitted each year from 2024 to 2030
+emissions <- rep(100, 7)
+years <- 2024:2030
+gb_carbon_npv(emissions, years, base_year = 2024)
+```
+
+---
+
+## `gb_carbon_value()`
+
+**DESNZ carbon value for appraisal**
+
+Returns the DESNZ Carbon Value for Appraisal in GBP per tonne of CO2-equivalent at the published 2022 base-year prices, from the November 2023 valuation. Three scenarios: low, central, high.
+
+**Usage**
+
+```r
+gb_carbon_value(year, scenario = "central", base_year = NULL)
+```
+
+**Arguments**
+
+- `year`: Integer scalar or vector. Year of the emission. Must be within the bundled DESNZ range.
+- `scenario`: One of `"low"`, `"central"` (default), `"high"`.
+- `base_year`: Optional integer to rebase the value via `gb_deflator()`. If `NULL`, the published 2022 base year is used.
+
+**Returns**
+
+Numeric vector of GBP per tCO2e values.
+
+**Example**
+
+```r
+gb_carbon_value(2024)
+gb_carbon_value(2020:2030)
+gb_carbon_value(2030, scenario = "high")
+```
+
+---
+
+## `gb_categories()`
+
+**Available optimism bias categories**
+
+Returns the bundled OB category lookup as a data frame.
+
+**Usage**
+
+```r
+gb_categories()
+```
+
+**Returns**
+
+A data frame with columns `category`, `description`, `capex_upper`, `duration_upper`.
+
+**Example**
+
+```r
+gb_categories()
+```
+
+---
+
+## `gb_compare()`
+
+**Compare multiple appraisal options**
+
+Builds a side-by-side comparison of two or more `gb_appraisal` objects. Returns a `gb_comparison` with a ranked summary table and the preferred option under both NPV and BCR criteria.
+
+**Usage**
+
+```r
+gb_compare(..., by = "npv")
+```
+
+**Arguments**
+
+- `...`: `gb_appraisal` objects to compare. Pass as named arguments to control labels (e.g. `do_minimum = app1`).
+- `by`: Character. Ranking criterion: one of `"npv"` (default) or `"bcr"`.
+
+**Returns**
+
+A `gb_comparison` object: a list with class `c("gb_comparison", "list")` and elements `options`, `summary_table`, `preferred_npv`, `preferred_bcr`, `by`.
+
+**Example**
+
+```r
+do_minimum <- gb_appraise(c(50, 0, 0, 0, 0), c(0, 20, 20, 20, 20))
+do_max <- gb_appraise(c(150, 0, 0, 0, 0), c(0, 50, 50, 50, 50))
+gb_compare(do_minimum = do_minimum, do_max = do_max)
+```
+
+---
+
+## `gb_cost_per_unit()`
+
+**Cost per unit delivered**
+
+Computes a cost-effectiveness ratio: total real cost (PV) per unit of monetised or non-monetised output. Standard cross-scheme comparator used by HM Treasury reviewers.
+
+**Usage**
+
+```r
+gb_cost_per_unit(appraisal, units_delivered, unit = "unit")
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+- `units_delivered`: Numeric scalar. The total quantity of the output being delivered (e.g. QALYs gained, tCO2e abated, WELLBYs added, jobs created).
+- `unit`: Character. Label for the unit (used in print).
+
+**Returns**
+
+Numeric scalar: PV cost / units delivered, in GBP per unit.
+
+**Example**
+
+```r
+app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 0, 0, 0, 0))
+gb_cost_per_unit(app, units_delivered = 50, unit = "QALY")
+```
+
+---
+
+## `gb_data_versions()`
+
+**Vintage of bundled parameter tables**
+
+Returns a data frame describing the source and last-updated date of every CSV bundled in inst/extdata/. Critical for reproducibility: every appraisal can record which vintage of Green Book parameters it used.
+
+**Usage**
+
+```r
+gb_data_versions()
+```
+
+**Returns**
+
+A data frame with columns `dataset`, `source`, `last_updated`, `notes`.
+
+**Example**
+
+```r
+gb_data_versions()
+```
+
+---
+
+## `gb_deflator()`
+
+**GDP deflator factor between two years**
+
+Returns the multiplicative factor to convert a value expressed in year `from` prices to year `to` prices, using the bundled UK GDP deflator at market prices (ONS series). Multiply a nominal value from year `from` by this factor to express it in year `to`.
+
+**Usage**
+
+```r
+gb_deflator(from, to, source = "bundled")
+```
+
+**Arguments**
+
+- `from`: Integer year of the input value.
+- `to`: Integer year to express the value in.
+- `source`: Character. `"bundled"` uses the CSV shipped in inst/extdata/. Future versions will accept `"inflateR"` to use the live ONS series via the `inflateR` package.
+
+**Returns**
+
+A numeric scalar: the deflator factor.
+
+**Example**
+
+```r
+gb_deflator(from = 2020, to = 2024)
+```
+
+---
+
+## `gb_discount()`
+
+**Apply discount factors to a stream**
+
+Apply discount factors to a stream
+
+**Usage**
+
+```r
+gb_discount(values, years = seq_along(values) - 1L, schedule = "standard")
+```
+
+**Arguments**
+
+- `values`: Numeric vector of cashflow values (real terms, base year fixed).
+- `years`: Integer vector of years from the base year. Defaults to 0, 1, 2, ....
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+
+**Returns**
+
+A numeric vector of discounted (present-value) cashflows.
+
+**Example**
+
+```r
+gb_discount(c(0, 100, 100, 100))
+```
+
+---
+
+## `gb_discount_factor()`
+
+**Discount factor under the kinked STPR**
+
+Returns the present-value discount factor for each year, applying the kinked Social Time Preference Rate schedule annually.
+
+**Usage**
+
+```r
+gb_discount_factor(years, schedule = "standard", base_year = 0L)
+```
+
+**Arguments**
+
+- `years`: Integer vector of years from the base year. Must be >= base_year.
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `base_year`: Integer base year offset. Default `0`.
+
+**Returns**
+
+A numeric vector of discount factors. `1` for `years == base_year`.
+
+**Example**
+
+```r
+gb_discount_factor(0:5)
+gb_discount_factor(c(0, 30, 31, 75, 76))
+```
+
+---
+
+## `gb_dist_weight()`
+
+**Distributional weight for a recipient income**
+
+Returns the Green Book distributional weight applied to net benefits accruing to a recipient at income `income`, relative to a reference income (median by default), under iso-elastic utility:
+
+**Usage**
+
+```r
+gb_dist_weight(income, eta = 1.3, reference = "median", income_data = NULL)
+```
+
+**Arguments**
+
+- `income`: Numeric vector of recipient incomes (positive). Equivalised household disposable income is the conventional measure.
+- `eta`: Numeric scalar. Income elasticity of marginal utility of income. Default `1.3`.
+- `reference`: Either `"median"` (default; use median of `income` or `income_data` if supplied) or a numeric scalar (use that income as reference).
+- `income_data`: Optional numeric vector. Reference income distribution for computing the median. Use, e.g., the ONS household disposable income distribution. If `NULL` (default), the median of `income` is used.
+
+**Returns**
+
+A numeric vector of weights, same length as `income`.
+
+**Example**
+
+```r
+# Weights across deciles of a stylised income distribution
+income_deciles <- seq(10000, 100000, length.out = 10)
+gb_dist_weight(income_deciles)
+```
+
+---
+
+## `gb_dist_weighted_npv()`
+
+**Distributionally-weighted net present value**
+
+Applies recipient-income distributional weights to a cashflow before discounting under the STPR.
+
+**Usage**
+
+```r
+gb_dist_weighted_npv(
+  cashflow,
+  recipient_income,
+  eta = 1.3,
+  schedule = "standard",
+  reference = "median",
+  income_data = NULL,
+  vintage = "2022",
+  base_year = NULL
+)
+```
+
+**Arguments**
+
+- `cashflow`: Numeric vector of net cashflows (per period).
+- `recipient_income`: Numeric vector. The income of the recipient (or representative recipient cell) in each period. Must have the same length as `cashflow`.
+- `eta`: Numeric scalar. Default `1.3`.
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `reference`: Reference income strategy passed to `gb_dist_weight()`.
+- `income_data`: Optional reference income distribution.
+- `vintage`: Methodology vintage label. Default `"2022"`.
+- `base_year`: Optional integer base year stored on the result.
+
+**Returns**
+
+A `gb_appraisal` object with extra fields `weights`, `eta`, and `unweighted_npv`.
+
+**Example**
+
+```r
+# 5-year benefit stream of GBP 30 going to a low-decile recipient
+gb_dist_weighted_npv(
+  cashflow = rep(30, 5),
+  recipient_income = rep(15000, 5),
+  income_data = seq(10000, 100000, length.out = 10)
+)
+```
+
+---
+
+## `gb_eanc()`
+
+**Equivalent annual net cost (or benefit)**
+
+Converts a present value to an annualised equivalent over a fixed horizon under the STPR. Used to compare options of different durations.
+
+**Usage**
+
+```r
+gb_eanc(npv, years, schedule = "standard")
+```
+
+**Arguments**
+
+- `npv`: Either a numeric scalar NPV, or a `gb_appraisal` object.
+- `years`: Project horizon in years. If `npv` is a `gb_appraisal` and `years` is missing, `length(npv$cashflow) - 1L` is used.
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+
+**Returns**
+
+A numeric scalar: the equivalent annual amount in real terms, base year aligned with the input.
+
+**Example**
+
+```r
+app <- gb_npv(c(-100, 30, 30, 30, 30, 30))
+gb_eanc(app)
+```
+
+---
+
+## `gb_economic_case()`
+
+**Render an appraisal as a Five Case Model economic case**
+
+Wraps a `gb_appraisal` with the structural sections HMT business case guidance expects in the Economic Case (the second of the five cases in the Five Case Model: Strategic, Economic, Commercial, Financial, Management).
+
+**Usage**
+
+```r
+gb_economic_case(
+  appraisal,
+  critical_success_factors = NULL,
+  options_considered = NULL,
+  non_monetised_impacts = NULL,
+  recommendation = NULL,
+  vfm_statement = NULL
+)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` (typically from `gb_appraise()` or `gb_compare()`).
+- `critical_success_factors`: Character vector of CSFs.
+- `options_considered`: Character vector of long-listed option names.
+- `non_monetised_impacts`: Optional data frame with columns `impact`, `direction` (`"+"`/`"-"`), `materiality` (`"H"`/`"M"`/`"L"`), `notes`.
+- `recommendation`: Optional character: the preferred option and rationale.
+- `vfm_statement`: Optional character: the value-for-money judgment.
+
+**Returns**
+
+A `gb_economic_case` object.
+
+**Example**
+
+```r
+app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+gb_economic_case(
+  app,
+  critical_success_factors = c("Strategic fit", "Value for money", "Achievability"),
+  options_considered = c("Do nothing", "Do minimum", "Do maximum"),
+  recommendation = "Do maximum: positive NPV and BCR > 1.5"
+)
+```
+
+---
+
+## `gb_headline()`
+
+**One-page headline summary of an appraisal**
+
+Returns the headline numbers a Green Book reviewer or steering committee expects: NPV, BCR, EANC, payback period, optimism bias applied, vintage. Suitable for a slide or executive summary.
+
+**Usage**
+
+```r
+gb_headline(appraisal)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+
+**Returns**
+
+A `gb_headline` object with elements `npv`, `bcr`, `eanc`, `payback_year`, `optimism_bias`, `metb_applied`, `vintage`, `base_year`, `horizon`.
+
+**Example**
+
+```r
+app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+gb_headline(app)
+```
+
+---
+
+## `gb_metb()`
+
+**Apply Marginal Excess Tax Burden to public expenditure**
+
+Uplifts net public expenditure (or revenue raised) to reflect the welfare cost of distortionary taxation. Default rate is 20 percent, the value set out in the 2018 and 2022 Green Book editions. The historic value (2003) was 30 percent.
+
+**Usage**
+
+```r
+gb_metb(values, rate = 0.2, vintage = NULL)
+```
+
+**Arguments**
+
+- `values`: Numeric vector of expenditure values.
+- `rate`: Numeric scalar. METB rate as a decimal. Default `0.20`.
+- `vintage`: Optional character. One of `"2003"`, `"2018"`, `"2022"`, `"2026"`. If supplied, overrides `rate` with the bundled value for that vintage. `"2026"` warns: see the section below.
+
+**Returns**
+
+A numeric vector the same length as `values`, with the METB uplift applied.
+
+**Example**
+
+```r
+gb_metb(c(100, 200))
+gb_metb(c(100, 200), vintage = "2003")
+```
+
+---
+
+## `gb_npv()`
+
+**Net present value**
+
+Computes the net present value of a cashflow stream under the Green Book STPR. Returns a `gb_appraisal` object carrying the NPV, the input cashflow, the discount factors, the schedule used, and methodology vintage.
+
+**Usage**
+
+```r
+gb_npv(
+  cashflow,
+  years = NULL,
+  schedule = "standard",
+  base_year = NULL,
+  vintage = "2022"
+)
+```
+
+**Arguments**
+
+- `cashflow`: Numeric vector of net cashflows in real terms (one value per year).
+- `years`: Integer vector of years matching `cashflow`. Defaults to 0, 1, ..., length(cashflow) - 1.
+- `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `base_year`: Optional integer recording the price base year for the cashflow (e.g. `2024`). Stored on the returned object.
+- `vintage`: Character. Methodology vintage label. Defaults to `"2022"`.
+
+**Returns**
+
+A `gb_appraisal` object: a list with class `c("gb_appraisal", "list")` and elements `npv`, `cashflow`, `years`, `pv`, `schedule`, `base_year`, `vintage`.
+
+**Example**
+
+```r
+costs    <- c(100, 50, 50, 0, 0, 0, 0, 0, 0, 0)
+benefits <- c(0, 0, 0, 30, 30, 30, 30, 30, 30, 30)
+gb_npv(benefits - costs)
+```
+
+---
+
+## `gb_optimism_bias()`
+
+**Optimism bias upper bound for a project category**
+
+Returns the indicative upper-bound optimism bias percentage from HM Treasury Supplementary Green Book Guidance: Optimism Bias (Mott MacDonald 2002, Annex A1). The upper bound is the starting value for ex-ante uplift; mitigation factors reduce it as project definition matures through SOC, OBC, and FBC stages.
+
+**Usage**
+
+```r
+gb_optimism_bias(category, dimension = "capex")
+```
+
+**Arguments**
+
+- `category`: Character. One of `"standard_buildings"`, `"non_standard_buildings"`, `"standard_civil_engineering"`, `"non_standard_civil_engineering"`, `"equipment_development"`, `"outsourcing"`.
+- `dimension`: Character. `"capex"` (default) for capital expenditure uplift, or `"duration"` for works-duration uplift.
+
+**Returns**
+
+Numeric scalar: the upper-bound percentage as a decimal (e.g. 0.51 for 51 percent).
+
+**Example**
+
+```r
+gb_optimism_bias("non_standard_buildings")
+gb_optimism_bias("standard_civil_engineering", dimension = "duration")
+```
+
+---
+
+## `gb_place_based()`
+
+**Aggregate sub-projects into a place-based business case**
+
+Combines multiple `gb_appraisal` objects into a single portfolio appraisal. Introduced in the 2026 Green Book as a recognised business case structure for places (city deals, devolved settlements, regional packages) where individual projects are interdependent.
+
+**Usage**
+
+```r
+gb_place_based(..., place = NULL, synergy = 0)
+```
+
+**Arguments**
+
+- `...`: `gb_appraisal` objects representing sub-projects. Pass as named arguments to label each.
+- `place`: Character scalar. Place name (e.g. `"Greater Manchester"`). Optional.
+- `synergy`: Numeric scalar in [-0.5, 0.5]. Optional uplift applied to aggregate benefits to capture cross-project synergy or drag. Default `0` (additive aggregation).
+
+**Returns**
+
+A `gb_place_based` object with elements `projects`, `place`, `aggregate_npv`, `aggregate_bcr`, `per_project`, `synergy`.
+
+**Example**
+
+```r
+transport <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+housing <- gb_appraise(c(50, 0, 0, 0, 0), c(0, 20, 20, 20, 20))
+skills <- gb_appraise(c(20, 20, 0, 0, 0), c(0, 0, 15, 15, 15))
+gb_place_based(transport = transport, housing = housing,
+               skills = skills, place = "Example City")
+```
+
+---
+
+## `gb_progression()`
+
+**Track an appraisal across SOC, OBC, and FBC stages**
+
+Builds a `gb_progression` showing how NPV, BCR, and key parameters evolve across the three Green Book business case stages: Strategic Outline Case (SOC), Outline Business Case (OBC), and Full Business Case (FBC). Useful for both authoring a multi-stage appraisal and reviewing how figures have moved between gateway approvals.
+
+**Usage**
+
+```r
+gb_progression(soc, obc = NULL, fbc = NULL)
+```
+
+**Arguments**
+
+- `soc`: Strategic Outline Case `gb_appraisal`.
+- `obc`: Outline Business Case `gb_appraisal`. Optional.
+- `fbc`: Full Business Case `gb_appraisal`. Optional.
+
+**Returns**
+
+A `gb_progression` object with elements `stages`, `evolution` (data frame), `delta_npv`, `delta_costs`.
+
+**Example**
+
+```r
+soc <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30),
+                   ob = "non_standard_buildings", ob_mitigation = 0)
+obc <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30),
+                   ob = "non_standard_buildings", ob_mitigation = 0.5)
+fbc <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30),
+                   ob = "non_standard_buildings", ob_mitigation = 0.9)
+gb_progression(soc, obc, fbc)
+```
+
+---
+
+## `gb_qaly()`
+
+**Value of a Quality-Adjusted Life Year**
+
+Returns the QALY value in GBP at the published base year. The DHSC supplementary Green Book guidance specifies GBP 70,000 per QALY in 2024 prices for cross-government appraisal. NICE Health Technology Assessment uses lower thresholds (GBP 20,000 to GBP 30,000 per QALY).
+
+**Usage**
+
+```r
+gb_qaly(qalys, scenario = "dhsc", base_year = NULL)
+```
+
+**Arguments**
+
+- `qalys`: Numeric scalar or vector. Quality-Adjusted Life Years gained or lost.
+- `scenario`: One of `"dhsc"` (default, GBP 70k 2024 prices, cross-government), `"nice_lower"` (GBP 20k), `"nice_upper"` (GBP 30k).
+- `base_year`: Optional integer base year. If `NULL`, the published base year for the chosen scenario is used.
+
+**Returns**
+
+A numeric scalar or vector: monetised value in GBP.
+
+**Example**
+
+```r
+gb_qaly(1)
+gb_qaly(1, scenario = "nice_upper")
+```
+
+---
+
+## `gb_real()`
+
+**Convert nominal values to real**
+
+Converts nominal values at year-of-occurrence prices to real values at a chosen base year, using the bundled GDP deflator.
+
+**Usage**
+
+```r
+gb_real(nominal_values, year, base_year, source = "bundled")
+```
+
+**Arguments**
+
+- `nominal_values`: Numeric vector of nominal values.
+- `year`: Integer scalar or vector matching `nominal_values`, giving the year at which each value is expressed in nominal terms.
+- `base_year`: Integer scalar: the base year to convert to.
+- `source`: Character. `"bundled"` only in v0.1.0.
+
+**Returns**
+
+A numeric vector of real values, in `base_year` prices.
+
+**Example**
+
+```r
+gb_real(nominal_values = c(100, 110, 120),
+        year = 2020:2022,
+        base_year = 2024)
+```
+
+---
+
+## `gb_rebase()`
+
+**Rebase a real-terms series to a different base year**
+
+Multiplies values currently in `from`-year real prices by the deflator factor to express them in `to`-year real prices.
+
+**Usage**
+
+```r
+gb_rebase(values, from, to)
+```
+
+**Arguments**
+
+- `values`: Numeric vector of real-terms values.
+- `from`: Integer base year of the input series.
+- `to`: Integer target base year.
+
+**Returns**
+
+A numeric vector of values in `to`-year real prices.
+
+**Example**
+
+```r
+gb_rebase(c(100, 200, 300), from = 2020, to = 2024)
+```
+
+---
+
+## `gb_risk_register()`
+
+**Build a risk register with monetised exposure**
+
+Creates a `gb_risk_register` from a data frame of project risks. Computes expected loss per risk (probability times impact) and aggregate exposure. Optionally applied to a `gb_appraisal` to produce a risk-adjusted NPV.
+
+**Usage**
+
+```r
+gb_risk_register(risks, appraisal = NULL)
+```
+
+**Arguments**
+
+- `risks`: A data frame with columns `id`, `description`, `probability` (numeric in [0, 1]), `impact_gbp` (numeric). Optional columns: `category`, `mitigation` (character).
+- `appraisal`: Optional `gb_appraisal`. If supplied, returns a risk-adjusted NPV: `appraisal$npv - sum(probability * impact)`.
+
+**Returns**
+
+A `gb_risk_register` object.
+
+**Example**
+
+```r
+risks <- data.frame(
+  id = c("R1", "R2", "R3"),
+  description = c("Planning delay", "Cost overrun", "Lower demand"),
+  category = c("schedule", "cost", "demand"),
+  probability = c(0.30, 0.50, 0.20),
+  impact_gbp = c(2e6, 5e6, 10e6)
+)
+gb_risk_register(risks)
+```
+
+---
+
+## `gb_schedule_table()`
+
+**Tibble of the STPR schedule**
+
+Returns the bundled STPR kinked schedule as a data frame: one row per band, columns `year_from`, `year_to`, and (depending on `schedule`) either all three rate variants or just the requested one.
+
+**Usage**
+
+```r
+gb_schedule_table(schedule = NULL)
+```
+
+**Arguments**
+
+- `schedule`: Optional. One of `"standard"`, `"health"`, `"catastrophic"`. If `NULL` (default), all three columns are returned.
+
+**Returns**
+
+A data frame.
+
+**Example**
+
+```r
+gb_schedule_table()
+gb_schedule_table("health")
+```
+
+---
+
+## `gb_sensitivity_ob()`
+
+**Optimism bias sensitivity sweep**
+
+Recomputes an appraisal across a vector of optimism bias mitigation factors. Convenience wrapper for the standard HMT OB sensitivity test required at SOC, OBC, and FBC stages.
+
+**Usage**
+
+```r
+gb_sensitivity_ob(
+  costs,
+  benefits,
+  ob,
+  mitigations = c(0, 0.25, 0.5, 0.75, 1),
+  ...
+)
+```
+
+**Arguments**
+
+- `costs`: Numeric vector of cost values.
+- `benefits`: Numeric vector of benefit values.
+- `ob`: Either a category name or a numeric OB percentage.
+- `mitigations`: Numeric vector in [0, 1]. Mitigation fractions to test. Default `c(0, 0.25, 0.5, 0.75, 1.0)`.
+- `...`: Passed to `gb_appraise()`.
+
+**Returns**
+
+A `gb_sensitivity_ob` object: a list with elements `mitigations`, `npv`, `bcr`, `costs_pv`.
+
+**Example**
+
+```r
+costs <- c(100, 50, 50, 0, 0, 0, 0, 0, 0, 0)
+benefits <- c(0, 0, 0, 30, 30, 30, 30, 30, 30, 30)
+gb_sensitivity_ob(costs, benefits, ob = "non_standard_buildings")
+```
+
+---
+
+## `gb_stpr()`
+
+**Social Time Preference Rate**
+
+Returns the HM Treasury Green Book Social Time Preference Rate (STPR) for a vector of years from a base year. The schedule is kinked: the rate steps down at 30, 75, 125, 200, and 300 years. Three variants are supported.
+
+**Usage**
+
+```r
+gb_stpr(years, schedule = "standard")
+```
+
+**Arguments**
+
+- `years`: Integer vector of years from the base year (year 0 is the base year). Must be non-negative.
+- `schedule`: One of `"standard"` (default, 3.5 percent baseline), `"health"` (1.5 percent baseline, used in DHSC supplementary guidance), or `"catastrophic"` (3.0 percent baseline: the standard schedule with the catastrophic-risk element of pure time preference excluded). Use `"catastrophic"` when the appraisal already models catastrophic risk explicitly, so that the risk is not counted twice, once in the cashflows and again in the discount rate. It is not the schedule to reach for because a project is unusually risky.
+
+**Returns**
+
+A numeric vector of discount rates (decimals, e.g. 0.035 for 3.5 percent), one per element of `years`.
+
+**Example**
+
+```r
+gb_stpr(0:5)
+gb_stpr(c(10, 30, 31, 75, 76))
+gb_stpr(c(10, 30, 31, 75, 76), schedule = "health")
+```
+
+---
+
+## `gb_to_excel()`
+
+**Export an appraisal to Excel**
+
+Writes a multi-sheet workbook: summary, cashflow, present values, provenance.
+
+**Usage**
+
+```r
+gb_to_excel(appraisal, file)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+- `file`: Output file path (must end in `.xlsx`).
+
+**Returns**
+
+Invisibly, the file path.
+
+**Example**
+
+```r
+if (requireNamespace("openxlsx", quietly = TRUE)) {
+  app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+  tmp <- tempfile(fileext = ".xlsx")
+  gb_to_excel(app, tmp)
+}
+```
+
+---
+
+## `gb_to_latex()`
+
+**Render an appraisal as a LaTeX table**
+
+Render an appraisal as a LaTeX table
+
+**Usage**
+
+```r
+gb_to_latex(appraisal, caption = NULL, label = NULL)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+- `caption`: Optional table caption.
+- `label`: Optional LaTeX label for cross-referencing.
+
+**Returns**
+
+A character scalar containing a LaTeX `tabular` environment. Wrap in \\begin{table}...\\end{table} for a floating table.
+
+**Example**
+
+```r
+app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+cat(gb_to_latex(app, caption = "Worked example"))
+```
+
+---
+
+## `gb_to_word()`
+
+**Export an appraisal to Word**
+
+Writes a one-page Word document with the appraisal headline and cashflow table.
+
+**Usage**
+
+```r
+gb_to_word(appraisal, file)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+- `file`: Output file path (must end in `.docx`).
+
+**Returns**
+
+Invisibly, the file path.
+
+**Example**
+
+```r
+if (requireNamespace("officer", quietly = TRUE) &&
+    requireNamespace("flextable", quietly = TRUE)) {
+  app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+  tmp <- tempfile(fileext = ".docx")
+  gb_to_word(app, tmp)
+}
+```
+
+---
+
+## `gb_validate()`
+
+**Lint a Green Book appraisal for common errors**
+
+Inspects a `gb_appraisal` for sign-convention errors, base-year alignment, schedule plausibility, and other common authoring mistakes. Returns a structured report classifying each check as pass, warning, or error.
+
+**Usage**
+
+```r
+gb_validate(appraisal)
+```
+
+**Arguments**
+
+- `appraisal`: A `gb_appraisal` object.
+
+**Returns**
+
+A `gb_validation` object with elements `pass`, `errors`, `warnings`, `info`, and `n_checks`.
+
+**Example**
+
+```r
+app <- gb_appraise(c(100, 0, 0, 0, 0), c(0, 30, 30, 30, 30))
+gb_validate(app)
+```
+
+---
+
+## `gb_vpf()`
+
+**Value of Preventing a Fatality**
+
+Returns the DfT TAG-published Value of Preventing a Fatality (VPF) in real terms for a given year. The published 2024 value is GBP 2.153 million; the historical 2018 value (DfT TAG) is GBP 1.958 million. Years between bundled publication dates are filled by an annual real uplift of approximately 2 percent (proxy for real GDP per head growth).
+
+**Usage**
+
+```r
+gb_vpf(year = 2024, series = "central")
+```
+
+**Arguments**
+
+- `year`: Integer scalar. The year in which the value is expressed. Default `2024` (the most recent DfT-published value).
+- `series`: Character. `"central"` (default). Reserved for future expansion (DfT cancer / aversion multipliers).
+
+**Returns**
+
+Numeric scalar: the VPF in GBP at year `year` prices.
+
+**Example**
+
+```r
+gb_vpf()
+gb_vpf(2018)
+```
+
+---
+
+## `gb_wellby()`
+
+**Wellbeing valuation in GBP (WELLBY)**
+
+Monetises a life-satisfaction change as Well-being Adjusted Life Years (WELLBYs) per HMT Wellbeing Guidance for Appraisal (July 2021). One WELLBY equals a one-point change in life satisfaction on a 0 to 10 scale, for one person, for one year. The central published unit value is GBP 13,000 in 2019 prices, with a low-high sensitivity of GBP 10,000 to GBP 16,000.
+
+**Usage**
+
+```r
+gb_wellby(
+  life_satisfaction_change,
+  persons,
+  years = 1,
+  base_year = NULL,
+  scenario = "central"
+)
+```
+
+**Arguments**
+
+- `life_satisfaction_change`: Numeric scalar or vector. Change in life satisfaction on the 0 to 10 scale (signed; can be positive or negative).
+- `persons`: Number of people experiencing the change.
+- `years`: Duration in years. Default `1`.
+- `base_year`: Optional integer base year to express the monetary value in. If `NULL` (default), the published 2019 price is returned. Otherwise the value is uplifted via `gb_deflator()` to `base_year` prices.
+- `scenario`: One of `"low"`, `"central"` (default), `"high"`.
+
+**Returns**
+
+A numeric scalar or vector: the WELLBY value in GBP at the requested base year.
+
+**Example**
+
+```r
+# 1-point lift in life satisfaction for 100 people for 5 years
+gb_wellby(1, persons = 100, years = 5)
+gb_wellby(1, persons = 100, years = 5, scenario = "low")
+# Express in 2024 prices
+gb_wellby(1, persons = 100, years = 5, base_year = 2024)
+```
+
+---
+
