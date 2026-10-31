@@ -7,7 +7,10 @@
 #'
 #' @param schedule Optional. One of `"standard"`, `"health"`,
 #'   `"catastrophic"`. If `NULL` (default), all three columns are
-#'   returned.
+#'   returned. The `"2026-10"` vintage has only `"standard"`; its other
+#'   two columns are `NA`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   See [gb_stpr()].
 #'
 #' @return A data frame.
 #'
@@ -17,11 +20,15 @@
 #' @export
 #' @examples
 #' gb_schedule_table()
-#' gb_schedule_table("health")
-gb_schedule_table <- function(schedule = NULL) {
+#' gb_schedule_table("health", vintage = "2003")
+gb_schedule_table <- function(schedule = NULL, vintage = "2026-10") {
+  vintage <- .stpr_vintage(vintage)
   tbl <- .read_stpr()
+  tbl <- tbl[tbl$vintage == vintage, setdiff(names(tbl), "vintage")]
+  rownames(tbl) <- NULL
   if (!is.null(schedule)) {
     schedule <- match.arg(schedule, c("standard", "health", "catastrophic"))
+    .check_schedule_vintage(schedule, vintage)
     tbl <- tbl[, c("year_from", "year_to", schedule)]
     names(tbl)[3] <- "rate"
   }

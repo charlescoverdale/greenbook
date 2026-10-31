@@ -31,10 +31,10 @@ gb_cost_per_unit(app, units_delivered = 50, unit = "QALY")
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}.
 
-Other reporting: 
-\code{\link{gb_headline}()},
-\code{\link{gb_to_excel}()},
-\code{\link{gb_to_latex}()},
-\code{\link{gb_to_word}()}
+Other reporting:
+\code{\link[=gb_headline]{gb_headline()}},
+\code{\link[=gb_to_excel]{gb_to_excel()}},
+\code{\link[=gb_to_latex]{gb_to_latex()}},
+\code{\link[=gb_to_word]{gb_to_word()}}
 }
 \concept{reporting}

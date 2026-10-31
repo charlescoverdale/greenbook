@@ -28,10 +28,10 @@ cat(gb_to_latex(app, caption = "Worked example"))
 \seealso{
 \code{\link[=gb_to_excel]{gb_to_excel()}}.
 
-Other reporting: 
-\code{\link{gb_cost_per_unit}()},
-\code{\link{gb_headline}()},
-\code{\link{gb_to_excel}()},
-\code{\link{gb_to_word}()}
+Other reporting:
+\code{\link[=gb_cost_per_unit]{gb_cost_per_unit()}},
+\code{\link[=gb_headline]{gb_headline()}},
+\code{\link[=gb_to_excel]{gb_to_excel()}},
+\code{\link[=gb_to_word]{gb_to_word()}}
 }
 \concept{reporting}

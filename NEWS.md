@@ -1,3 +1,59 @@
+# greenbook 0.2.0
+
+HM Treasury changed the Green Book discount rate on 28 October 2026,
+adopting the recommendations of the Green Book Discount Rate Review 2026
+(Freeman and Groom). This release makes the new schedule the default.
+**Results change**: any appraisal run with default arguments now
+discounts at a lower rate, so NPVs of projects with long-dated benefits
+rise.
+
+## Discounting
+
+* New default schedule (`vintage = "2026-10"`): 3.00 percent for years 1
+  to 30, 2.50 percent for years 31 to 75 and 2.25 percent for years 76 to
+  125. It reproduces the discount factors in Annex A of the October 2026
+  supplementary guidance to four decimal places.
+
+* The October 2026 guidance says discounting is not meaningful beyond
+  year 125 and that one rate applies to all proposals. Under the default
+  vintage, years above 125 and the `"health"` and `"catastrophic"`
+  schedules are therefore errors with a message pointing to the
+  guidance, rather than being silently extrapolated or applied.
+
+* The earlier schedule (3.5 percent declining to 1.0 percent, with the
+  health and catastrophic-risk variants) is kept as `vintage = "2003"`.
+  The edition labels `"2018"`, `"2020"`, `"2022"` and `"2026-02"` map to
+  it, the February 2026 edition having kept the 3.5 percent rate.
+
+* `gb_stpr()`, `gb_discount_factor()`, `gb_discount()`,
+  `gb_schedule_table()`, `gb_carbon_npv()` and `gb_eanc()` gain a
+  `vintage` argument. In `gb_npv()`, `gb_appraise()` and
+  `gb_dist_weighted_npv()`, `vintage` was previously a label stored on
+  the result; it now selects the schedule, and defaults to `"2026-10"`
+  instead of `"2022"`. An unknown vintage is now an error at the point
+  of appraisal.
+
+* `gb_validate()` recognises the new vintages and reports, as
+  information, when an appraisal uses the pre-October 2026 schedule.
+
+## Distributional weights
+
+* The default elasticity of marginal utility in `gb_dist_weight()` and
+  `gb_dist_weighted_npv()` is now 1.25, the value in the updated Green
+  Book, down from 1.3. Pass `eta = 1.3` to reproduce earlier results.
+
+## Data
+
+* GDP deflator refreshed to HM Treasury's October 2026 (Budget) release:
+  ONS outturn to 2025 (2025 = 100) and, new, OBR forecasts for 2026 to
+  2031, chained from the published growth rates. `gb_deflator()`,
+  `gb_real()` and `gb_rebase()` can now express values in 2025 and 2026
+  prices; previously they stopped at 2024. A `type` column marks forecast
+  years. `data-raw/gdp_deflator.R` now locates the latest release through
+  the GOV.UK Content API.
+
+* `inst/CITATION` takes the version number from `DESCRIPTION`.
+
 # greenbook 0.1.1
 
 * Maintainer email corrected to `charlesfcoverdale@gmail.com`. The CRAN

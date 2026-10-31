@@ -43,7 +43,7 @@ Table 3.
 \seealso{
 \code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.
 
-Other carbon: 
-\code{\link{gb_carbon_npv}()}
+Other carbon:
+\code{\link[=gb_carbon_npv]{gb_carbon_npv()}}
 }
 \concept{carbon}

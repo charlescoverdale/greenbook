@@ -73,6 +73,8 @@ gb_carbon_value <- function(year, scenario = "central", base_year = NULL) {
 #' @param scenario One of `"low"`, `"central"` (default), `"high"`.
 #' @param schedule One of `"standard"` (default), `"health"`,
 #'   `"catastrophic"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   See [gb_stpr()].
 #' @param base_year Optional integer base year for monetary values
 #'   (e.g. `2024`). If supplied, carbon values are rebased via
 #'   `gb_deflator()`.
@@ -100,7 +102,8 @@ gb_carbon_npv <- function(emissions, years,
                           scenario = "central",
                           schedule = "standard",
                           base_year = NULL,
-                          sign = "cost") {
+                          sign = "cost",
+                          vintage = "2026-10") {
   validate_numeric(emissions, "emissions")
   validate_year(years, "years", min_year = 1900L)
   if (length(emissions) != length(years)) {
@@ -115,7 +118,7 @@ gb_carbon_npv <- function(emissions, years,
 
   rel_years <- years - min(years)
   app <- gb_npv(cashflow, years = rel_years, schedule = schedule,
-                base_year = base_year %||% min(years))
+                base_year = base_year %||% min(years), vintage = vintage)
   app$emissions <- emissions
   app$years_calendar <- years
   app$carbon_scenario <- scenario

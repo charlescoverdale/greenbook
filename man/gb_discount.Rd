@@ -4,7 +4,12 @@
 \alias{gb_discount}
 \title{Apply discount factors to a stream}
 \usage{
-gb_discount(values, years = seq_along(values) - 1L, schedule = "standard")
+gb_discount(
+  values,
+  years = seq_along(values) - 1L,
+  schedule = "standard",
+  vintage = "2026-10"
+)
 }
 \arguments{
 \item{values}{Numeric vector of cashflow values (real terms, base
@@ -14,6 +19,9 @@ year fixed).}
 to \verb{0, 1, 2, ...}.}
 
 \item{schedule}{One of \code{"standard"}, \code{"health"}, \code{"catastrophic"}.}
+
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or
+\code{"2003"}. See \code{\link[=gb_stpr]{gb_stpr()}}.}
 }
 \value{
 A numeric vector of discounted (present-value) cashflows.
@@ -31,10 +39,10 @@ HM Treasury (2026). The Green Book, chapter 6
 \seealso{
 \code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_npv]{gb_npv()}}.
 
-Other discounting: 
-\code{\link{gb_discount_factor}()},
-\code{\link{gb_eanc}()},
-\code{\link{gb_npv}()},
-\code{\link{gb_stpr}()}
+Other discounting:
+\code{\link[=gb_discount_factor]{gb_discount_factor()}},
+\code{\link[=gb_eanc]{gb_eanc()}},
+\code{\link[=gb_npv]{gb_npv()}},
+\code{\link[=gb_stpr]{gb_stpr()}}
 }
 \concept{discounting}

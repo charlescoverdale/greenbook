@@ -2,8 +2,14 @@
 #'
 #' Returns the multiplicative factor to convert a value expressed in
 #' year `from` prices to year `to` prices, using the bundled UK GDP
-#' deflator at market prices (ONS series). Multiply a nominal value
+#' deflator at market prices (calendar years). Multiply a nominal value
 #' from year `from` by this factor to express it in year `to`.
+#'
+#' The bundled series is HM Treasury's October 2026 (Budget) release:
+#' ONS outturn to 2025 and OBR forecasts for 2026 to 2031. Factors that
+#' touch a forecast year are themselves forecasts and will be revised;
+#' the `type` column of the series (see [gb_data_versions()]) records
+#' which years are outturn.
 #'
 #' @param from Integer year of the input value.
 #' @param to Integer year to express the value in.
@@ -13,9 +19,9 @@
 #'
 #' @return A numeric scalar: the deflator factor.
 #'
-#' @references Office for National Statistics. GDP deflator at market
-#'   prices (series YBGB), updated quarterly. HM Treasury publishes
-#'   the deflator series alongside the OBR forecast.
+#' @references HM Treasury (2026). GDP deflators at market prices, and
+#'   money GDP: October 2026 (Budget).
+#'   \url{https://www.gov.uk/government/collections/gdp-deflators-at-market-prices-and-money-gdp}
 #'
 #' @family deflator
 #' @seealso [gb_real()], [gb_rebase()].
@@ -23,6 +29,7 @@
 #' @export
 #' @examples
 #' gb_deflator(from = 2020, to = 2024)
+#' gb_deflator(from = 2020, to = 2026) # 2026 is an OBR forecast year
 gb_deflator <- function(from, to, source = "bundled") {
   source <- match.arg(source, c("bundled"))
   if (length(from) != 1L || length(to) != 1L) {

@@ -6,15 +6,18 @@
 #'
 #' \deqn{w_i = (y_{ref} / y_i) ^ \eta}
 #'
-#' Default `eta = 1.3` per HM Treasury Green Book Annex A3. Higher
-#' eta places greater weight on lower-income recipients; sensitivity
-#' tests at `eta = 0.8` and `eta = 2.0` are conventional.
+#' Default `eta = 1.25`, the elasticity of marginal utility of
+#' consumption in the Green Book as updated on 28 October 2026, which
+#' adopted the estimate of the Green Book Discount Rate Review 2026.
+#' Earlier editions used 1.3; pass `eta = 1.3` to reproduce an
+#' appraisal made under them. Higher eta places greater weight on
+#' lower-income recipients.
 #'
 #' @param income Numeric vector of recipient incomes (positive).
 #'   Equivalised household disposable income is the conventional
 #'   measure.
 #' @param eta Numeric scalar. Income elasticity of marginal utility
-#'   of income. Default `1.3`.
+#'   of income. Default `1.25`.
 #' @param reference Either `"median"` (default; use median of
 #'   `income` or `income_data` if supplied) or a numeric scalar
 #'   (use that income as reference).
@@ -27,7 +30,10 @@
 #'
 #' @references
 #' HM Treasury (2026). The Green Book, chapter 7 (Distributional
-#' analysis and place-based analysis).
+#' analysis and place-based analysis), updated 28 October 2026.
+#'
+#' Freeman, M. C. and Groom, B. (2026). Green Book Discount Rate Review:
+#' Technical Annexes. HM Treasury.
 #'
 #' Acland, D. and Greenberg, D.H. (2024). The Elasticity of Marginal
 #' Utility of Income for Distributional Weighting and Social
@@ -41,7 +47,7 @@
 #' # Weights across deciles of a stylised income distribution
 #' income_deciles <- seq(10000, 100000, length.out = 10)
 #' gb_dist_weight(income_deciles)
-gb_dist_weight <- function(income, eta = 1.3, reference = "median",
+gb_dist_weight <- function(income, eta = 1.25, reference = "median",
                            income_data = NULL) {
   validate_numeric(income, "income", require_positive = TRUE)
   validate_numeric(eta, "eta")
@@ -73,12 +79,13 @@ gb_dist_weight <- function(income, eta = 1.3, reference = "median",
 #' @param recipient_income Numeric vector. The income of the
 #'   recipient (or representative recipient cell) in each period.
 #'   Must have the same length as `cashflow`.
-#' @param eta Numeric scalar. Default `1.3`.
+#' @param eta Numeric scalar. Default `1.25`.
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
 #' @param reference Reference income strategy passed to
 #'   `gb_dist_weight()`.
 #' @param income_data Optional reference income distribution.
-#' @param vintage Methodology vintage label. Default `"2022"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   See [gb_stpr()].
 #' @param base_year Optional integer base year stored on the result.
 #'
 #' @return A `gb_appraisal` object with extra fields `weights`,
@@ -98,11 +105,11 @@ gb_dist_weight <- function(income, eta = 1.3, reference = "median",
 #'   recipient_income = rep(15000, 5),
 #'   income_data = seq(10000, 100000, length.out = 10)
 #' )
-gb_dist_weighted_npv <- function(cashflow, recipient_income, eta = 1.3,
+gb_dist_weighted_npv <- function(cashflow, recipient_income, eta = 1.25,
                                  schedule = "standard",
                                  reference = "median",
                                  income_data = NULL,
-                                 vintage = "2022",
+                                 vintage = "2026-10",
                                  base_year = NULL) {
   validate_numeric(cashflow, "cashflow")
   if (length(cashflow) != length(recipient_income)) {

@@ -4,63 +4,81 @@
 \alias{gb_stpr}
 \title{Social Time Preference Rate}
 \usage{
-gb_stpr(years, schedule = "standard")
+gb_stpr(years, schedule = "standard", vintage = "2026-10")
 }
 \arguments{
 \item{years}{Integer vector of years from the base year (year 0 is
 the base year). Must be non-negative.}
 
-\item{schedule}{One of \code{"standard"} (default, 3.5 percent baseline),
-\code{"health"} (1.5 percent baseline, used in DHSC supplementary
-guidance), or \code{"catastrophic"} (3.0 percent baseline: the standard
-schedule with the catastrophic-risk element of pure time preference
-excluded). Use \code{"catastrophic"} when the appraisal already models
-catastrophic risk explicitly, so that the risk is not counted twice,
-once in the cashflows and again in the discount rate. It is not the
-schedule to reach for because a project is unusually risky.}
+\item{schedule}{One of \code{"standard"} (default), \code{"health"} or
+\code{"catastrophic"}. The \code{"health"} (1.5 percent baseline, from DHSC
+supplementary guidance) and \code{"catastrophic"} (3.0 percent baseline,
+the standard schedule with the catastrophic-risk element of pure
+time preference excluded) schedules exist only in the \code{"2003"}
+vintage. The October 2026 guidance withdrew them: practitioners
+"should not use different discount rates for different types of
+proposals" (paragraph 3.2).}
+
+\item{vintage}{Discounting vintage. \code{"2026-10"} (default) is the
+schedule HM Treasury published on 28 October 2026 following the
+Green Book Discount Rate Review 2026: 3.00 percent for years 1 to
+30, 2.50 percent for years 31 to 75 and 2.25 percent for years 76
+to 125. \code{"2003"} is the schedule in force from the 2003 Green Book
+until October 2026: 3.5 percent declining to 1.0 percent. \code{"2026"}
+is accepted for \code{"2026-10"}, and \code{"2018"}, \code{"2020"}, \code{"2022"} and
+\code{"2026-02"} (the February 2026 edition, which kept the 3.5 percent
+schedule) are accepted for \code{"2003"}.}
 }
 \value{
-A numeric vector of discount rates (decimals, e.g. 0.035 for
-3.5 percent), one per element of \code{years}.
+A numeric vector of discount rates (decimals, e.g. 0.03 for
+3 percent), one per element of \code{years}.
 }
 \description{
 Returns the HM Treasury Green Book Social Time Preference Rate (STPR)
 for a vector of years from a base year. The schedule is kinked: the
-rate steps down at 30, 75, 125, 200, and 300 years. Three variants
-are supported.
+rate steps down as the horizon lengthens. Two vintages are bundled.
 }
 \details{
-The STPR is composed of pure time preference plus a wealth-effect
-adjustment for expected per-capita consumption growth. The kink
-reflects increasing uncertainty over the constituent parameters at
-longer horizons.
+The STPR is derived from the Ramsey formula: a risk-free rate (pure
+time preference, plus a wealth effect from expected per-capita
+consumption growth, plus an adjustment for rare disaster risk) and a
+systematic risk premium. In the 2026-10 vintage these are 0.50,
+1.875, -0.50 and 1.00 percent. HM Treasury raises the resulting
+risk-free rate by 0.125 percentage points to 2.00 percent after
+triangulating against real gilt yields, which gives 3.00 percent.
+The kink reflects uncertainty about long-run growth and gilt yields.
 
-Pure time preference itself has two parts: impatience proper and an
-allowance for catastrophic risk, the possibility that a future
-benefit is never realised. The \code{"catastrophic"} schedule removes the
-second part, which is the 0.5 percentage point difference between the
-3.5 percent standard baseline and the 3.0 percent catastrophic one.
+The 2026-10 schedule stops at year 125. HM Treasury advises that
+discounting "is not an analytically meaningful technique" beyond
+that point (paragraph 3.10), so years above 125 are an error under
+that vintage rather than being silently extrapolated. Appraise
+later effects by other means, or use \code{vintage = "2003"} to reproduce
+an appraisal made under the earlier guidance.
 }
 \examples{
 gb_stpr(0:5)
 gb_stpr(c(10, 30, 31, 75, 76))
-gb_stpr(c(10, 30, 31, 75, 76), schedule = "health")
+gb_stpr(c(10, 30, 31, 75, 76), vintage = "2003")
+gb_stpr(c(10, 30, 31), schedule = "health", vintage = "2003")
 }
 \references{
 HM Treasury (2026). The Green Book: Central Government Guidance on
-Appraisal and Evaluation, chapter 6 (Shortlist appraisal), section
-on discounting.
+Appraisal and Evaluation, updated 28 October 2026.
 
-HM Treasury. Supplementary Green Book Guidance: Discounting.
+HM Treasury (2026). Green Book supplementary guidance: discounting,
+updated 28 October 2026, paragraphs 3.2, 3.8 and 3.10.
 \url{https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting}
+
+Freeman, M. C. and Groom, B. (2026). Green Book Discount Rate Review:
+Summary of Findings and Recommendations. HM Treasury.
 }
 \seealso{
 \code{\link[=gb_discount_factor]{gb_discount_factor()}}, \code{\link[=gb_discount]{gb_discount()}}, \code{\link[=gb_npv]{gb_npv()}}.
 
-Other discounting: 
-\code{\link{gb_discount}()},
-\code{\link{gb_discount_factor}()},
-\code{\link{gb_eanc}()},
-\code{\link{gb_npv}()}
+Other discounting:
+\code{\link[=gb_discount]{gb_discount()}},
+\code{\link[=gb_discount_factor]{gb_discount_factor()}},
+\code{\link[=gb_eanc]{gb_eanc()}},
+\code{\link[=gb_npv]{gb_npv()}}
 }
 \concept{discounting}

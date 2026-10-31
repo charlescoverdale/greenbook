@@ -65,13 +65,13 @@ Business Case (Five Case Model).
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_compare]{gb_compare()}}.
 
-Other appraisal: 
-\code{\link{gb_appraise}()},
-\code{\link{gb_compare}()},
-\code{\link{gb_place_based}()},
-\code{\link{gb_progression}()},
-\code{\link{gb_risk_register}()},
-\code{\link{gb_sensitivity_ob}()},
-\code{\link{gb_validate}()}
+Other appraisal:
+\code{\link[=gb_appraise]{gb_appraise()}},
+\code{\link[=gb_compare]{gb_compare()}},
+\code{\link[=gb_place_based]{gb_place_based()}},
+\code{\link[=gb_progression]{gb_progression()}},
+\code{\link[=gb_risk_register]{gb_risk_register()}},
+\code{\link[=gb_sensitivity_ob]{gb_sensitivity_ob()}},
+\code{\link[=gb_validate]{gb_validate()}}
 }
 \concept{appraisal}

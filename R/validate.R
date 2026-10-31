@@ -71,9 +71,14 @@ gb_validate <- function(appraisal) {
   }
 
   if (!is.null(appraisal$vintage)) {
-    if (!appraisal$vintage %in% c("2003", "2018", "2022", "2026")) {
+    legacy <- c("2003", "2018", "2020", "2022", "2026-02")
+    if (!appraisal$vintage %in% c(legacy, "2026", "2026-10")) {
       add("warning", "vintage",
           sprintf("vintage '%s' is not a recognised Green Book edition", appraisal$vintage))
+    } else if (appraisal$vintage %in% legacy) {
+      add("info", "vintage",
+          sprintf("vintage '%s' uses the pre-October 2026 discount schedule (3.5 percent baseline)",
+                  appraisal$vintage))
     }
   }
 

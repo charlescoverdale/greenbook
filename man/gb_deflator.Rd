@@ -21,22 +21,30 @@ A numeric scalar: the deflator factor.
 \description{
 Returns the multiplicative factor to convert a value expressed in
 year \code{from} prices to year \code{to} prices, using the bundled UK GDP
-deflator at market prices (ONS series). Multiply a nominal value
+deflator at market prices (calendar years). Multiply a nominal value
 from year \code{from} by this factor to express it in year \code{to}.
+}
+\details{
+The bundled series is HM Treasury's October 2026 (Budget) release:
+ONS outturn to 2025 and OBR forecasts for 2026 to 2031. Factors that
+touch a forecast year are themselves forecasts and will be revised;
+the \code{type} column of the series (see \code{\link[=gb_data_versions]{gb_data_versions()}}) records
+which years are outturn.
 }
 \examples{
 gb_deflator(from = 2020, to = 2024)
+gb_deflator(from = 2020, to = 2026) # 2026 is an OBR forecast year
 }
 \references{
-Office for National Statistics. GDP deflator at market
-prices (series YBGB), updated quarterly. HM Treasury publishes
-the deflator series alongside the OBR forecast.
+HM Treasury (2026). GDP deflators at market prices, and
+money GDP: October 2026 (Budget).
+\url{https://www.gov.uk/government/collections/gdp-deflators-at-market-prices-and-money-gdp}
 }
 \seealso{
 \code{\link[=gb_real]{gb_real()}}, \code{\link[=gb_rebase]{gb_rebase()}}.
 
-Other deflator: 
-\code{\link{gb_real}()},
-\code{\link{gb_rebase}()}
+Other deflator:
+\code{\link[=gb_real]{gb_real()}},
+\code{\link[=gb_rebase]{gb_rebase()}}
 }
 \concept{deflator}

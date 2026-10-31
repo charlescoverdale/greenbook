@@ -21,8 +21,9 @@ library(greenbook)
 ## Why greenbook
 
 `greenbook` provides cost-benefit analysis primitives from the HM Treasury
-Green Book. The v0.1.0 release covers the discounting MVP: kinked STPR,
-discount factors, NPV, equivalent annual cost, and GDP-deflator rebasing.
+Green Book: the kinked STPR, discount factors, NPV, equivalent annual
+cost, GDP-deflator rebasing, optimism bias, distributional weights and
+monetised valuation.
 
 All bundled parameter tables carry vintage metadata. Inspect with:
 
@@ -32,17 +33,24 @@ gb_data_versions()
 
 ## The kinked STPR
 
-The Green Book Social Time Preference Rate steps down at 30, 75, 125,
-200, and 300 years. `gb_stpr()` returns the rate for any year:
+The Green Book Social Time Preference Rate is 3.00 percent for years 1
+to 30, 2.50 percent for years 31 to 75 and 2.25 percent for years 76 to
+125, following HM Treasury's update of 28 October 2026. `gb_stpr()`
+returns the rate for any year:
 
 ```{r}
-gb_stpr(c(10, 30, 31, 75, 76, 200, 300))
+gb_stpr(c(10, 30, 31, 75, 76, 125))
+gb_schedule_table()
 ```
 
-Three variants are supported:
+HM Treasury advises against discounting beyond year 125, so the
+default schedule stops there. The schedule in force before October
+2026, with its health and catastrophic-risk variants, is available as
+`vintage = "2003"` for reproducing earlier appraisals:
 
 ```{r}
-gb_schedule_table()
+gb_stpr(c(10, 30, 31, 75, 76, 200, 300), vintage = "2003")
+gb_schedule_table(vintage = "2003")
 ```
 
 ## Discount factors
@@ -60,7 +68,7 @@ The kink is correctly handled across band boundaries:
 ```{r}
 df_30 <- gb_discount_factor(30)
 df_31 <- gb_discount_factor(31)
-df_31 / df_30  # 1 / 1.030 = 0.9709, the year-31 single-period factor
+df_31 / df_30  # 1 / 1.025 = 0.9756, the year-31 single-period factor
 ```
 
 ## Net present value

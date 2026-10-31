@@ -11,7 +11,7 @@ The [Green Book](https://www.gov.uk/government/publications/the-green-book-appra
 
 The guidance covers six core areas:
 
-- **Discounting**: the kinked Social Time Preference Rate (STPR), stepping from 3.5 percent for the first 30 years down to 1.0 percent beyond year 300.
+- **Discounting**: the kinked Social Time Preference Rate (STPR): 3.00 percent for years 1 to 30, 2.50 percent for years 31 to 75 and 2.25 percent for years 76 to 125, as set by HM Treasury on 28 October 2026. The earlier 3.5 percent schedule remains available as `vintage = "2003"`.
 - **Real-terms appraisal**: rebasing nominal cashflows using the GDP deflator at market prices.
 - **Optimism bias**: standard uplifts on capital cost and works-duration estimates, by project category (Mott MacDonald 2002).
 - **Distributional analysis**: iso-elastic weights on net benefits accruing to different income groups.
@@ -119,8 +119,8 @@ Every parameter table is sourced from a published HMT, DfT, or DESNZ workbook. `
 
 | Table | Source |
 |---|---|
-| STPR schedule | HMT Green Book 2022 Annex A6 |
-| GDP deflator (1990-2024, 2024 = 100) | HMT GDP deflators, December 2025 Quarterly National Accounts release |
+| STPR schedule | HMT Green Book supplementary guidance: discounting, October 2026 (plus the pre-October 2026 schedule as vintage `"2003"`) |
+| GDP deflator (1990-2031, 2025 = 100; 2026 onwards are OBR forecasts) | HMT GDP deflators, October 2026 (Budget) release |
 | Optimism bias upper bounds | HMT Supplementary Green Book Guidance: Optimism Bias (Mott MacDonald 2002) |
 | METB | HMT Green Book 2022 |
 | WELLBY (10k / 13k / 16k, 2019 prices) | HMT Wellbeing Guidance for Appraisal, July 2021 |
@@ -132,7 +132,22 @@ Every parameter table is sourced from a published HMT, DfT, or DESNZ workbook. `
 
 ## Discount rate review (2026)
 
-The independent [Green Book Discount Rate Review](https://www.gov.uk/government/publications/green-book-discount-rate-review-2026) (Freeman and Groom, published 30 June 2026) recommends lowering the standard rate from 3.5 to 3.0 percent, flattening the declining schedule, and retiring the separate 1.5 percent health rate. These are recommendations only: HM Treasury has said it will publish a formal response in due course, and the current STPR schedule remains in force until the Green Book and supplementary guidance are updated. `greenbook` therefore ships the current official schedule; if the recommendations are adopted, a new schedule will be added under a separate vintage alongside the existing one.
+The independent [Green Book Discount Rate Review](https://www.gov.uk/government/publications/green-book-discount-rate-review-2026) (Freeman and Groom, June 2026) recommended a lower and flatter schedule. HM Treasury adopted it on 28 October 2026, and `greenbook` 0.2.0 makes the new schedule the default:
+
+| | Before 28 October 2026 (`vintage = "2003"`) | From 28 October 2026 (`vintage = "2026-10"`, default) |
+|---|---|---|
+| Years 1 to 30 | 3.5% | 3.00% |
+| Years 31 to 75 | 3.0% | 2.50% |
+| Years 76 to 125 | 2.5% | 2.25% |
+| Beyond year 125 | 2.0% to 1.0% | not discounted: use other methods |
+| Health and catastrophic-risk schedules | 1.5% and 3.0% baselines | withdrawn: one rate for all proposals |
+| Elasticity of marginal utility (distributional weights) | 1.3 | 1.25 |
+
+To reproduce an appraisal made under the earlier guidance, pass `vintage = "2003"` (or the edition label, `"2018"`, `"2022"` or `"2026-02"`) and `eta = 1.3`:
+
+```r
+gb_npv(c(-100, rep(30, 9)), vintage = "2003")
+```
 
 ## Limitations
 

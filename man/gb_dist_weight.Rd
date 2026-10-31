@@ -4,7 +4,7 @@
 \alias{gb_dist_weight}
 \title{Distributional weight for a recipient income}
 \usage{
-gb_dist_weight(income, eta = 1.3, reference = "median", income_data = NULL)
+gb_dist_weight(income, eta = 1.25, reference = "median", income_data = NULL)
 }
 \arguments{
 \item{income}{Numeric vector of recipient incomes (positive).
@@ -12,7 +12,7 @@ Equivalised household disposable income is the conventional
 measure.}
 
 \item{eta}{Numeric scalar. Income elasticity of marginal utility
-of income. Default \code{1.3}.}
+of income. Default \code{1.25}.}
 
 \item{reference}{Either \code{"median"} (default; use median of
 \code{income} or \code{income_data} if supplied) or a numeric scalar
@@ -34,9 +34,12 @@ a reference income (median by default), under iso-elastic utility:
 \details{
 \deqn{w_i = (y_{ref} / y_i) ^ \eta}
 
-Default \code{eta = 1.3} per HM Treasury Green Book Annex A3. Higher
-eta places greater weight on lower-income recipients; sensitivity
-tests at \code{eta = 0.8} and \code{eta = 2.0} are conventional.
+Default \code{eta = 1.25}, the elasticity of marginal utility of
+consumption in the Green Book as updated on 28 October 2026, which
+adopted the estimate of the Green Book Discount Rate Review 2026.
+Earlier editions used 1.3; pass \code{eta = 1.3} to reproduce an
+appraisal made under them. Higher eta places greater weight on
+lower-income recipients.
 }
 \examples{
 # Weights across deciles of a stylised income distribution
@@ -45,7 +48,10 @@ gb_dist_weight(income_deciles)
 }
 \references{
 HM Treasury (2026). The Green Book, chapter 7 (Distributional
-analysis and place-based analysis).
+analysis and place-based analysis), updated 28 October 2026.
+
+Freeman, M. C. and Groom, B. (2026). Green Book Discount Rate Review:
+Technical Annexes. HM Treasury.
 
 Acland, D. and Greenberg, D.H. (2024). The Elasticity of Marginal
 Utility of Income for Distributional Weighting and Social
@@ -54,7 +60,7 @@ Discounting: A Meta-Analysis. Journal of Benefit-Cost Analysis.
 \seealso{
 \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}.
 
-Other distributional: 
-\code{\link{gb_dist_weighted_npv}()}
+Other distributional:
+\code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}
 }
 \concept{distributional}

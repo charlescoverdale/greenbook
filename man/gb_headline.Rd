@@ -26,10 +26,10 @@ gb_headline(app)
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_to_latex]{gb_to_latex()}}, \code{\link[=gb_to_excel]{gb_to_excel()}}.
 
-Other reporting: 
-\code{\link{gb_cost_per_unit}()},
-\code{\link{gb_to_excel}()},
-\code{\link{gb_to_latex}()},
-\code{\link{gb_to_word}()}
+Other reporting:
+\code{\link[=gb_cost_per_unit]{gb_cost_per_unit()}},
+\code{\link[=gb_to_excel]{gb_to_excel()}},
+\code{\link[=gb_to_latex]{gb_to_latex()}},
+\code{\link[=gb_to_word]{gb_to_word()}}
 }
 \concept{reporting}

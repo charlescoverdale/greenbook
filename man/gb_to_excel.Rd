@@ -34,10 +34,10 @@ if (requireNamespace("openxlsx", quietly = TRUE)) {
 \seealso{
 \code{\link[=gb_to_latex]{gb_to_latex()}}, \code{\link[=gb_to_word]{gb_to_word()}}.
 
-Other reporting: 
-\code{\link{gb_cost_per_unit}()},
-\code{\link{gb_headline}()},
-\code{\link{gb_to_latex}()},
-\code{\link{gb_to_word}()}
+Other reporting:
+\code{\link[=gb_cost_per_unit]{gb_cost_per_unit()}},
+\code{\link[=gb_headline]{gb_headline()}},
+\code{\link[=gb_to_latex]{gb_to_latex()}},
+\code{\link[=gb_to_word]{gb_to_word()}}
 }
 \concept{reporting}

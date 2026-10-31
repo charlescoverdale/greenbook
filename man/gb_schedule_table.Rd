@@ -4,12 +4,16 @@
 \alias{gb_schedule_table}
 \title{Tibble of the STPR schedule}
 \usage{
-gb_schedule_table(schedule = NULL)
+gb_schedule_table(schedule = NULL, vintage = "2026-10")
 }
 \arguments{
 \item{schedule}{Optional. One of \code{"standard"}, \code{"health"},
 \code{"catastrophic"}. If \code{NULL} (default), all three columns are
-returned.}
+returned. The \code{"2026-10"} vintage has only \code{"standard"}; its other
+two columns are \code{NA}.}
+
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+See \code{\link[=gb_stpr]{gb_stpr()}}.}
 }
 \value{
 A data frame.
@@ -22,12 +26,12 @@ one.
 }
 \examples{
 gb_schedule_table()
-gb_schedule_table("health")
+gb_schedule_table("health", vintage = "2003")
 }
 \seealso{
 \code{\link[=gb_stpr]{gb_stpr()}}, \code{\link[=gb_data_versions]{gb_data_versions()}}.
 
-Other lookups: 
-\code{\link{gb_data_versions}()}
+Other lookups:
+\code{\link[=gb_data_versions]{gb_data_versions()}}
 }
 \concept{lookups}

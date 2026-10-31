@@ -7,6 +7,8 @@
 #'   `>= base_year`.
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
 #' @param base_year Integer base year offset. Default `0`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or
+#'   `"2003"`. See [gb_stpr()].
 #'
 #' @return A numeric vector of discount factors. `1` for `years == base_year`.
 #'
@@ -33,7 +35,9 @@
 #' @examples
 #' gb_discount_factor(0:5)
 #' gb_discount_factor(c(0, 30, 31, 75, 76))
-gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
+#' gb_discount_factor(c(0, 30, 31, 75, 76), vintage = "2003")
+gb_discount_factor <- function(years, schedule = "standard", base_year = 0L,
+                               vintage = "2026-10") {
   validate_year(years, arg = "years", min_year = -.Machine$integer.max)
   validate_year(base_year, arg = "base_year", min_year = -.Machine$integer.max)
   if (length(base_year) != 1L) {
@@ -49,7 +53,7 @@ gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
   max_y <- max(rel)
   if (max_y == 0L) return(rep_len(1, length(rel)))
 
-  period_rates <- gb_stpr(seq_len(max_y), schedule = schedule)
+  period_rates <- gb_stpr(seq_len(max_y), schedule = schedule, vintage = vintage)
   cumulative <- cumprod(1 + period_rates)
 
   out <- numeric(length(rel))
@@ -66,6 +70,8 @@ gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
 #' @param years Integer vector of years from the base year. Defaults
 #'   to `0, 1, 2, ...`.
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or
+#'   `"2003"`. See [gb_stpr()].
 #'
 #' @return A numeric vector of discounted (present-value) cashflows.
 #' @family discounting
@@ -75,13 +81,14 @@ gb_discount_factor <- function(years, schedule = "standard", base_year = 0L) {
 #' @export
 #' @examples
 #' gb_discount(c(0, 100, 100, 100))
-gb_discount <- function(values, years = seq_along(values) - 1L, schedule = "standard") {
+gb_discount <- function(values, years = seq_along(values) - 1L, schedule = "standard",
+                        vintage = "2026-10") {
   validate_numeric(values, "values")
   validate_year(years, "years", min_year = -.Machine$integer.max)
   if (length(values) != length(years)) {
     cli::cli_abort("{.arg values} and {.arg years} must have equal length.")
   }
-  values * gb_discount_factor(years, schedule = schedule)
+  values * gb_discount_factor(years, schedule = schedule, vintage = vintage)
 }
 
 #' Net present value
@@ -98,8 +105,10 @@ gb_discount <- function(values, years = seq_along(values) - 1L, schedule = "stan
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
 #' @param base_year Optional integer recording the price base year for
 #'   the cashflow (e.g. `2024`). Stored on the returned object.
-#' @param vintage Character. Methodology vintage label. Defaults to
-#'   `"2022"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   Selects the STPR schedule (see [gb_stpr()]) and is stored on the
+#'   returned object. Before version 0.2.0 this was a label only and
+#'   defaulted to `"2022"`.
 #'
 #' @return A `gb_appraisal` object: a list with class
 #'   `c("gb_appraisal", "list")` and elements
@@ -122,11 +131,12 @@ gb_npv <- function(cashflow,
                    years = NULL,
                    schedule = "standard",
                    base_year = NULL,
-                   vintage = "2022") {
+                   vintage = "2026-10") {
   validate_numeric(cashflow, "cashflow")
   schedule <- match.arg(schedule, c("standard", "health", "catastrophic"))
+  .stpr_vintage(vintage)
   if (is.null(years)) years <- seq_along(cashflow) - 1L
-  pv <- gb_discount(cashflow, years, schedule = schedule)
+  pv <- gb_discount(cashflow, years, schedule = schedule, vintage = vintage)
 
   out <- list(
     npv = sum(pv),
@@ -151,6 +161,9 @@ gb_npv <- function(cashflow,
 #' @param years Project horizon in years. If `npv` is a `gb_appraisal`
 #'   and `years` is missing, `length(npv$cashflow) - 1L` is used.
 #' @param schedule One of `"standard"`, `"health"`, `"catastrophic"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   Ignored when `npv` is a `gb_appraisal`, whose own schedule and
+#'   vintage are used.
 #'
 #' @return A numeric scalar: the equivalent annual amount in real
 #'   terms, base year aligned with the input.
@@ -168,13 +181,14 @@ gb_npv <- function(cashflow,
 #' @examples
 #' app <- gb_npv(c(-100, 30, 30, 30, 30, 30))
 #' gb_eanc(app)
-gb_eanc <- function(npv, years, schedule = "standard") {
+gb_eanc <- function(npv, years, schedule = "standard", vintage = "2026-10") {
   if (inherits(npv, "gb_appraisal")) {
     npv_val <- npv$npv
     if (missing(years) || is.null(years)) {
       years <- length(npv$cashflow) - 1L
     }
     schedule <- npv$schedule %||% schedule
+    vintage <- npv$vintage %||% vintage
   } else if (is.numeric(npv) && length(npv) == 1L) {
     npv_val <- npv
   } else {
@@ -185,6 +199,7 @@ gb_eanc <- function(npv, years, schedule = "standard") {
     cli::cli_abort("{.arg years} must be scalar.")
   }
 
-  factors <- gb_discount_factor(seq_len(years), schedule = schedule)
+  factors <- gb_discount_factor(seq_len(years), schedule = schedule,
+                                vintage = vintage)
   npv_val / sum(factors)
 }

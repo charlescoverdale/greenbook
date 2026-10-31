@@ -46,10 +46,12 @@ export(gb_to_word)
 export(gb_validate)
 export(gb_vpf)
 export(gb_wellby)
-importFrom(cli,cli_abort)
-importFrom(cli,cli_h1)
-importFrom(cli,cli_inform)
-importFrom(cli,cli_text)
-importFrom(cli,cli_warn)
+importFrom(cli,
+  cli_abort,
+  cli_h1,
+  cli_inform,
+  cli_text,
+  cli_warn
+)
 importFrom(stats,median)
 importFrom(utils,read.csv)

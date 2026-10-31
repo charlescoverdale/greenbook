@@ -36,8 +36,8 @@ Guidance (TAG) data book.
 \seealso{
 \code{\link[=gb_wellby]{gb_wellby()}}, \code{\link[=gb_qaly]{gb_qaly()}}.
 
-Other valuation: 
-\code{\link{gb_qaly}()},
-\code{\link{gb_wellby}()}
+Other valuation:
+\code{\link[=gb_qaly]{gb_qaly()}},
+\code{\link[=gb_wellby]{gb_wellby()}}
 }
 \concept{valuation}

@@ -40,8 +40,8 @@ Optimism Bias, Annex A2 on mitigation factors.
 \seealso{
 \code{\link[=gb_optimism_bias]{gb_optimism_bias()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
 
-Other optimism bias: 
-\code{\link{gb_categories}()},
-\code{\link{gb_optimism_bias}()}
+Other optimism bias:
+\code{\link[=gb_categories]{gb_categories()}},
+\code{\link[=gb_optimism_bias]{gb_optimism_bias()}}
 }
 \concept{optimism bias}

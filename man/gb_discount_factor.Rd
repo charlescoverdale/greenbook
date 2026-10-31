@@ -4,7 +4,12 @@
 \alias{gb_discount_factor}
 \title{Discount factor under the kinked STPR}
 \usage{
-gb_discount_factor(years, schedule = "standard", base_year = 0L)
+gb_discount_factor(
+  years,
+  schedule = "standard",
+  base_year = 0L,
+  vintage = "2026-10"
+)
 }
 \arguments{
 \item{years}{Integer vector of years from the base year. Must be
@@ -13,6 +18,9 @@ gb_discount_factor(years, schedule = "standard", base_year = 0L)
 \item{schedule}{One of \code{"standard"}, \code{"health"}, \code{"catastrophic"}.}
 
 \item{base_year}{Integer base year offset. Default \code{0}.}
+
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or
+\code{"2003"}. See \code{\link[=gb_stpr]{gb_stpr()}}.}
 }
 \value{
 A numeric vector of discount factors. \code{1} for \code{years == base_year}.
@@ -33,6 +41,7 @@ to machine precision.
 \examples{
 gb_discount_factor(0:5)
 gb_discount_factor(c(0, 30, 31, 75, 76))
+gb_discount_factor(c(0, 30, 31, 75, 76), vintage = "2003")
 }
 \references{
 HM Treasury (2026). The Green Book, chapter 6 (Shortlist
@@ -44,10 +53,10 @@ HM Treasury. Supplementary Green Book Guidance: Discounting.
 \seealso{
 \code{\link[=gb_stpr]{gb_stpr()}}, \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_eanc]{gb_eanc()}}.
 
-Other discounting: 
-\code{\link{gb_discount}()},
-\code{\link{gb_eanc}()},
-\code{\link{gb_npv}()},
-\code{\link{gb_stpr}()}
+Other discounting:
+\code{\link[=gb_discount]{gb_discount()}},
+\code{\link[=gb_eanc]{gb_eanc()}},
+\code{\link[=gb_npv]{gb_npv()}},
+\code{\link[=gb_stpr]{gb_stpr()}}
 }
 \concept{discounting}

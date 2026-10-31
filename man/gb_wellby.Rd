@@ -54,8 +54,8 @@ Supplementary Green Book Guidance.
 \seealso{
 \code{\link[=gb_vpf]{gb_vpf()}}, \code{\link[=gb_qaly]{gb_qaly()}}.
 
-Other valuation: 
-\code{\link{gb_qaly}()},
-\code{\link{gb_vpf}()}
+Other valuation:
+\code{\link[=gb_qaly]{gb_qaly()}},
+\code{\link[=gb_vpf]{gb_vpf()}}
 }
 \concept{valuation}

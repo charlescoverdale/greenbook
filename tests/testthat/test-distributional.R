@@ -25,9 +25,9 @@ test_that("gb_dist_weight: higher eta amplifies the weights", {
   expect_gt(w_high[1] / w_high[2], w_low[1] / w_low[2])
 })
 
-test_that("gb_dist_weight default eta is 1.3", {
+test_that("gb_dist_weight default eta is 1.25", {
   w_default <- gb_dist_weight(c(20000, 80000), reference = 50000)
-  w_explicit <- gb_dist_weight(c(20000, 80000), eta = 1.3, reference = 50000)
+  w_explicit <- gb_dist_weight(c(20000, 80000), eta = 1.25, reference = 50000)
   expect_equal(w_default, w_explicit)
 })
 
@@ -36,14 +36,14 @@ test_that("gb_dist_weight uses median of income_data when supplied", {
   decile_data <- seq(10000, 100000, length.out = 10)
   ref <- stats::median(decile_data)
   w <- gb_dist_weight(income, income_data = decile_data)
-  expect_equal(w, (ref / 15000) ^ 1.3, tolerance = 1e-9)
+  expect_equal(w, (ref / 15000) ^ 1.25, tolerance = 1e-9)
 })
 
 test_that("gb_dist_weight uses median of input when no reference", {
   income <- c(20000, 50000, 80000)
   w <- gb_dist_weight(income)
   ref <- stats::median(income)
-  expect_equal(w, (ref / income) ^ 1.3, tolerance = 1e-9)
+  expect_equal(w, (ref / income) ^ 1.25, tolerance = 1e-9)
 })
 
 test_that("gb_dist_weight errors on non-positive income", {

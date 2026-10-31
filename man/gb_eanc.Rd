@@ -4,7 +4,7 @@
 \alias{gb_eanc}
 \title{Equivalent annual net cost (or benefit)}
 \usage{
-gb_eanc(npv, years, schedule = "standard")
+gb_eanc(npv, years, schedule = "standard", vintage = "2026-10")
 }
 \arguments{
 \item{npv}{Either a numeric scalar NPV, or a \code{gb_appraisal} object.}
@@ -13,6 +13,10 @@ gb_eanc(npv, years, schedule = "standard")
 and \code{years} is missing, \code{length(npv$cashflow) - 1L} is used.}
 
 \item{schedule}{One of \code{"standard"}, \code{"health"}, \code{"catastrophic"}.}
+
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+Ignored when \code{npv} is a \code{gb_appraisal}, whose own schedule and
+vintage are used.}
 }
 \value{
 A numeric scalar: the equivalent annual amount in real
@@ -37,10 +41,10 @@ core chapters.
 \seealso{
 \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
 
-Other discounting: 
-\code{\link{gb_discount}()},
-\code{\link{gb_discount_factor}()},
-\code{\link{gb_npv}()},
-\code{\link{gb_stpr}()}
+Other discounting:
+\code{\link[=gb_discount]{gb_discount()}},
+\code{\link[=gb_discount_factor]{gb_discount_factor()}},
+\code{\link[=gb_npv]{gb_npv()}},
+\code{\link[=gb_stpr]{gb_stpr()}}
 }
 \concept{discounting}

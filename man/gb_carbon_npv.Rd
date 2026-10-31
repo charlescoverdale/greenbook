@@ -10,7 +10,8 @@ gb_carbon_npv(
   scenario = "central",
   schedule = "standard",
   base_year = NULL,
-  sign = "cost"
+  sign = "cost",
+  vintage = "2026-10"
 )
 }
 \arguments{
@@ -31,6 +32,9 @@ gb_carbon_npv(
 \item{sign}{Character. \code{"cost"} (default) treats positive
 \code{emissions} as a cost (negative cashflow); \code{"benefit"} treats
 positive as avoided emissions (positive cashflow).}
+
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+See \code{\link[=gb_stpr]{gb_stpr()}}.}
 }
 \value{
 A \code{gb_appraisal} object.
@@ -55,7 +59,7 @@ benefits).
 \seealso{
 \code{\link[=gb_carbon_value]{gb_carbon_value()}}, \code{\link[=gb_npv]{gb_npv()}}.
 
-Other carbon: 
-\code{\link{gb_carbon_value}()}
+Other carbon:
+\code{\link[=gb_carbon_value]{gb_carbon_value()}}
 }
 \concept{carbon}

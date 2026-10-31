@@ -22,7 +22,10 @@ test_that("gb_validate flags negative costs as warning", {
 })
 
 test_that("gb_validate flags unrecognised vintage", {
-  app <- gb_appraise(c(100, 0), c(0, 200), vintage = "1999")
+  expect_error(gb_appraise(c(100, 0), c(0, 200), vintage = "1999"),
+               "Unknown discounting vintage")
+  app <- gb_appraise(c(100, 0), c(0, 200))
+  app$vintage <- "1999"
   v <- gb_validate(app)
   warning_checks <- vapply(v$warnings, function(w) w$check, character(1))
   expect_true("vintage" %in% warning_checks)

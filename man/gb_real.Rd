@@ -35,8 +35,8 @@ HM Treasury (2026). The Green Book, chapter 6
 \seealso{
 \code{\link[=gb_deflator]{gb_deflator()}}, \code{\link[=gb_rebase]{gb_rebase()}}.
 
-Other deflator: 
-\code{\link{gb_deflator}()},
-\code{\link{gb_rebase}()}
+Other deflator:
+\code{\link[=gb_deflator]{gb_deflator()}},
+\code{\link[=gb_rebase]{gb_rebase()}}
 }
 \concept{deflator}

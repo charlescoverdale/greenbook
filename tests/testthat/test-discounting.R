@@ -2,33 +2,36 @@ test_that("gb_discount_factor at year 0 is 1", {
   expect_equal(gb_discount_factor(0), 1)
 })
 
-test_that("gb_discount_factor at year 1 is 1/1.035", {
-  expect_equal(gb_discount_factor(1), 1 / 1.035, tolerance = 1e-9)
+test_that("gb_discount_factor at year 1 is 1/1.03", {
+  expect_equal(gb_discount_factor(1), 1 / 1.03, tolerance = 1e-9)
+  expect_equal(gb_discount_factor(1, vintage = "2003"), 1 / 1.035, tolerance = 1e-9)
 })
 
 test_that("gb_discount_factor compounds annually within a band", {
-  expect_equal(gb_discount_factor(5), 1 / 1.035^5, tolerance = 1e-9)
-  expect_equal(gb_discount_factor(30), 1 / 1.035^30, tolerance = 1e-9)
+  expect_equal(gb_discount_factor(5), 1 / 1.03^5, tolerance = 1e-9)
+  expect_equal(gb_discount_factor(30), 1 / 1.03^30, tolerance = 1e-9)
 })
 
 test_that("gb_discount_factor handles the kink at year 31", {
   df_30 <- gb_discount_factor(30)
   df_31 <- gb_discount_factor(31)
-  expect_equal(df_31, df_30 / 1.030, tolerance = 1e-9)
+  expect_equal(df_31, df_30 / 1.025, tolerance = 1e-9)
 })
 
 test_that("gb_discount_factor handles two kink transitions", {
-  df_75 <- 1 / (1.035^30 * 1.030^45)
+  df_75 <- 1 / (1.03^30 * 1.025^45)
   expect_equal(gb_discount_factor(75), df_75, tolerance = 1e-9)
-  df_76 <- df_75 / 1.025
+  df_76 <- df_75 / 1.0225
   expect_equal(gb_discount_factor(76), df_76, tolerance = 1e-9)
+  old_75 <- 1 / (1.035^30 * 1.030^45)
+  expect_equal(gb_discount_factor(75, vintage = "2003"), old_75, tolerance = 1e-9)
 })
 
 test_that("gb_discount_factor is vectorised", {
   out <- gb_discount_factor(c(0, 1, 5, 30, 31))
   expect_length(out, 5L)
   expect_equal(out[1], 1)
-  expect_equal(out[2], 1 / 1.035, tolerance = 1e-9)
+  expect_equal(out[2], 1 / 1.03, tolerance = 1e-9)
 })
 
 test_that("gb_discount_factor is monotonically decreasing", {
@@ -38,8 +41,8 @@ test_that("gb_discount_factor is monotonically decreasing", {
 
 test_that("gb_discount_factor with health schedule is higher than standard", {
   expect_gt(
-    gb_discount_factor(30, schedule = "health"),
-    gb_discount_factor(30, schedule = "standard")
+    gb_discount_factor(30, schedule = "health", vintage = "2003"),
+    gb_discount_factor(30, schedule = "standard", vintage = "2003")
   )
 })
 
@@ -76,6 +79,8 @@ test_that("gb_npv stores schedule and vintage", {
   app <- gb_npv(c(-100, 50), schedule = "health", vintage = "2022")
   expect_equal(app$schedule, "health")
   expect_equal(app$vintage, "2022")
+  expect_equal(app$npv, -100 + 50 / 1.015, tolerance = 1e-9)
+  expect_equal(gb_npv(c(-100, 50))$vintage, "2026-10")
 })
 
 test_that("gb_npv stores base year when supplied", {
@@ -86,7 +91,7 @@ test_that("gb_npv stores base year when supplied", {
 test_that("gb_npv known-value: GBP 100 capex, 5 years of GBP 30 benefit", {
   cf <- c(-100, 30, 30, 30, 30, 30)
   app <- gb_npv(cf)
-  manual <- -100 + sum(30 / 1.035^(1:5))
+  manual <- -100 + sum(30 / 1.03^(1:5))
   expect_equal(app$npv, manual, tolerance = 1e-9)
 })
 

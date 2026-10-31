@@ -9,7 +9,7 @@ gb_npv(
   years = NULL,
   schedule = "standard",
   base_year = NULL,
-  vintage = "2022"
+  vintage = "2026-10"
 )
 }
 \arguments{
@@ -24,8 +24,10 @@ to \verb{0, 1, ..., length(cashflow) - 1}.}
 \item{base_year}{Optional integer recording the price base year for
 the cashflow (e.g. \code{2024}). Stored on the returned object.}
 
-\item{vintage}{Character. Methodology vintage label. Defaults to
-\code{"2022"}.}
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+Selects the STPR schedule (see \code{\link[=gb_stpr]{gb_stpr()}}) and is stored on the
+returned object. Before version 0.2.0 this was a label only and
+defaulted to \code{"2022"}.}
 }
 \value{
 A \code{gb_appraisal} object: a list with class
@@ -51,10 +53,10 @@ appraisal), section on discounting.
 \code{\link[=gb_appraise]{gb_appraise()}}, \code{\link[=gb_eanc]{gb_eanc()}}, \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}},
 \code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.
 
-Other discounting: 
-\code{\link{gb_discount}()},
-\code{\link{gb_discount_factor}()},
-\code{\link{gb_eanc}()},
-\code{\link{gb_stpr}()}
+Other discounting:
+\code{\link[=gb_discount]{gb_discount()}},
+\code{\link[=gb_discount_factor]{gb_discount_factor()}},
+\code{\link[=gb_eanc]{gb_eanc()}},
+\code{\link[=gb_stpr]{gb_stpr()}}
 }
 \concept{discounting}

@@ -66,10 +66,12 @@ test_that("gb_appraise errors on invalid ob input", {
 
 test_that("gb_appraise stores schedule, base year, vintage", {
   app <- gb_appraise(c(100, 0), c(0, 200), schedule = "health",
-                     base_year = 2024, vintage = "2026")
+                     base_year = 2024, vintage = "2026-02")
   expect_equal(app$schedule, "health")
   expect_equal(app$base_year, 2024)
-  expect_equal(app$vintage, "2026")
+  expect_equal(app$vintage, "2026-02")
+  expect_error(gb_appraise(c(100, 0), c(0, 200), schedule = "health"),
+               "withdrawn")
 })
 
 test_that("gb_appraise summary prints BCR and OB", {

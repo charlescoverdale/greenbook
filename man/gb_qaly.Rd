@@ -38,8 +38,8 @@ appraisal. NICE methods guides for technology appraisal.
 \seealso{
 \code{\link[=gb_wellby]{gb_wellby()}}, \code{\link[=gb_vpf]{gb_vpf()}}.
 
-Other valuation: 
-\code{\link{gb_vpf}()},
-\code{\link{gb_wellby}()}
+Other valuation:
+\code{\link[=gb_vpf]{gb_vpf()}},
+\code{\link[=gb_wellby]{gb_wellby()}}
 }
 \concept{valuation}

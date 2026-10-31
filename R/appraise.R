@@ -22,7 +22,9 @@
 #' @param metb_rate Numeric. METB rate when `metb = TRUE`. Default
 #'   `0.20` per Green Book 2022.
 #' @param base_year Optional integer base year.
-#' @param vintage Methodology vintage label. Default `"2022"`.
+#' @param vintage Discounting vintage, `"2026-10"` (default) or `"2003"`.
+#'   Selects the STPR schedule (see [gb_stpr()]) and is stored on the
+#'   returned object.
 #'
 #' @return A `gb_appraisal` object with extra fields `bcr`,
 #'   `pv_costs`, `pv_benefits`, `costs`, `benefits`,
@@ -52,13 +54,14 @@ gb_appraise <- function(costs, benefits,
                         metb = FALSE,
                         metb_rate = 0.20,
                         base_year = NULL,
-                        vintage = "2022") {
+                        vintage = "2026-10") {
   validate_numeric(costs, "costs")
   validate_numeric(benefits, "benefits")
   if (length(costs) != length(benefits)) {
     cli::cli_abort("{.arg costs} and {.arg benefits} must have equal length.")
   }
   schedule <- match.arg(schedule, c("standard", "health", "catastrophic"))
+  .check_schedule_vintage(schedule, .stpr_vintage(vintage))
 
   costs_adj <- costs
   ob_pct_used <- NULL
@@ -80,9 +83,9 @@ gb_appraise <- function(costs, benefits,
   net <- benefits - costs_adj
   if (is.null(years)) years <- seq_along(net) - 1L
 
-  pv_net <- gb_discount(net, years = years, schedule = schedule)
-  pv_costs <- sum(gb_discount(costs_adj, years = years, schedule = schedule))
-  pv_benefits <- sum(gb_discount(benefits, years = years, schedule = schedule))
+  pv_net <- gb_discount(net, years = years, schedule = schedule, vintage = vintage)
+  pv_costs <- sum(gb_discount(costs_adj, years = years, schedule = schedule, vintage = vintage))
+  pv_benefits <- sum(gb_discount(benefits, years = years, schedule = schedule, vintage = vintage))
 
   out <- list(
     npv = sum(pv_net),

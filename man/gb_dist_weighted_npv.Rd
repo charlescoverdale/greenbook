@@ -7,11 +7,11 @@
 gb_dist_weighted_npv(
   cashflow,
   recipient_income,
-  eta = 1.3,
+  eta = 1.25,
   schedule = "standard",
   reference = "median",
   income_data = NULL,
-  vintage = "2022",
+  vintage = "2026-10",
   base_year = NULL
 )
 }
@@ -22,7 +22,7 @@ gb_dist_weighted_npv(
 recipient (or representative recipient cell) in each period.
 Must have the same length as \code{cashflow}.}
 
-\item{eta}{Numeric scalar. Default \code{1.3}.}
+\item{eta}{Numeric scalar. Default \code{1.25}.}
 
 \item{schedule}{One of \code{"standard"}, \code{"health"}, \code{"catastrophic"}.}
 
@@ -31,7 +31,8 @@ Must have the same length as \code{cashflow}.}
 
 \item{income_data}{Optional reference income distribution.}
 
-\item{vintage}{Methodology vintage label. Default \code{"2022"}.}
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+See \code{\link[=gb_stpr]{gb_stpr()}}.}
 
 \item{base_year}{Optional integer base year stored on the result.}
 }
@@ -58,7 +59,7 @@ HM Treasury (2026). The Green Book, chapter 7
 \seealso{
 \code{\link[=gb_dist_weight]{gb_dist_weight()}}, \code{\link[=gb_npv]{gb_npv()}}.
 
-Other distributional: 
-\code{\link{gb_dist_weight}()}
+Other distributional:
+\code{\link[=gb_dist_weight]{gb_dist_weight()}}
 }
 \concept{distributional}

@@ -47,13 +47,13 @@ Business Case (Green Book supplementary guidance).
 \seealso{
 \code{\link[=gb_appraise]{gb_appraise()}}.
 
-Other appraisal: 
-\code{\link{gb_appraise}()},
-\code{\link{gb_compare}()},
-\code{\link{gb_economic_case}()},
-\code{\link{gb_place_based}()},
-\code{\link{gb_risk_register}()},
-\code{\link{gb_sensitivity_ob}()},
-\code{\link{gb_validate}()}
+Other appraisal:
+\code{\link[=gb_appraise]{gb_appraise()}},
+\code{\link[=gb_compare]{gb_compare()}},
+\code{\link[=gb_economic_case]{gb_economic_case()}},
+\code{\link[=gb_place_based]{gb_place_based()}},
+\code{\link[=gb_risk_register]{gb_risk_register()}},
+\code{\link[=gb_sensitivity_ob]{gb_sensitivity_ob()}},
+\code{\link[=gb_validate]{gb_validate()}}
 }
 \concept{appraisal}

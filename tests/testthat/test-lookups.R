@@ -2,13 +2,16 @@ test_that("gb_schedule_table returns all bands by default", {
   tbl <- gb_schedule_table()
   expect_s3_class(tbl, "data.frame")
   expect_true(all(c("year_from", "year_to", "standard", "health", "catastrophic") %in% names(tbl)))
-  expect_equal(nrow(tbl), 6L)
+  expect_equal(nrow(tbl), 3L)
+  expect_equal(tbl$year_to, c(30L, 75L, 125L))
+  expect_equal(nrow(gb_schedule_table(vintage = "2003")), 6L)
 })
 
 test_that("gb_schedule_table narrows columns when schedule supplied", {
-  tbl <- gb_schedule_table("health")
+  tbl <- gb_schedule_table("health", vintage = "2003")
   expect_named(tbl, c("year_from", "year_to", "rate"))
   expect_equal(tbl$rate[1], 0.015)
+  expect_error(gb_schedule_table("health"), "withdrawn")
 })
 
 test_that("gb_schedule_table errors on invalid schedule", {

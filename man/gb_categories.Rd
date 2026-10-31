@@ -23,8 +23,8 @@ Optimism Bias.
 \seealso{
 \code{\link[=gb_optimism_bias]{gb_optimism_bias()}}.
 
-Other optimism bias: 
-\code{\link{gb_apply_ob}()},
-\code{\link{gb_optimism_bias}()}
+Other optimism bias:
+\code{\link[=gb_apply_ob]{gb_apply_ob()}},
+\code{\link[=gb_optimism_bias]{gb_optimism_bias()}}
 }
 \concept{optimism bias}

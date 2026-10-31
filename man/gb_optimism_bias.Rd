@@ -41,8 +41,8 @@ UK. Report commissioned by HM Treasury.
 \seealso{
 \code{\link[=gb_apply_ob]{gb_apply_ob()}}, \code{\link[=gb_categories]{gb_categories()}}, \code{\link[=gb_appraise]{gb_appraise()}}.
 
-Other optimism bias: 
-\code{\link{gb_apply_ob}()},
-\code{\link{gb_categories}()}
+Other optimism bias:
+\code{\link[=gb_apply_ob]{gb_apply_ob()}},
+\code{\link[=gb_categories]{gb_categories()}}
 }
 \concept{optimism bias}

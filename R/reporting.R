@@ -224,7 +224,8 @@ gb_to_excel <- function(appraisal, file) {
   cashflow_df <- data.frame(
     year = appraisal$years,
     cashflow = appraisal$cashflow,
-    discount_factor = gb_discount_factor(appraisal$years, schedule = appraisal$schedule),
+    discount_factor = gb_discount_factor(appraisal$years, schedule = appraisal$schedule,
+                                         vintage = appraisal$vintage %||% "2026-10"),
     pv = appraisal$pv,
     stringsAsFactors = FALSE
   )

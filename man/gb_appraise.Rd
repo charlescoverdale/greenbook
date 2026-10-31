@@ -15,7 +15,7 @@ gb_appraise(
   metb = FALSE,
   metb_rate = 0.2,
   base_year = NULL,
-  vintage = "2022"
+  vintage = "2026-10"
 )
 }
 \arguments{
@@ -47,7 +47,9 @@ Only used when \code{ob} is a category name.}
 
 \item{base_year}{Optional integer base year.}
 
-\item{vintage}{Methodology vintage label. Default \code{"2022"}.}
+\item{vintage}{Discounting vintage, \code{"2026-10"} (default) or \code{"2003"}.
+Selects the STPR schedule (see \code{\link[=gb_stpr]{gb_stpr()}}) and is stored on the
+returned object.}
 }
 \value{
 A \code{gb_appraisal} object with extra fields \code{bcr},
@@ -74,13 +76,13 @@ on Appraisal and Evaluation.
 \code{\link[=gb_npv]{gb_npv()}}, \code{\link[=gb_optimism_bias]{gb_optimism_bias()}}, \code{\link[=gb_metb]{gb_metb()}},
 \code{\link[=gb_dist_weighted_npv]{gb_dist_weighted_npv()}}.
 
-Other appraisal: 
-\code{\link{gb_compare}()},
-\code{\link{gb_economic_case}()},
-\code{\link{gb_place_based}()},
-\code{\link{gb_progression}()},
-\code{\link{gb_risk_register}()},
-\code{\link{gb_sensitivity_ob}()},
-\code{\link{gb_validate}()}
+Other appraisal:
+\code{\link[=gb_compare]{gb_compare()}},
+\code{\link[=gb_economic_case]{gb_economic_case()}},
+\code{\link[=gb_place_based]{gb_place_based()}},
+\code{\link[=gb_progression]{gb_progression()}},
+\code{\link[=gb_risk_register]{gb_risk_register()}},
+\code{\link[=gb_sensitivity_ob]{gb_sensitivity_ob()}},
+\code{\link[=gb_validate]{gb_validate()}}
 }
 \concept{appraisal}

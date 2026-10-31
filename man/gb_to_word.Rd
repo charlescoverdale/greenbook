@@ -34,10 +34,10 @@ if (requireNamespace("officer", quietly = TRUE) &&
 \seealso{
 \code{\link[=gb_to_latex]{gb_to_latex()}}, \code{\link[=gb_to_excel]{gb_to_excel()}}.
 
-Other reporting: 
-\code{\link{gb_cost_per_unit}()},
-\code{\link{gb_headline}()},
-\code{\link{gb_to_excel}()},
-\code{\link{gb_to_latex}()}
+Other reporting:
+\code{\link[=gb_cost_per_unit]{gb_cost_per_unit()}},
+\code{\link[=gb_headline]{gb_headline()}},
+\code{\link[=gb_to_excel]{gb_to_excel()}},
+\code{\link[=gb_to_latex]{gb_to_latex()}}
 }
 \concept{reporting}

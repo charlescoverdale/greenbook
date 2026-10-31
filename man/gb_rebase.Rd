@@ -30,8 +30,8 @@ HM Treasury (2026). The Green Book, chapter 6
 \seealso{
 \code{\link[=gb_deflator]{gb_deflator()}}, \code{\link[=gb_real]{gb_real()}}.
 
-Other deflator: 
-\code{\link{gb_deflator}()},
-\code{\link{gb_real}()}
+Other deflator:
+\code{\link[=gb_deflator]{gb_deflator()}},
+\code{\link[=gb_real]{gb_real()}}
 }
 \concept{deflator}

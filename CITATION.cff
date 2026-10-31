@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this package, please cite it as below."
 type: software
 title: "greenbook: HM Treasury Green Book Cost-Benefit Analysis Primitives"
-version: 0.1.0
-date-released: 2026-04-26
+version: 0.2.0
+date-released: 2026-10-31
 url: "https://github.com/charlescoverdale/greenbook"
 license: MIT
 authors:
@@ -36,7 +36,7 @@ references:
     authors:
       - name: "HM Treasury"
     title: "Green Book Supplementary Guidance: Discounting"
-    year: 2003
+    year: 2026
     institution:
       name: "HM Treasury"
     url: "https://www.gov.uk/government/publications/green-book-supplementary-guidance-discounting"
