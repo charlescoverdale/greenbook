@@ -1,8 +1,8 @@
 # greenbook: full API reference
 
-> Implements cost-benefit analysis primitives from HM Treasury Green Book guidance (HM Treasury, 2022, 2026): the kinked Social Time Preference Rate (STPR), discount factors, net present value (NPV),...
+> Implements cost-benefit analysis primitives from HM Treasury Green Book guidance (HM Treasury, 2026): the kinked Social Time Preference Rate (STPR) as revised in October 2026, with the earlier sche...
 
-- Version: 0.1.1
+- Version: 0.2.0
 - Install: `install.packages("greenbook")`
 - CRAN: https://CRAN.R-project.org/package=greenbook
 - GitHub: https://github.com/charlescoverdale/greenbook
@@ -65,7 +65,7 @@ gb_appraise(
   metb = FALSE,
   metb_rate = 0.2,
   base_year = NULL,
-  vintage = "2022"
+  vintage = "2026-10"
 )
 ```
 
@@ -81,7 +81,7 @@ gb_appraise(
 - `metb`: Logical. If `TRUE`, applies METB uplift to costs.
 - `metb_rate`: Numeric. METB rate when `metb = TRUE`. Default `0.20` per Green Book 2022.
 - `base_year`: Optional integer base year.
-- `vintage`: Methodology vintage label. Default `"2022"`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. Selects the STPR schedule (see `gb_stpr()`) and is stored on the returned object.
 
 **Returns**
 
@@ -114,7 +114,8 @@ gb_carbon_npv(
   scenario = "central",
   schedule = "standard",
   base_year = NULL,
-  sign = "cost"
+  sign = "cost",
+  vintage = "2026-10"
 )
 ```
 
@@ -126,6 +127,7 @@ gb_carbon_npv(
 - `schedule`: One of `"standard"` (default), `"health"`, `"catastrophic"`.
 - `base_year`: Optional integer base year for monetary values (e.g. `2024`). If supplied, carbon values are rebased via `gb_deflator()`.
 - `sign`: Character. `"cost"` (default) treats positive `emissions` as a cost (negative cashflow); `"benefit"` treats positive as avoided emissions (positive cashflow).
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. See `gb_stpr()`.
 
 **Returns**
 
@@ -288,7 +290,7 @@ gb_data_versions()
 
 **GDP deflator factor between two years**
 
-Returns the multiplicative factor to convert a value expressed in year `from` prices to year `to` prices, using the bundled UK GDP deflator at market prices (ONS series). Multiply a nominal value from year `from` by this factor to express it in year `to`.
+Returns the multiplicative factor to convert a value expressed in year `from` prices to year `to` prices, using the bundled UK GDP deflator at market prices (calendar years). Multiply a nominal value from year `from` by this factor to express it in year `to`.
 
 **Usage**
 
@@ -310,6 +312,7 @@ A numeric scalar: the deflator factor.
 
 ```r
 gb_deflator(from = 2020, to = 2024)
+gb_deflator(from = 2020, to = 2026) # 2026 is an OBR forecast year
 ```
 
 ---
@@ -323,7 +326,12 @@ Apply discount factors to a stream
 **Usage**
 
 ```r
-gb_discount(values, years = seq_along(values) - 1L, schedule = "standard")
+gb_discount(
+  values,
+  years = seq_along(values) - 1L,
+  schedule = "standard",
+  vintage = "2026-10"
+)
 ```
 
 **Arguments**
@@ -331,6 +339,7 @@ gb_discount(values, years = seq_along(values) - 1L, schedule = "standard")
 - `values`: Numeric vector of cashflow values (real terms, base year fixed).
 - `years`: Integer vector of years from the base year. Defaults to 0, 1, 2, ....
 - `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. See `gb_stpr()`.
 
 **Returns**
 
@@ -353,7 +362,12 @@ Returns the present-value discount factor for each year, applying the kinked Soc
 **Usage**
 
 ```r
-gb_discount_factor(years, schedule = "standard", base_year = 0L)
+gb_discount_factor(
+  years,
+  schedule = "standard",
+  base_year = 0L,
+  vintage = "2026-10"
+)
 ```
 
 **Arguments**
@@ -361,6 +375,7 @@ gb_discount_factor(years, schedule = "standard", base_year = 0L)
 - `years`: Integer vector of years from the base year. Must be >= base_year.
 - `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
 - `base_year`: Integer base year offset. Default `0`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. See `gb_stpr()`.
 
 **Returns**
 
@@ -371,6 +386,7 @@ A numeric vector of discount factors. `1` for `years == base_year`.
 ```r
 gb_discount_factor(0:5)
 gb_discount_factor(c(0, 30, 31, 75, 76))
+gb_discount_factor(c(0, 30, 31, 75, 76), vintage = "2003")
 ```
 
 ---
@@ -384,13 +400,13 @@ Returns the Green Book distributional weight applied to net benefits accruing to
 **Usage**
 
 ```r
-gb_dist_weight(income, eta = 1.3, reference = "median", income_data = NULL)
+gb_dist_weight(income, eta = 1.25, reference = "median", income_data = NULL)
 ```
 
 **Arguments**
 
 - `income`: Numeric vector of recipient incomes (positive). Equivalised household disposable income is the conventional measure.
-- `eta`: Numeric scalar. Income elasticity of marginal utility of income. Default `1.3`.
+- `eta`: Numeric scalar. Income elasticity of marginal utility of income. Default `1.25`.
 - `reference`: Either `"median"` (default; use median of `income` or `income_data` if supplied) or a numeric scalar (use that income as reference).
 - `income_data`: Optional numeric vector. Reference income distribution for computing the median. Use, e.g., the ONS household disposable income distribution. If `NULL` (default), the median of `income` is used.
 
@@ -420,11 +436,11 @@ Applies recipient-income distributional weights to a cashflow before discounting
 gb_dist_weighted_npv(
   cashflow,
   recipient_income,
-  eta = 1.3,
+  eta = 1.25,
   schedule = "standard",
   reference = "median",
   income_data = NULL,
-  vintage = "2022",
+  vintage = "2026-10",
   base_year = NULL
 )
 ```
@@ -433,11 +449,11 @@ gb_dist_weighted_npv(
 
 - `cashflow`: Numeric vector of net cashflows (per period).
 - `recipient_income`: Numeric vector. The income of the recipient (or representative recipient cell) in each period. Must have the same length as `cashflow`.
-- `eta`: Numeric scalar. Default `1.3`.
+- `eta`: Numeric scalar. Default `1.25`.
 - `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
 - `reference`: Reference income strategy passed to `gb_dist_weight()`.
 - `income_data`: Optional reference income distribution.
-- `vintage`: Methodology vintage label. Default `"2022"`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. See `gb_stpr()`.
 - `base_year`: Optional integer base year stored on the result.
 
 **Returns**
@@ -466,7 +482,7 @@ Converts a present value to an annualised equivalent over a fixed horizon under 
 **Usage**
 
 ```r
-gb_eanc(npv, years, schedule = "standard")
+gb_eanc(npv, years, schedule = "standard", vintage = "2026-10")
 ```
 
 **Arguments**
@@ -474,6 +490,7 @@ gb_eanc(npv, years, schedule = "standard")
 - `npv`: Either a numeric scalar NPV, or a `gb_appraisal` object.
 - `years`: Project horizon in years. If `npv` is a `gb_appraisal` and `years` is missing, `length(npv$cashflow) - 1L` is used.
 - `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. Ignored when `npv` is a `gb_appraisal`, whose own schedule and vintage are used.
 
 **Returns**
 
@@ -608,7 +625,7 @@ gb_npv(
   years = NULL,
   schedule = "standard",
   base_year = NULL,
-  vintage = "2022"
+  vintage = "2026-10"
 )
 ```
 
@@ -618,7 +635,7 @@ gb_npv(
 - `years`: Integer vector of years matching `cashflow`. Defaults to 0, 1, ..., length(cashflow) - 1.
 - `schedule`: One of `"standard"`, `"health"`, `"catastrophic"`.
 - `base_year`: Optional integer recording the price base year for the cashflow (e.g. `2024`). Stored on the returned object.
-- `vintage`: Character. Methodology vintage label. Defaults to `"2022"`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. Selects the STPR schedule (see `gb_stpr()`) and is stored on the returned object. Before version 0.2.0 this was a label only and defaulted to `"2022"`.
 
 **Returns**
 
@@ -873,12 +890,13 @@ Returns the bundled STPR kinked schedule as a data frame: one row per band, colu
 **Usage**
 
 ```r
-gb_schedule_table(schedule = NULL)
+gb_schedule_table(schedule = NULL, vintage = "2026-10")
 ```
 
 **Arguments**
 
-- `schedule`: Optional. One of `"standard"`, `"health"`, `"catastrophic"`. If `NULL` (default), all three columns are returned.
+- `schedule`: Optional. One of `"standard"`, `"health"`, `"catastrophic"`. If `NULL` (default), all three columns are returned. The `"2026-10"` vintage has only `"standard"`; its other two columns are `NA`.
+- `vintage`: Discounting vintage, `"2026-10"` (default) or `"2003"`. See `gb_stpr()`.
 
 **Returns**
 
@@ -888,7 +906,7 @@ A data frame.
 
 ```r
 gb_schedule_table()
-gb_schedule_table("health")
+gb_schedule_table("health", vintage = "2003")
 ```
 
 ---
@@ -937,29 +955,31 @@ gb_sensitivity_ob(costs, benefits, ob = "non_standard_buildings")
 
 **Social Time Preference Rate**
 
-Returns the HM Treasury Green Book Social Time Preference Rate (STPR) for a vector of years from a base year. The schedule is kinked: the rate steps down at 30, 75, 125, 200, and 300 years. Three variants are supported.
+Returns the HM Treasury Green Book Social Time Preference Rate (STPR) for a vector of years from a base year. The schedule is kinked: the rate steps down as the horizon lengthens. Two vintages are bundled.
 
 **Usage**
 
 ```r
-gb_stpr(years, schedule = "standard")
+gb_stpr(years, schedule = "standard", vintage = "2026-10")
 ```
 
 **Arguments**
 
 - `years`: Integer vector of years from the base year (year 0 is the base year). Must be non-negative.
-- `schedule`: One of `"standard"` (default, 3.5 percent baseline), `"health"` (1.5 percent baseline, used in DHSC supplementary guidance), or `"catastrophic"` (3.0 percent baseline: the standard schedule with the catastrophic-risk element of pure time preference excluded). Use `"catastrophic"` when the appraisal already models catastrophic risk explicitly, so that the risk is not counted twice, once in the cashflows and again in the discount rate. It is not the schedule to reach for because a project is unusually risky.
+- `schedule`: One of `"standard"` (default), `"health"` or `"catastrophic"`. The `"health"` (1.5 percent baseline, from DHSC supplementary guidance) and `"catastrophic"` (3.0 percent baseline, the standard schedule with the catastrophic-risk element of pure time preference excluded) schedules exist only in the `"2003"` vintage. The October 2026 guidance withdrew them: practitioners "should not use different discount rates for different types of proposals" (paragraph 3.2).
+- `vintage`: Discounting vintage. `"2026-10"` (default) is the schedule HM Treasury published on 28 October 2026 following the Green Book Discount Rate Review 2026: 3.00 percent for years 1 to 30, 2.50 percent for years 31 to 75 and 2.25 percent for years 76 to 125. `"2003"` is the schedule in force from the 2003 Green Book until October 2026: 3.5 percent declining to 1.0 percent. `"2026"` is accepted for `"2026-10"`, and `"2018"`, `"2020"`, `"2022"` and `"2026-02"` (the February 2026 edition, which kept the 3.5 percent schedule) are accepted for `"2003"`.
 
 **Returns**
 
-A numeric vector of discount rates (decimals, e.g. 0.035 for 3.5 percent), one per element of `years`.
+A numeric vector of discount rates (decimals, e.g. 0.03 for 3 percent), one per element of `years`.
 
 **Example**
 
 ```r
 gb_stpr(0:5)
 gb_stpr(c(10, 30, 31, 75, 76))
-gb_stpr(c(10, 30, 31, 75, 76), schedule = "health")
+gb_stpr(c(10, 30, 31, 75, 76), vintage = "2003")
+gb_stpr(c(10, 30, 31), schedule = "health", vintage = "2003")
 ```
 
 ---
