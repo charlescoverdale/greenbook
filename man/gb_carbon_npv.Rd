@@ -52,7 +52,7 @@ gb_carbon_npv(emissions, years, base_year = 2024)
 }
 \references{
 DESNZ (2023). Valuation of Energy Use and Greenhouse
-Gas Emissions for Appraisal (November 2023). HM Treasury (2026).
+Gas Emissions for Appraisal (updated 2 November 2026). HM Treasury (2026).
 The Green Book, chapter 8 (Valuation of social costs and social
 benefits).
 }

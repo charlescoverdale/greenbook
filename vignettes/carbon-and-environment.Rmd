@@ -19,7 +19,8 @@ library(greenbook)
 
 DESNZ publishes a single consolidated carbon value series with
 low / central / high scenarios. The November 2023 publication
-superseded the historical traded / non-traded split.
+superseded the historical traded / non-traded split; the October 2026
+data tables restate the same path in 2025 prices.
 `gb_carbon_value()` looks the values up directly:
 
 ```{r}
@@ -28,7 +29,7 @@ gb_carbon_value(2024, scenario = "high")
 gb_carbon_value(2030)
 ```
 
-The values are published in 2022 prices. Rebase to a different
+The values are published in 2025 prices. Rebase to a different
 year via `base_year`:
 
 ```{r}
@@ -94,9 +95,8 @@ gb_data_versions()
 
 ## Provenance
 
-The bundled DESNZ carbon path is the November 2023 publication
-(Data Tables 1-19, Table 3), 2020 to 2050. A future refresh will
-extend through to 2100.
+The bundled DESNZ carbon path is from the data tables 1 to 18
+(October 2026, Table 3), 2020 to 2050, in 2025 prices.
 
 The VPF series anchors on the DfT TAG data book v2.03 (December
 2025) Table A4.1.1 WTP element of GBP 2,474,341 in 2023 prices,
