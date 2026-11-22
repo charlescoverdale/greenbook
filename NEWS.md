@@ -1,3 +1,13 @@
+# greenbook (development version)
+
+* `gb_carbon_value()` and `gb_carbon_npv()` now use DESNZ's October 2026
+  data tables (published 2 November 2026), which restate the carbon value
+  path in 2025 prices instead of 2022 prices. **Results change** for calls
+  without `base_year`: the central 2030 value moves from GBP 294.50 to
+  GBP 336.70 per tCO2e, purely a change of price base (every year rises by
+  the same factor, 1.143). The real path is unchanged, and calls that pass
+  `base_year` return the same values as before to within a penny.
+
 # greenbook 0.2.0
 
 HM Treasury changed the Green Book discount rate on 28 October 2026,

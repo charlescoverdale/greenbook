@@ -1,16 +1,24 @@
-test_that("gb_carbon_value matches DESNZ Nov 2023 Table 3 published values", {
-  # DESNZ Nov 2023, central path, 2022 GBP/tCO2e
-  expect_equal(gb_carbon_value(2020), 253.19)
-  expect_equal(gb_carbon_value(2024), 268.97)
-  expect_equal(gb_carbon_value(2030), 294.50)
-  expect_equal(gb_carbon_value(2050), 397.54)
+test_that("gb_carbon_value matches DESNZ October 2026 Table 3 published values", {
+  # DESNZ data tables 1 to 18 (October 2026), central path, 2025 GBP/tCO2e
+  expect_equal(gb_carbon_value(2020), 289.47)
+  expect_equal(gb_carbon_value(2024), 307.51)
+  expect_equal(gb_carbon_value(2030), 336.70)
+  expect_equal(gb_carbon_value(2050), 454.51)
+})
+
+test_that("rebasing the 2025-price values to 2022 recovers the November 2023 path", {
+  # The October 2026 tables restate the November 2023 real path in 2025
+  # prices; rebasing through gb_deflator() reproduces the old 2022 values.
+  expect_equal(gb_carbon_value(2020, base_year = 2022), 253.19, tolerance = 1e-3)
+  expect_equal(gb_carbon_value(2025, base_year = 2022), 273.06, tolerance = 1e-3)
+  expect_equal(gb_carbon_value(2050, base_year = 2022), 397.54, tolerance = 1e-3)
 })
 
 test_that("gb_carbon_value low and high scenarios match Table 3", {
-  expect_equal(gb_carbon_value(2020, "low"), 126.60)
-  expect_equal(gb_carbon_value(2020, "high"), 379.79)
-  expect_equal(gb_carbon_value(2050, "low"), 198.77)
-  expect_equal(gb_carbon_value(2050, "high"), 596.31)
+  expect_equal(gb_carbon_value(2020, "low"), 144.74)
+  expect_equal(gb_carbon_value(2020, "high"), 434.21)
+  expect_equal(gb_carbon_value(2050, "low"), 227.25)
+  expect_equal(gb_carbon_value(2050, "high"), 681.76)
 })
 
 test_that("gb_carbon_value low < central < high at every year", {
@@ -28,8 +36,8 @@ test_that("gb_carbon_value is monotonically increasing over time", {
 test_that("gb_carbon_value supports vectorised year input", {
   out <- gb_carbon_value(c(2020, 2030, 2050))
   expect_length(out, 3L)
-  expect_equal(out[1], 253.19)
-  expect_equal(out[3], 397.54)
+  expect_equal(out[1], 289.47)
+  expect_equal(out[3], 454.51)
 })
 
 test_that("gb_carbon_value rebases via deflator", {

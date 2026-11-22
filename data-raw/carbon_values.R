@@ -1,18 +1,18 @@
 # Refresh DESNZ Carbon Values for Appraisal.
 #
 # Source: DESNZ "Valuation of Energy Use and Greenhouse Gas
-# Emissions for Appraisal" (November 2023), Data Tables 1-19,
-# Table 3.
+# Emissions for Appraisal" (updated 2 November 2026), Data tables
+# 1 to 18 (October 2026), Table 3.
 # Page: https://www.gov.uk/government/publications/valuation-of-energy-use-and-greenhouse-gas-emissions-for-appraisal
 #
 # DESNZ moved to a single consolidated carbon value series in
 # November 2023, superseding the historical traded / non-traded
-# split. Values are in 2022 prices. The published series covers
-# 2010 to 2100.
+# split. The October 2026 tables restate the same real path in 2025
+# prices, converted with the ONS September 2026 GDP deflator series.
 
 library(readxl)
 
-url <- "https://assets.publishing.service.gov.uk/media/6567994fcc1ec5000d8eef17/data-tables-1-19.xlsx"
+url <- "https://assets.publishing.service.gov.uk/media/6ae35a4b83b993d8d93eb791/data_tables_1-18-oct-2026.xlsx"
 
 local_file <- tempfile(fileext = ".xlsx")
 download.file(url, local_file, mode = "wb", quiet = TRUE)
@@ -26,7 +26,7 @@ year_rows <- which(!is.na(years))
 carbon_long <- do.call(rbind, lapply(year_rows, function(i) {
   data.frame(
     year = years[i],
-    base_year = 2022L,
+    base_year = 2025L,
     series = "consolidated",
     scenario = c("low", "central", "high"),
     value_gbp_per_tco2e = round(c(

@@ -13,7 +13,7 @@ be within the bundled DESNZ range.}
 \item{scenario}{One of \code{"low"}, \code{"central"} (default), \code{"high"}.}
 
 \item{base_year}{Optional integer to rebase the value via
-\code{gb_deflator()}. If \code{NULL}, the published 2022 base year is
+\code{gb_deflator()}. If \code{NULL}, the published 2025 base year is
 used.}
 }
 \value{
@@ -21,14 +21,16 @@ Numeric vector of GBP per tCO2e values.
 }
 \description{
 Returns the DESNZ Carbon Value for Appraisal in GBP per tonne of
-CO2-equivalent at the published 2022 base-year prices, from the
-November 2023 valuation. Three scenarios: low, central, high.
+CO2-equivalent at the published 2025 base-year prices, from the
+October 2026 data tables. Three scenarios: low, central, high.
 }
 \details{
 DESNZ moved to a single consolidated series in November 2023,
-superseding the historical traded / non-traded split. Values
-are in 2022 prices. The November 2023 publication covers 2010
-to 2100; the bundled subset is 2020 to 2050.
+superseding the historical traded / non-traded split. The
+October 2026 data tables restate that real path in 2025 prices
+(ONS September 2026 GDP deflator); earlier releases of this
+package returned 2022 prices, which \code{base_year = 2022} reproduces.
+The bundled range is 2020 to 2050.
 }
 \examples{
 gb_carbon_value(2024)
@@ -36,9 +38,9 @@ gb_carbon_value(2020:2030)
 gb_carbon_value(2030, scenario = "high")
 }
 \references{
-DESNZ (2023). Valuation of Energy Use and Greenhouse
-Gas Emissions for Appraisal (November 2023). Data tables 1-19,
-Table 3.
+DESNZ (2026). Valuation of Energy Use and Greenhouse
+Gas Emissions for Appraisal (updated 2 November 2026). Data tables
+1 to 18 (October 2026), Table 3.
 }
 \seealso{
 \code{\link[=gb_carbon_npv]{gb_carbon_npv()}}.

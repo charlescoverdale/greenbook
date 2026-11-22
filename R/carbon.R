@@ -1,27 +1,29 @@
 #' DESNZ carbon value for appraisal
 #'
 #' Returns the DESNZ Carbon Value for Appraisal in GBP per tonne of
-#' CO2-equivalent at the published 2022 base-year prices, from the
-#' November 2023 valuation. Three scenarios: low, central, high.
+#' CO2-equivalent at the published 2025 base-year prices, from the
+#' October 2026 data tables. Three scenarios: low, central, high.
 #'
 #' @param year Integer scalar or vector. Year of the emission. Must
 #'   be within the bundled DESNZ range.
 #' @param scenario One of `"low"`, `"central"` (default), `"high"`.
 #' @param base_year Optional integer to rebase the value via
-#'   `gb_deflator()`. If `NULL`, the published 2022 base year is
+#'   `gb_deflator()`. If `NULL`, the published 2025 base year is
 #'   used.
 #'
 #' @return Numeric vector of GBP per tCO2e values.
 #'
 #' @details
 #' DESNZ moved to a single consolidated series in November 2023,
-#' superseding the historical traded / non-traded split. Values
-#' are in 2022 prices. The November 2023 publication covers 2010
-#' to 2100; the bundled subset is 2020 to 2050.
+#' superseding the historical traded / non-traded split. The
+#' October 2026 data tables restate that real path in 2025 prices
+#' (ONS September 2026 GDP deflator); earlier releases of this
+#' package returned 2022 prices, which `base_year = 2022` reproduces.
+#' The bundled range is 2020 to 2050.
 #'
-#' @references DESNZ (2023). Valuation of Energy Use and Greenhouse
-#'   Gas Emissions for Appraisal (November 2023). Data tables 1-19,
-#'   Table 3.
+#' @references DESNZ (2026). Valuation of Energy Use and Greenhouse
+#'   Gas Emissions for Appraisal (updated 2 November 2026). Data tables
+#'   1 to 18 (October 2026), Table 3.
 #'
 #' @family carbon
 #' @seealso [gb_carbon_npv()].
@@ -85,7 +87,7 @@ gb_carbon_value <- function(year, scenario = "central", base_year = NULL) {
 #' @return A `gb_appraisal` object.
 #'
 #' @references DESNZ (2023). Valuation of Energy Use and Greenhouse
-#'   Gas Emissions for Appraisal (November 2023). HM Treasury (2026).
+#'   Gas Emissions for Appraisal (updated 2 November 2026). HM Treasury (2026).
 #'   The Green Book, chapter 8 (Valuation of social costs and social
 #'   benefits).
 #'

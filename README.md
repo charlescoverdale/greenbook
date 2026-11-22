@@ -126,7 +126,7 @@ Every parameter table is sourced from a published HMT, DfT, or DESNZ workbook. `
 | WELLBY (10k / 13k / 16k, 2019 prices) | HMT Wellbeing Guidance for Appraisal, July 2021 |
 | QALY (DHSC 70k / NICE 20k, 30k) | DHSC Supplementary Green Book Guidance + NICE HTA |
 | VPF (anchored 2023 = GBP 2,474,341) | DfT TAG data book v2.03FC, December 2025, Table A4.1.1 (WTP element) |
-| DESNZ carbon (2020-2050, 2022 prices) | DESNZ Valuation of Energy Use and GHG Emissions for Appraisal, November 2023, Table 3 |
+| DESNZ carbon (2020-2050, 2025 prices) | DESNZ Valuation of Energy Use and GHG Emissions for Appraisal, data tables 1 to 18 (October 2026), Table 3 |
 
 `data-raw/` contains the refresh scripts: each downloads the published workbook, parses the relevant sheet, and rewrites the bundled CSV.
 
@@ -152,7 +152,7 @@ gb_npv(c(-100, rep(30, 9)), vintage = "2003")
 ## Limitations
 
 - VPF series interpolates between published anchors at 2 percent real GDP per head growth (TAG's stated methodology). For sub-annual precision consult the TAG data book directly.
-- Bundled DESNZ carbon path covers 2020 to 2050. The November 2023 publication extends to 2100; the 2050-2100 portion will be added in a future refresh.
+- Bundled DESNZ carbon path covers 2020 to 2050.
 
 
 ## Source documents
@@ -162,7 +162,7 @@ gb_npv(c(-100, rep(30, 9)), vintage = "2003")
 - [Green Book Discount Rate Review: Summary of Findings and Recommendations, June 2026](https://www.gov.uk/government/publications/green-book-discount-rate-review-2026)
 - [Supplementary Green Book Guidance: optimism bias](https://www.gov.uk/government/publications/green-book-supplementary-guidance-optimism-bias)
 - [Wellbeing Guidance for Appraisal: Supplementary Green Book Guidance, July 2021](https://www.gov.uk/government/publications/green-book-supplementary-guidance-wellbeing)
-- [DESNZ Valuation of Energy Use and GHG Emissions for Appraisal, November 2023](https://www.gov.uk/government/publications/valuation-of-energy-use-and-greenhouse-gas-emissions-for-appraisal)
+- [DESNZ Valuation of Energy Use and GHG Emissions for Appraisal, updated November 2026](https://www.gov.uk/government/publications/valuation-of-energy-use-and-greenhouse-gas-emissions-for-appraisal)
 - [DfT Transport Analysis Guidance (TAG)](https://www.gov.uk/guidance/transport-analysis-guidance-tag)
 
 
